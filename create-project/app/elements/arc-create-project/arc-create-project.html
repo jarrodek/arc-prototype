@@ -1,0 +1,32 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../app-pagination/app-pagination.html">
+<link rel="import" href="../raml-editor/raml-editor-basic.html">
+<link rel="import" href="../form-action-bar/form-action-bar.html">
+
+<dom-module id="arc-create-project">
+  <template>
+    <style>
+      :host {
+        display: block;
+        padding: 16px;
+        height: 100%;
+      }
+
+      .workspace {
+        max-width: 700px;
+      }
+    </style>
+
+    <div class="workspace">
+      <app-pagination pages="3" selected="1"></app-pagination>
+      <raml-editor-basic></raml-editor-basic>
+    </div>
+
+    <form-action-bar>
+      <paper-button>cancel</paper-button>
+      <paper-button>next</paper-button>
+    </form-action-bar>
+  </template>
+</dom-module>
+<script src="arc-create-project.js"></script>

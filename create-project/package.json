@@ -1,0 +1,22 @@
+{
+  "name": "arc-proto-add-project",
+  "version": "1.0.0",
+  "scripts": {
+    "arc": "node bin/install.js"
+  },
+  "main": "app/index.html",
+  "devDependencies": {
+    "bower": "*",
+    "crisper": "^2.0.1",
+    "gulp-crisper": "^1.0.0",
+    "run-sequence": "^1.0.2"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "private": true,
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "raml-definition-system": "0.0.34"
+  }
+}

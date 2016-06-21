@@ -1,0 +1,33 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+
+<link rel="import" href="app-pagination-item.html">
+
+<dom-module id="app-pagination">
+  <template>
+    <style>
+      :host {
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
+        @apply(--layout-justified);
+
+        position: relative;
+      }
+
+      .separator {
+        @apply(--layout-flex);
+        height: 2px;
+        background-color: #95989A;
+        margin: 0 8px;
+      }
+    </style>
+
+    <template is="dom-repeat" items="[[items]]">
+      <template is="dom-if" if="[[!_isEqual(index, 0)]]">
+        <span class="separator"></span>
+      </template>
+      <app-pagination-item number="[[item.display]]" selected$="[[_isSelected(index, selected)]]"></app-pagination-item>
+    </template>
+  </template>
+</dom-module>
+<script src="app-pagination.js"></script>

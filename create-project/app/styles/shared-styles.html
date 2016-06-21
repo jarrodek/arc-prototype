@@ -1,0 +1,43 @@
+<!-- shared styles for all elements and index.html -->
+<dom-module id="shared-styles">
+  <template>
+    <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: auto;
+    }
+
+    html,
+    body,
+    app-header-layout {
+      height: 100%;
+    }
+
+    app-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #00A1DF;
+      color: #fff;
+    }
+
+    app-header paper-icon-button {
+      --paper-icon-button-ink-color: white;
+    }
+
+    .bottom-toolbar {
+      background-color: #fff;
+      bottom: 0;
+      top: auto !important;
+      box-shadow: 0px -5px 6px -3px rgba(0, 0, 0, 0.4);
+    }
+
+    .main-content {
+      height: 100%;
+    }
+    </style>
+  </template>
+</dom-module>

@@ -1,0 +1,48 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-tooltip/paper-tooltip.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../arc-icons/arc-icons.html">
+
+<dom-module id="raml-editor-basic">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .row {
+        @apply(--layout-horizontal);
+        @apply(--layout-end);
+      }
+
+      paper-input {
+        min-width: 240px;
+      }
+    </style>
+    <div class="row">
+      <paper-input label="Name" required></paper-input>
+    </div>
+    <div class="row">
+      <paper-input label="Description"></paper-input>
+      <paper-icon-button icon="arc:code"></paper-icon-button>
+    </div>
+    <div class="row">
+      <paper-input label="Base URL"></paper-input>
+      <paper-icon-button icon="help-outline" id="baseUrl"></paper-icon-button>
+      <paper-tooltip for="baseUrl">A URI that's to be used as the base of all the resources' URIs.
+        Often used as the base of the URL of each resource, containing the location of the API. Can be a template URI.</paper-tooltip>
+    </div>
+    <div class="row">
+      <paper-input label="Version"></paper-input>
+      <paper-icon-button icon="help-outline" id="tooltip"></paper-icon-button>
+      <paper-tooltip for="tooltip">The version of the API, e.g. 'v1'</paper-tooltip>
+    </div>
+
+    <paper-button>SHOW MORE DEFINITIONS</paper-button>
+
+    <paper-fab icon="add"></paper-fab>
+  </template>
+</dom-module>
+<script src="raml-editor-basic.js"></script>

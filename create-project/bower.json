@@ -1,0 +1,32 @@
+{
+  "name": "arc-proto-add-project",
+  "description": "The prototype for adding a project..",
+  "homepage": "https://advancedrestclient.com/",
+  "keywords": [
+    "chrome",
+    "REST",
+    "client",
+    "HTTP",
+    "test",
+    "prototype"
+  ],
+  "author": "",
+  "private": true,
+  "dependencies": {
+    "iron-elements": "PolymerElements/iron-elements#^1.0.8",
+    "paper-elements": "PolymerElements/paper-elements#^1.0.7",
+    "neon-elements": "PolymerElements/neon-elements#^1.0.0",
+    "platinum-elements": "PolymerElements/platinum-elements#^2.0.0",
+    "font-roboto-local": "PolymerElements/font-roboto-local#latest",
+    "app-layout": "PolymerElements/app-layout#^0.9.1"
+  },
+  "devDependencies": {
+    "web-component-tester": "*"
+  },
+  "ignore": [],
+  "main": "app/index.html",
+  "resolutions": {
+    "lodash": "^4.6.2"
+  },
+  "version": "7.20.37"
+}

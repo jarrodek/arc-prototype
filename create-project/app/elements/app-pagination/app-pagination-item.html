@@ -1,0 +1,32 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+
+<dom-module id="app-pagination-item">
+  <template>
+    <style>
+      :host {
+        @apply(--layout-vertical);
+        @apply(--layout-center-center);
+
+        border: 2px var(--pagination-item-border-color, #95989A) solid;
+        border-radius: 50%;
+
+        width: var(-pagination-item-width, 40px);
+        height: var(-pagination-item-height, 40px);
+        background-color: var(--pagination-item-background-color, #ffffff);
+      }
+      :host([selected]) {
+        border-width: 5px;
+        border-color: #429A1B;
+      }
+
+      .number {
+        color: var(--pagination-item-font-color, #95989A);
+        font-size: 20px;
+        font: Roboto;
+      }
+    </style>
+    <span class="number">[[number]]<span>
+  </template>
+</dom-module>
+<script src="app-pagination-item.js"></script>
