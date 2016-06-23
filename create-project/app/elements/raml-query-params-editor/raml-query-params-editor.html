@@ -1,0 +1,31 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../raml-query-params-table/raml-query-params-table.html">
+
+<dom-module id="raml-query-params-editor">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      h2 {
+        @apply(--paper-font-caption);
+        margin-left: 12px;
+        @apply(--raml-headers-editor-title);
+      }
+    </style>
+
+    <h2>Query parameters</h2>
+    <template is="dom-repeat" items="[[params]]" id="paramsRepeater">
+      <raml-query-params-table
+        name="[[item.name]]"
+        description="[[item.description]]"
+        type="[[item.type]]"
+        example="[[item.example]]"
+        pattern="[[item.pattern]]"
+        required="[[item.required]]"
+        on-save="_onParamSave"
+        on-delete="_onParamDelete"></raml-query-params-table>
+    </template>
+  </template>
+</dom-module>
+<script src="raml-query-params-editor.js"></script>=
