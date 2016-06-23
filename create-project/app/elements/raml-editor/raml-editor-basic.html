@@ -3,8 +3,11 @@
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-tooltip/paper-tooltip.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
-<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../bower_components/iron-collapse/iron-collapse.html">
+
 <link rel="import" href="../arc-icons/arc-icons.html">
+<link rel="import" href="../raml-docs-editor/raml-docs-editor.html">
+<link rel="import" href="../raml-docs-table/raml-docs-table.html">
 
 <dom-module id="raml-editor-basic">
   <template>
@@ -17,32 +20,85 @@
         @apply(--layout-end);
       }
 
+      h2 {
+        @apply(--paper-font-body1);
+        color: var(--paper-pink-700);
+        margin-left: 12px;
+        margin-top: 24px;
+      }
+
       paper-input {
         min-width: 240px;
       }
+
+      paper-icon-button {
+        color: rgba(0,0,0,0.54);
+        fill: rgba(0,0,0,0.54);
+      }
+
+      paper-icon-button:hover {
+        color: rgba(0,0,0,0.74);
+        fill: rgba(0,0,0,0.74);
+      }
+
+      paper-fab-menu {
+      	position: fixed;
+      	right: 20px;
+      	bottom: 80px;
+      }
+
+      paper-button {
+        color: #00A1DF;
+      }
+
     </style>
+
     <div class="row">
       <paper-input label="Name" required></paper-input>
     </div>
+
     <div class="row">
       <paper-input label="Description"></paper-input>
-      <paper-icon-button icon="arc:code"></paper-icon-button>
+      <paper-icon-button icon="arc:markdown"></paper-icon-button>
     </div>
+
     <div class="row">
       <paper-input label="Base URL"></paper-input>
-      <paper-icon-button icon="help-outline" id="baseUrl"></paper-icon-button>
-      <paper-tooltip for="baseUrl">A URI that's to be used as the base of all the resources' URIs.
+      <paper-icon-button icon="arc:help-outline" id="baseUrl"></paper-icon-button>
+      <paper-tooltip for="baseUrl" fit-to-visible-bounds>A URI that's to be used as the base of all the resources' URIs.
         Often used as the base of the URL of each resource, containing the location of the API. Can be a template URI.</paper-tooltip>
     </div>
+
     <div class="row">
       <paper-input label="Version"></paper-input>
-      <paper-icon-button icon="help-outline" id="tooltip"></paper-icon-button>
+      <paper-icon-button icon="arc:help-outline" id="tooltip"></paper-icon-button>
       <paper-tooltip for="tooltip">The version of the API, e.g. 'v1'</paper-tooltip>
     </div>
 
-    <paper-button>SHOW MORE DEFINITIONS</paper-button>
+    <div class="row" hidden$="[[basicFields]]">
+      <paper-input label="Media type"></paper-input>
+      <paper-icon-button icon="arc:help-outline" id="mediaType"></paper-icon-button>
+      <paper-tooltip for="mediaType" fit-to-visible-bounds>The default media type to use for request and response bodies (payloads), e.g. "application/json"</paper-tooltip>
+    </div>
 
-    <paper-fab icon="add"></paper-fab>
+    <paper-button on-tap="showAdvanced" hidden$="[[!basicFields]]">SHOW MORE DEFINITIONS</paper-button>
+
+    <section hidden$="[[!hasDocs]]">
+      <h2>Documentation</h2>
+      <template is="dom-repeat" items="[[documentation]]" id="docsRepeater">
+        <raml-docs-table name="[[item.name]]" documentation="[[item.markdown]]" on-edit="_onDoscEdit" on-delete="_onDocsDelete"></raml-docs-table>
+      </template>
+    </section>
+
+
+    <paper-fab-menu icon="add" position="vertical" color="#48942A">
+			<paper-fab-menu-item label="D" tooltip="Documentation" color="#E91E63" on-tap="openDocsEditor"></paper-fab-menu-item>
+			<paper-fab-menu-item label="T" tooltip="Type" color="#3f51b5"></paper-fab-menu-item>
+			<paper-fab-menu-item label="T" tooltip="Trait" color="#2e7d32"></paper-fab-menu-item>
+      <paper-fab-menu-item label="S" tooltip="Security scheme" color="#ef6c00"></paper-fab-menu-item>
+	  </paper-fab-menu>
+
+    <raml-docs-editor id="docsEditor" on-documentation-saved="_onSavedDocumentation"></raml-docs-editor>
   </template>
 </dom-module>
 <script src="raml-editor-basic.js"></script>

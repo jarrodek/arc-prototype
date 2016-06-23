@@ -18,7 +18,8 @@
     "neon-elements": "PolymerElements/neon-elements#^1.0.0",
     "platinum-elements": "PolymerElements/platinum-elements#^2.0.0",
     "font-roboto-local": "PolymerElements/font-roboto-local#latest",
-    "app-layout": "PolymerElements/app-layout#^0.9.1"
+    "paper-fab-menu": "jarrodek/paper-fab-menu#^2.0.0",
+    "code-mirror": "jarrodek/code-mirror#^1.0.14"
   },
   "devDependencies": {
     "web-component-tester": "*"

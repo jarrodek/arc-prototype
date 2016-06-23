@@ -1,31 +1,60 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../bower_components/paper-fab-menu/paper-fab-menu.html">
+<link rel="import" href="../../bower_components/paper-fab-menu/paper-fab-menu-item.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../app-pagination/app-pagination.html">
 <link rel="import" href="../raml-editor/raml-editor-basic.html">
 <link rel="import" href="../form-action-bar/form-action-bar.html">
-
 <dom-module id="arc-create-project">
   <template>
     <style>
-      :host {
-        display: block;
-        padding: 16px;
-        height: 100%;
-      }
+    :host {
+      display: block;
+      height: 100%;
 
-      .workspace {
-        max-width: 700px;
+      --paper-fab-mini: {
+        font-size: 18px;
+        font-weight: 500;
       }
+    }
+
+    .workspace {
+      max-width: 700px;
+    }
+
+    .workspace {
+      padding: 16px;
+    }
+
+    .nextButton {
+      color: #00A1DF;
+    }
+
+    .previousButton {
+      color: rgba(0,161,223,0.74);
+    }
+
+    .cancelButton {
+      color: rgba(0,0,0,.54)
+    }
+
     </style>
-
     <div class="workspace">
-      <app-pagination pages="3" selected="1"></app-pagination>
-      <raml-editor-basic></raml-editor-basic>
+      <app-pagination pages="3" selected="{{wizardPage}}"></app-pagination>
+      <iron-pages selected="{{wizardPage}}">
+        <raml-editor-basic></raml-editor-basic>
+        <div>aaa</div>
+      </iron-pages>
     </div>
 
+
+
     <form-action-bar>
-      <paper-button>cancel</paper-button>
-      <paper-button>next</paper-button>
+      <paper-button class="cancelButton">cancel</paper-button>
+      <paper-button class="previousButton" on-tap="previousPage" hidden$="[[!_isCancelVisible(wizardPage)]]">back</paper-button>
+      <paper-button class="nextButton" on-tap="nextPage">next</paper-button>
     </form-action-bar>
   </template>
 </dom-module>
