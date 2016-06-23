@@ -6,6 +6,7 @@
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../app-pagination/app-pagination.html">
 <link rel="import" href="../raml-editor/raml-editor-basic.html">
+<link rel="import" href="../raml-editor/raml-endpoints-editor.html">
 <link rel="import" href="../form-action-bar/form-action-bar.html">
 
 <dom-module id="arc-create-project">
@@ -46,7 +47,7 @@
       <app-pagination pages="3" selected="{{wizardPage}}"></app-pagination>
       <iron-pages selected="{{wizardPage}}">
         <raml-editor-basic></raml-editor-basic>
-        <div>aaa</div>
+        <raml-endpoints-editor></raml-endpoints-editor>
       </iron-pages>
     </div>
 

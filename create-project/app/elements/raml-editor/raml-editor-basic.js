@@ -11,26 +11,30 @@ Polymer({
       type: Array,
       value: function() {
         return [];
-      }
+      },
+      notify: true
     },
     // True if has documentation nodes.
     hasDocs: {
       type: Boolean,
       value: false,
-      readOnly: true
+      readOnly: true,
+      notify: true
     },
     // The security schemes node of the RAML file.
     securitySchemas: {
       type: Array,
       value: function() {
         return [];
-      }
+      },
+      notify: true
     },
     // True if has the security schema(s) defined.
     hasSecuritySchemas: {
       type: Boolean,
       value: false,
-      readOnly: true
+      readOnly: true,
+      notify: true
     }
   },
 

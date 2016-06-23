@@ -45,6 +45,10 @@ Polymer({
 
   _isEqual: function(a, b) {
     return a === b;
+  },
+
+  _computeIsDone: function(index, selected) {
+    return selected > index;
   }
 
 });

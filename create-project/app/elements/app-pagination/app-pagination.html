@@ -26,7 +26,7 @@
       <template is="dom-if" if="[[!_isEqual(index, 0)]]">
         <span class="separator"></span>
       </template>
-      <app-pagination-item number="[[item.display]]" selected$="[[_isSelected(index, selected)]]"></app-pagination-item>
+      <app-pagination-item number="[[item.display]]" selected$="[[_isSelected(index, selected)]]" done$="[[_computeIsDone(index, selected)]]"></app-pagination-item>
     </template>
   </template>
 </dom-module>

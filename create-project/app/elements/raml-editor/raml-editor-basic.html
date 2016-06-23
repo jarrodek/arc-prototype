@@ -1,9 +1,13 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
 
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-tooltip/paper-tooltip.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/iron-collapse/iron-collapse.html">
+<link rel="import" href="../../bower_components/paper-fab-menu/paper-fab-menu.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 
 <link rel="import" href="../arc-icons/arc-icons.html">
 <link rel="import" href="../raml-docs-editor/raml-docs-editor.html">
@@ -50,7 +54,29 @@
       }
 
       paper-button {
-        color: #00A1DF;
+        color: var(--primary-color);
+      }
+      .tutorial {
+        @apply(--layout-vertical);
+        @apply(--layout-center-center);
+        color: rgba(0,0,0,0.24);
+        position: absolute;
+        width: 358px;
+        bottom: 120px;
+        left: calc(50% - 258px/2);
+      }
+      .tutorial p {
+        @apply(--paper-font-display2);
+        text-align: center;
+      }
+      .tutorial .big {
+        --iron-icon-height: 112px;
+        --iron-icon-width: 112px;
+      }
+      .tutorial paper-button {
+        background-color: var(--primary-color);
+        color: #fff;
+        font-size: 14px;
       }
 
     </style>
@@ -99,6 +125,11 @@
       </template>
     </section>
 
+    <section class="tutorial">
+      <iron-icon class="big" icon="arc:assignment"></iron-icon>
+      <p>How to describe an API?</p>
+      <paper-button raised>Learn more</paper-button>
+    </section>
 
     <paper-fab-menu icon="add" position="vertical" color="#48942A">
 			<paper-fab-menu-item label="D" tooltip="Documentation" color="#E91E63" on-tap="openDocsEditor"></paper-fab-menu-item>

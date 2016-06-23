@@ -1,0 +1,59 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/paper-fab-menu/paper-fab-menu.html">
+<link rel="import" href="../raml-endpoint-editor/raml-endpoint-editor.html">
+
+<dom-module id="raml-endpoints-editor">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .row {
+        @apply(--layout-horizontal);
+        @apply(--layout-end);
+      }
+
+      h2 {
+        @apply(--paper-font-body1);
+        color: var(--paper-pink-700);
+        margin-left: 12px;
+        margin-top: 24px;
+      }
+      .tutorial {
+        @apply(--layout-vertical);
+        @apply(--layout-center-center);
+        color: rgba(0,0,0,0.24);
+        position: absolute;
+        width: 358px;
+        bottom: 120px;
+        left: calc(50% - 258px/2);
+      }
+      .tutorial p {
+        @apply(--paper-font-display1);
+        text-align: center;
+      }
+      paper-fab-menu {
+      	position: fixed;
+      	right: 20px;
+      	bottom: 80px;
+      }
+    </style>
+
+    <section class="tutorial" hidden="[[hasEndpoints]]">
+      <p>Endpoint is the URI of the resource accessible via the API.</p>
+      <p>One endpoint have at least one HTTP method. Add endpoints and methods to define the API.</p>
+    </section>
+
+
+
+    <paper-fab-menu icon="add" position="vertical" color="#48942A">
+			<paper-fab-menu-item label="E" tooltip="Add endpoint" color="#E91E63" on-tap="addEndpoint"></paper-fab-menu-item>
+			<paper-fab-menu-item label="M" tooltip="Add method" color="#3f51b5" on-tap="addMethod"></paper-fab-menu-item>
+	  </paper-fab-menu>
+
+    <raml-endpoint-editor id="endpointEditor"></raml-endpoint-editor>
+  </template>
+</dom-module>
+<script src="raml-endpoints-editor.js"></script>
