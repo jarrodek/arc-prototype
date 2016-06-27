@@ -3,6 +3,8 @@
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../bower_components/paper-fab-menu/paper-fab-menu.html">
 <link rel="import" href="../raml-endpoint-editor/raml-endpoint-editor.html">
+<link rel="import" href="../raml-endpoint-method-editor/raml-endpoint-method-editor.html">
+<link rel="import" href="../api-tree-table/api-tree-table.html">
 
 <dom-module id="raml-endpoints-editor">
   <template>
@@ -40,20 +42,20 @@
       	bottom: 80px;
       }
     </style>
-
+    <section class="api-tree" hidden="[[!hasEndpoints]]">
+      <h2>Endpoints</h2>
+      <api-tree-table endpoints="[[endpoints]]"></api-tree-table>
+    </section>
     <section class="tutorial" hidden="[[hasEndpoints]]">
       <p>Endpoint is the URI of the resource accessible via the API.</p>
       <p>One endpoint have at least one HTTP method. Add endpoints and methods to define the API.</p>
     </section>
-
-
-
     <paper-fab-menu icon="add" position="vertical" color="#48942A">
 			<paper-fab-menu-item label="E" tooltip="Add endpoint" color="#E91E63" on-tap="addEndpoint"></paper-fab-menu-item>
 			<paper-fab-menu-item label="M" tooltip="Add method" color="#3f51b5" on-tap="addMethod"></paper-fab-menu-item>
 	  </paper-fab-menu>
-
-    <raml-endpoint-editor id="endpointEditor"></raml-endpoint-editor>
+    <raml-endpoint-editor id="endpointEditor" on-save="_onEndpointSave"></raml-endpoint-editor>
+    <raml-endpoint-method-editor id="methodEditor" on-save="_onEndpointMethodSave"></raml-endpoint-method-editor>
   </template>
 </dom-module>
 <script src="raml-endpoints-editor.js"></script>

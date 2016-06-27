@@ -36,11 +36,26 @@ Polymer({
     if (!item) {
       return;
     }
-    var all = this.headers;
+    var all = this.params;
     var index = all.indexOf(item);
     if (index === -1) {
       return;
     }
     this.splice('params', index, 1);
+  },
+
+  _onParamsCancel: function(e) {
+    var item = this.$.paramsRepeater.itemForElement(e.target);
+    if (!item) {
+      return;
+    }
+    if (!item.name && !item.description && !item.example && !item.pattern) {
+      var all = this.params;
+      var index = all.indexOf(item);
+      if (index === -1) {
+        return;
+      }
+      this.splice('params', index, 1);
+    }
   }
 });

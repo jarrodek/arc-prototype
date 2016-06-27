@@ -35,5 +35,9 @@ Polymer({
       markdown: this.markdownText,
       name: this.docName
     });
+  },
+
+  cancel: function() {
+    this.opened = false;
   }
 });

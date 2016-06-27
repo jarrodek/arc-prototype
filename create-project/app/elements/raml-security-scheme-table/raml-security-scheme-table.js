@@ -19,7 +19,7 @@ Polymer({
       return 'unknown';
     }
     type = type.toLowerCase();
-    type = type.replace(/\s/g, '_');
+    type = type.replace(/[\s\.]/g, '_');
     return type;
   },
 

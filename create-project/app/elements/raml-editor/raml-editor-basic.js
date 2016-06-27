@@ -35,12 +35,33 @@ Polymer({
       value: false,
       readOnly: true,
       notify: true
-    }
+    },
+    // True when the tutorial should be displayed.
+    onboarding: {
+      type: Boolean,
+      value: false
+    },
+    // API name
+    name: String,
+    // API description
+    description: String,
+    // API base URL
+    baseUrl: String,
+    // API version,
+    version: String,
+    // Content tyoes of the APIs
+    mediaType: String
   },
 
   observers: [
     '_docsChanged(documentation.*)',
-    '_secSchemasChanged(securitySchemas.*)'
+    '_secSchemasChanged(securitySchemas.*)',
+    '_valueChanged(name)',
+    '_valueChanged(description)',
+    '_valueChanged(baseUrl)',
+    '_valueChanged(version)',
+    '_valueChanged(hasDocs, hasSecuritySchemas)',
+    '_valueChanged(mediaType)'
   ],
 
   // Show advanced editor - full form.
@@ -159,4 +180,21 @@ Polymer({
     }
     this.splice('securitySchemas', index, 1);
   },
+
+  _valueChanged: function() {
+    var hasValues = /*!!this.name ||
+      !!this.description ||
+      !!this.baseUrl ||
+      !!this.version ||
+      !!this.mediaType || */
+      !!this.hasDocs ||
+      !!this.hasSecuritySchemas;
+    // console.log('_valueChanged');
+    if (hasValues && !this.onboarding) {
+      this.onboarding = true;
+    } else if (!hasValues && this.onboarding) {
+      this.onboarding = false;
+    }
+
+  }
 });

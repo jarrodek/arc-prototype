@@ -70,6 +70,7 @@ Polymer({
 
   cancel: function() {
     this.$.collapse.hide();
+    this.fire('cancel');
   },
 
   delete: function() {

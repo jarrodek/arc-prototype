@@ -78,38 +78,41 @@
         color: #fff;
         font-size: 14px;
       }
+      .showMoreButton {
+        margin-top: 24px;
+      }
 
     </style>
 
     <div class="row">
-      <paper-input label="Name" required></paper-input>
+      <paper-input label="Name" required value="{{name}}"></paper-input>
     </div>
 
     <div class="row">
-      <paper-input label="Description"></paper-input>
+      <paper-input label="Description" value="{{description}}"></paper-input>
       <paper-icon-button icon="arc:markdown"></paper-icon-button>
     </div>
 
     <div class="row">
-      <paper-input label="Base URL"></paper-input>
+      <paper-input label="Base URL" value="{{baseUrl}}"></paper-input>
       <paper-icon-button icon="arc:help-outline" id="baseUrl"></paper-icon-button>
       <paper-tooltip for="baseUrl" fit-to-visible-bounds>A URI that's to be used as the base of all the resources' URIs.
         Often used as the base of the URL of each resource, containing the location of the API. Can be a template URI.</paper-tooltip>
     </div>
 
-    <div class="row">
-      <paper-input label="Version"></paper-input>
+    <div class="row" hidden$="[[basicFields]]">
+      <paper-input label="Version" value="{{version}}"></paper-input>
       <paper-icon-button icon="arc:help-outline" id="tooltip"></paper-icon-button>
       <paper-tooltip for="tooltip">The version of the API, e.g. 'v1'</paper-tooltip>
     </div>
 
     <div class="row" hidden$="[[basicFields]]">
-      <paper-input label="Media type"></paper-input>
+      <paper-input label="Media type" value="{{mediaType}}"></paper-input>
       <paper-icon-button icon="arc:help-outline" id="mediaType"></paper-icon-button>
       <paper-tooltip for="mediaType" fit-to-visible-bounds>The default media type to use for request and response bodies (payloads), e.g. "application/json"</paper-tooltip>
     </div>
 
-    <paper-button on-tap="showAdvanced" hidden$="[[!basicFields]]">SHOW MORE DEFINITIONS</paper-button>
+    <paper-button on-tap="showAdvanced" hidden$="[[!basicFields]]" class="showMoreButton">SHOW MORE DEFINITIONS</paper-button>
 
     <section hidden$="[[!hasDocs]]">
       <h2>Documentation</h2>
@@ -125,7 +128,7 @@
       </template>
     </section>
 
-    <section class="tutorial">
+    <section class="tutorial" hidden$="{{onboarding}}">
       <iron-icon class="big" icon="arc:assignment"></iron-icon>
       <p>How to describe an API?</p>
       <paper-button raised>Learn more</paper-button>

@@ -21,5 +21,18 @@ Polymer({
   _canDisplayParamsTable: function(paramsLength) {
     return !!paramsLength;
   },
+  // Callend on edit cancel
+  cancel: function() {
+    this.opened = false;
+  },
+
+  save: function() {
+    this.fire('save', {
+      url: this.url,
+      displayName: this.displayName,
+      description: this.description,
+      queryParams: this.queryParams
+    });
+  }
 
 });

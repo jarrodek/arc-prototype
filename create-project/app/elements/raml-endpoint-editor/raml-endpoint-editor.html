@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-overlay-behavior/iron-overlay-behavior.html">
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
@@ -13,7 +14,6 @@
 <link rel="import" href="../raml-headers-editor/raml-headers-editor.html">
 <link rel="import" href="../raml-query-params-editor/raml-query-params-editor.html">
 <link rel="import" href="../form-action-bar/form-action-bar.html">
-<link rel="import" href="../raml-query-params-editor/raml-query-params-editor.html">
 
 <dom-module id="raml-endpoint-editor">
   <template>
@@ -36,7 +36,7 @@
     }
     .row {
       @apply(--layout-horizontal);
-      @apply(--layout-end);
+      @apply(--layout-center);
       min-height: 48px;
     }
 
@@ -88,6 +88,17 @@
     .query-params-editor {
       max-width: 700px;
     }
+
+    .info {
+      @apply(--layout-horizontal);
+      @apply(--layout-center);
+      color: rgba(0, 0, 0, 0.4);
+      margin-top: 32px;
+    }
+
+    .info iron-icon {
+      margin-right: 8px;
+    }
     </style>
     <paper-toolbar>
       <paper-icon-button icon="arc:arrow-back" on-tap="cancel"></paper-icon-button>
@@ -101,19 +112,23 @@
         </div>
 
         <div class="row">
-          <label>URL:</label> <span class="prefix">/</span> <paper-input label="Enter path"></paper-input>
+          <label>URL:</label> <span class="prefix">/</span> <paper-input label="Enter path" value="{{url}}"></paper-input>
         </div>
 
         <div class="row">
-          <paper-input label="Name (optional)"></paper-input>
+          <paper-input label="Name (optional)" value="{{displayName}}"></paper-input>
         </div>
         <div class="row">
-          <paper-input label="Description (optional)"></paper-input>
+          <paper-input label="Description (optional)" value="{{description}}"></paper-input>
           <paper-icon-button icon="arc:markdown"></paper-icon-button>
         </div>
 
         <raml-query-params-editor class="query-params-editor" params="{{queryParams}}" hidden$="{{!_canDisplayParamsTable(queryParams.length)}}" id="queryParamsEditor"></raml-query-params-editor>
 
+        <section class="info">
+          <iron-icon icon="arc:help-outline"></iron-icon>
+          <p>In next step you’ll be asked to add a HTTP method to this endpoint. <br/>Endpoint must be consistent with at least one HTTP method.</p>
+        </section>
       </section>
       <section class="helpers">
         <p>An endpoint represents a resource available
@@ -136,9 +151,8 @@
 
     <form-action-bar>
       <paper-button class="cancelButton" on-tap="cancel">cancel</paper-button>
-      <paper-button class="nextButton" on-tap="nextPage">next</paper-button>
+      <paper-button class="nextButton" on-tap="save">next</paper-button>
     </form-action-bar>
-
 
   </template>
 </dom-module>

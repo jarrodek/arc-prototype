@@ -1,0 +1,63 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item-body.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/iron-collapse/iron-collapse.html">
+
+<link rel="import" href="../arc-icons/arc-icons.html">
+
+<dom-module id="api-tree-table">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      .api-def {
+        @apply(--layout-horizontal);
+      }
+
+      .endpoint-name {
+        @apply(--layout-flex);
+        @apply(--paper-font-body1);
+        font-size: 13px;
+        color: rgba(0, 0, 0, 0.87);
+      }
+
+      .endpoint-path {
+        @apply(--layout-flex-2);
+        @apply(--paper-font-body1);
+        font-size: 13px;
+        color: rgba(0, 0, 0, 0.54);
+      }
+
+      .children {
+        margin-left: 20px;
+      }
+
+      .toggleButton {
+        transition: all 0.5s ease;
+      }
+
+      .opened .toggleButton {
+        transform: rotate(90deg);
+      }
+    </style>
+    <template is="dom-repeat" items="[[endpoints]]" id="repeater">
+      <paper-item class$="[[_computeendpointItemClass(item.opened)]]">
+        <paper-icon-button icon="arc:chevron-right" on-tap="toggle" class="toggleButton"></paper-icon-button>
+        <paper-item-body class="api-def">
+          <div class="endpoint-name">{{_computeEndpointDisplayName(item)}}</div>
+          <div class="endpoint-path">{{_computeEndpointUrlName(item)}}</div>
+        </paper-item-body>
+        <paper-icon-button icon="arc:more-vert"></paper-icon-button>
+      </paper-item>
+      <iron-collapse class="children">
+        <api-tree-methods methods="[[item.methods]]"></api-tree-methods>
+      </iron-collapse>
+    </template>
+  </template>
+</dom-module>
+<script src="api-tree-table.js"></script>
