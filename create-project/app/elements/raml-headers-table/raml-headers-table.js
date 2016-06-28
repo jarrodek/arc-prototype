@@ -58,7 +58,7 @@ Polymer({
     if (!name) {
       return;
     }
-    this.fire('save', {
+    this.fire('save-header', {
       name: this.name,
       description: this.description,
       type: this.dataType,
@@ -74,7 +74,7 @@ Polymer({
   },
 
   delete: function() {
-    this.fire('delete');
+    this.fire('delete-header');
   }
 
 });

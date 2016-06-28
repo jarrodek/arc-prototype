@@ -57,7 +57,7 @@ Polymer({
     if (!name) {
       return;
     }
-    this.fire('save', {
+    this.fire('save-query-param', {
       name: this.name,
       description: this.description,
       type: this.type,
@@ -70,11 +70,11 @@ Polymer({
 
   cancel: function() {
     this.$.collapse.hide();
-    this.fire('cancel');
+    this.fire('cancel-query-param');
   },
 
   delete: function() {
-    this.fire('delete');
+    this.fire('delete-query-param');
   }
 
 });

@@ -28,10 +28,10 @@ Polymer({
   },
 
   edit: function() {
-    this.fire('edit');
+    this.fire('edit-security-scheme');
   },
 
   delete: function() {
-    this.fire('delete');
+    this.fire('delete-security-scheme');
   }
 });

@@ -7,7 +7,9 @@
 <link rel="import" href="../app-pagination/app-pagination.html">
 <link rel="import" href="../raml-editor/raml-editor-basic.html">
 <link rel="import" href="../raml-editor/raml-endpoints-editor.html">
+<link rel="import" href="../raml-editor/raml-summary.html">
 <link rel="import" href="../form-action-bar/form-action-bar.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 
 <dom-module id="arc-create-project">
   <template>
@@ -48,9 +50,9 @@
     <div class="workspace">
       <app-pagination pages="3" selected="{{wizardPage}}"></app-pagination>
       <iron-pages selected="{{wizardPage}}">
-        <raml-editor-basic documentation="{{documentation}}" securitySchemas="{{securitySchemas}}" name="{{name}}" description="{{description}}" baseUrl="{{baseUrl}}" version="{{version}}" mediaType="{{mediaType}}"></raml-editor-basic>
+        <raml-editor-basic documentation="{{documentation}}" security-schemas="{{securitySchemas}}" name="{{name}}" description="{{description}}" base-url="{{baseUrl}}" version="{{version}}" media-type="{{mediaType}}"></raml-editor-basic>
         <raml-endpoints-editor endpoints="{{endpoints}}"></raml-endpoints-editor>
-        <raml-summary documentation="[[documentation]]" securitySchemas="[[securitySchemas]]" name="[[name]]" description="[[description]]" baseUrl="[[baseUrl]]" version="[[version]]" mediaType="[[mediaType]]"></raml-summary>
+        <raml-summary endpoints="[[endpoints]]" documentation="[[documentation]]" security-schemas="[[securitySchemas]]" name="[[name]]" description="[[description]]" base-url="[[baseUrl]]" version="[[version]]" media-type="[[mediaType]]"></raml-summary>
       </iron-pages>
     </div>
 
@@ -59,6 +61,8 @@
       <paper-button class="previousButton" on-tap="previousPage" hidden$="[[!_isCancelVisible(wizardPage)]]">back</paper-button>
       <paper-button class="nextButton" on-tap="nextPage">next</paper-button>
     </form-action-bar>
+
+    <paper-toast text="Project has been saved to your library." id="savedInfo"></paper-toast>
   </template>
 </dom-module>
 <script src="arc-create-project.js"></script>

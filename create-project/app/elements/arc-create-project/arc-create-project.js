@@ -19,6 +19,10 @@ Polymer({
 
   // Go to next tutorial page.
   nextPage: function() {
+    if (this.wizardPage === 2) {
+      this.$.savedInfo.open();
+      return;
+    }
     this.wizardPage++;
   },
 

@@ -42,15 +42,30 @@ Polymer({
       value: false
     },
     // API name
-    name: String,
+    name: {
+      type: String,
+      notify: true
+    },
     // API description
-    description: String,
+    description: {
+      type: String,
+      notify: true
+    },
     // API base URL
-    baseUrl: String,
+    baseUrl: {
+      type: String,
+      notify: true
+    },
     // API version,
-    version: String,
+    version: {
+      type: String,
+      notify: true
+    },
     // Content tyoes of the APIs
-    mediaType: String
+    mediaType: {
+      type: String,
+      notify: true
+    }
   },
 
   observers: [

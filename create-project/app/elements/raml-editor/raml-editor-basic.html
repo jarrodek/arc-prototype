@@ -124,7 +124,7 @@
     <section hidden$="[[!hasSecuritySchemas]]">
       <h2>Security schemas</h2>
       <template is="dom-repeat" items="[[securitySchemas]]" id="ssRepeater">
-        <raml-security-scheme-table scheme="[[item]]" on-edit="_onSecSchemaEdit" on-delete="_onSecSchemaDelete"></raml-security-scheme-table>
+        <raml-security-scheme-table scheme="[[item]]" on-edit-security-scheme="_onSecSchemaEdit" on-delete-security-scheme="_onSecSchemaDelete"></raml-security-scheme-table>
       </template>
     </section>
 

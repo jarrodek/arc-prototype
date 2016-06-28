@@ -65,25 +65,20 @@ Polymer({
     var enps = this.endpoints;
     var endpoint = null;
     var index = 0;
-    for (var i = 0, len = enps.length; i < len; i++) {
+    for (let i = 0, len = enps.length; i < len; i++) {
       if (enps[i] === d.endpoint) {
         endpoint = enps[i];
         index = i;
         break;
       }
     }
-    if (!endpoint) {
-      endpoint = {
-        methods: []
-      };
-    } else if (!endpoint.methods || !endpoint.methods.length) {
-      endpoint.methods = [];
-    }
-    var arr = endpoint.methods;
-    delete d.endpoint;
-    arr.push(d);
 
-    this.set('endpoints.' + index + '.methods', arr);
+    delete d.endpoint;
+    if (!endpoint || !endpoint.methods) {
+      this.set('endpoints.' + index + '.methods', [d]);
+    } else {
+      this.push('endpoints.' + index + '.methods', d);
+    }
   },
 
   addMethod: function() {
