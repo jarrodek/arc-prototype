@@ -61,23 +61,40 @@ Polymer({
   },
 
   _onEndpointMethodSave: function(e) {
-    var d = e.detail;
     var enps = this.endpoints;
-    var endpoint = null;
-    var index = 0;
+    var d = e.detail;
+    var ref = d.endpoint;
+    delete d.endpoint;
     for (let i = 0, len = enps.length; i < len; i++) {
-      if (enps[i] === d.endpoint) {
-        endpoint = enps[i];
-        index = i;
-        break;
+      let path = 'endpoints.' + i;
+      let res = this._setMethodRecursive(d, ref, enps[i], path);
+      if (res) {
+        return true;
       }
     }
+    console.error('Unable to find a suitable endpoint.', e.detail);
+  },
 
-    delete d.endpoint;
-    if (!endpoint || !endpoint.methods) {
-      this.set('endpoints.' + index + '.methods', [d]);
+  _setMethodRecursive: function(method, ref, endpoint, path) {
+    if (ref === endpoint) {
+      if (!endpoint.methods) {
+        this.set(path + '.methods', [method]);
+      } else {
+        this.push(path + '.methods', method);
+      }
+      return true;
     } else {
-      this.push('endpoints.' + index + '.methods', d);
+      if (!endpoint.endpoints || !endpoint.endpoints.length) {
+        return false;
+      }
+      for (let i = 0, len = endpoint.endpoints.length; i < len; i++) {
+        let rPath = path + '.endpoints.' + i;
+        let res = this._setMethodRecursive(method, ref, endpoint.endpoints[i], rPath);
+        if (res) {
+          return true;
+        }
+      }
+      return false;
     }
   },
 

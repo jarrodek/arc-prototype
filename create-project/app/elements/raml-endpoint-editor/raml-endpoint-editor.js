@@ -34,6 +34,11 @@ Polymer({
   },
 
   save: function() {
+    var url = this.url;
+    if (url[0] !== '/') {
+      url = '/' + url;
+    }
+
     var fullUrl = '/';
     var path = [];
     if (this.endpoint) {
@@ -48,9 +53,9 @@ Polymer({
     if (fullUrl[0] !== '/') {
       fullUrl = '/' + fullUrl;
     }
-    path.push(this.displayName || this.url);
+    path.push(this.displayName || url);
     this.fire('save', {
-      url: this.url,
+      url: url,
       fullUrl: fullUrl,
       path: path,
       displayName: this.displayName,
