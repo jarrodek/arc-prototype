@@ -7,7 +7,8 @@ Polymer({
       type: Array,
       value: function() {
         return [];
-      }
+      },
+      notify: true
     },
     // True if (some) endpoints has been defineds.
     hasEndpoints: {
@@ -39,7 +40,21 @@ Polymer({
   },
 
   _onEndpointSave: function(e) {
-    this.push('endpoints', e.detail);
+    if (!this.selectedEndpoint) {
+      this.push('endpoints', e.detail);
+    } else {
+      let all = this.endpoints;
+      for (let i = 0, len = all.length; i < len; i++) {
+        if (this.selectedEndpoint === all[i]) {
+          if (!all[i].endpoints) {
+            this.set('endpoints.' + i + '.endpoints', [e.detail]);
+          } else {
+            this.push('endpoints.' + i + '.endpoints', e.detail);
+          }
+        }
+      }
+    }
+
     this.$.endpointEditor.close();
     this.$.methodEditor.endpoint = e.detail;
     this.$.methodEditor.open();

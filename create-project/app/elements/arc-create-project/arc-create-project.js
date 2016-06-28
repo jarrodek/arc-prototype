@@ -5,7 +5,16 @@ Polymer({
     wizardPage: {
       type: Number,
       value: 0
-    }
+    },
+
+    endpoints: Array,
+    documentation: Array,
+    securitySchemas: Array,
+    name: String,
+    description: String,
+    baseUrl: String,
+    version: String,
+    mediaType: String
   },
 
   // Go to next tutorial page.

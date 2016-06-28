@@ -13,7 +13,12 @@ Polymer({
     // A query parameters attached to the endpoint.
     queryParams: Array,
     // Parent endpoint. Undefined if parent is root element.
-    endpoint: Object
+    endpoint: {
+      type: Object,
+      value: function() {
+        return {};
+      }
+    }
   },
 
   appendQueryParameter: function() {
@@ -37,12 +42,16 @@ Polymer({
         fullUrl += '/';
       }
       path = this.endpoint.path;
-      path.push(this.endpoint.displayName || this.endpoint.url);
+      // path.push(this.displayName || this.endpoint.url);
     }
     fullUrl += this.url;
+    if (fullUrl[0] !== '/') {
+      fullUrl = '/' + fullUrl;
+    }
+    path.push(this.displayName || this.url);
     this.fire('save', {
       url: this.url,
-      fullUrl: this.url,
+      fullUrl: fullUrl,
       path: path,
       displayName: this.displayName,
       description: this.description,
@@ -50,7 +59,9 @@ Polymer({
     });
   },
 
-  _computeUrlPrefix: function(fullUrl) {
+  _computeUrlPrefix: function() {
+    var fullUrl = this.endpoint ? this.endpoint.fullUrl : null;
+    // console.log('_computeUrlPrefix', fullUrl);
     if (!fullUrl) {
       return '/';
     }

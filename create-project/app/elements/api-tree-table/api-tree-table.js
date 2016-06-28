@@ -24,7 +24,7 @@ Polymer({
   },
 
   _computeEndpointUrlName: function(endpoint) {
-    return endpoint.url;
+    return endpoint.fullUrl;
   },
 
   toggle: function(e) {
@@ -59,6 +59,9 @@ Polymer({
     this._clearSelected();
 
     var model = this.$.repeater.modelForElement(refElm);
+    if (!model) {
+      return;
+    }
     model.set('item.selected', true);
     this.set('selected', model.get('item'));
   },

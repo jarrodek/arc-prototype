@@ -14,6 +14,7 @@
 <link rel="import" href="../raml-headers-editor/raml-headers-editor.html">
 <link rel="import" href="../raml-query-params-editor/raml-query-params-editor.html">
 <link rel="import" href="../form-action-bar/form-action-bar.html">
+<link rel="import" href="raml-endpont-path.html">
 
 <dom-module id="raml-endpoint-editor">
   <template>
@@ -108,11 +109,11 @@
     <div class="content">
       <section class="form">
         <div class="row">
-          <label>Location:</label> <span class="prefix">root</span>
+          <label>Location:</label> <raml-endpont-path parent-endpoint="[[endpoint]]"></raml-endpont-path>
         </div>
 
         <div class="row">
-          <label>URL:</label> <span class="prefix">[[_computeUrlPrefix(endpoint.fullUrl)]]</span> <paper-input label="Enter path" value="{{url}}"></paper-input>
+          <label>URL:</label> <span class="prefix">[[_computeUrlPrefix(endpoint.*)]]</span> <paper-input label="Enter path" value="{{url}}"></paper-input>
         </div>
 
         <div class="row">

@@ -2,14 +2,18 @@
   <template>
     <style>
       :host {
-        display: block;
+        display: inline-block;
+      }
+      .display {
+        font-weight: 500;
       }
     </style>
-
+    <div hidden$="[[parent]]" class="display">root</div>
+    <div hidden$="[[!parent]]">
+      <template is="dom-repeat" items="[[parentEndpoint.path]]" id="repeater">
+        <span class="display">[[item]]</span>
+      </template>
+    </div>
   </template>
 </dom-module>
-<script>
-Polymer({
-  is: 'raml-endpont-path'
-});
-</script>
+<script src="raml-endpont-path.js"></script>

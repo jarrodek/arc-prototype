@@ -48,8 +48,9 @@
     <div class="workspace">
       <app-pagination pages="3" selected="{{wizardPage}}"></app-pagination>
       <iron-pages selected="{{wizardPage}}">
-        <raml-editor-basic></raml-editor-basic>
-        <raml-endpoints-editor></raml-endpoints-editor>
+        <raml-editor-basic documentation="{{documentation}}" securitySchemas="{{securitySchemas}}" name="{{name}}" description="{{description}}" baseUrl="{{baseUrl}}" version="{{version}}" mediaType="{{mediaType}}"></raml-editor-basic>
+        <raml-endpoints-editor endpoints="{{endpoints}}"></raml-endpoints-editor>
+        <raml-summary documentation="[[documentation]]" securitySchemas="[[securitySchemas]]" name="[[name]]" description="[[description]]" baseUrl="[[baseUrl]]" version="[[version]]" mediaType="[[mediaType]]"></raml-summary>
       </iron-pages>
     </div>
 

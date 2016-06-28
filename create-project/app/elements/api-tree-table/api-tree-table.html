@@ -5,6 +5,8 @@
 <link rel="import" href="../../bower_components/paper-item/paper-item-body.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/iron-collapse/iron-collapse.html">
+<link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
 
 <link rel="import" href="../arc-icons/arc-icons.html">
 <link rel="import" href="api-tree-methods.html">
@@ -57,10 +59,16 @@
           <div class="endpoint-name">{{_computeEndpointDisplayName(item)}}</div>
           <div class="endpoint-path">{{_computeEndpointUrlName(item)}}</div>
         </paper-item-body>
-        <paper-icon-button icon="arc:more-vert"></paper-icon-button>
+        <paper-menu-button>
+          <paper-icon-button icon="arc:more-vert" class="dropdown-trigger"></paper-icon-button>
+          <paper-menu class="dropdown-content">
+            <paper-item>Delete</paper-item>
+          </paper-menu>
+        </paper-menu-button>
       </paper-item>
       <iron-collapse class="children" opened="[[item.opened]]">
         <api-tree-methods methods="[[item.methods]]"></api-tree-methods>
+        <api-tree-table endpoints="[[item.endpoints]]" selected="{{selected}}"></api-tree-table>
       </iron-collapse>
     </template>
   </template>
