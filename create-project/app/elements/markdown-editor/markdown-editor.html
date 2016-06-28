@@ -1,0 +1,83 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-overlay-behavior/iron-overlay-behavior.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/code-mirror/code-mirror.html">
+<link rel="import" href="../../bower_components/marked-element/marked-element.html">
+<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+
+<link rel="import" href="../arc-icons/arc-icons.html">
+<link rel="import" href="../form-action-bar/form-action-bar.html">
+<link rel="import" href="markdown-styles.html">
+
+<dom-module id="markdown-editor">
+  <template>
+    <style include="markdown-styles"></style>
+    <style>
+    :host {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: #fff;
+      overflow-y: auto;
+      overflow-x: hidden;
+
+      @apply(--markdown-editor);
+
+      --code-mirror-editor: {
+        height: 100%;
+        font-size: 15px;
+        padding: 8px;
+        color: #757575;
+        cursor: text;
+      }
+    }
+    .content {
+      @apply(--layout-horizontal);
+      height: 100%;
+      margin-bottom: 80px;
+      overflow: auto;
+    }
+    #text-editor,
+    #preview {
+      @apply(--layout-flex);
+      height: 100%;
+      max-width: 50%;
+      padding-right: 12px;
+    }
+    #text-editor {
+      padding-left: 12px;
+    }
+
+    .nextButton {
+      color: var(--primary-color);
+    }
+
+    .cancelButton {
+      color: rgba(0,0,0,.54);
+    }
+    </style>
+    <paper-toolbar>
+      <paper-icon-button icon="arc:arrow-back" on-tap="save"></paper-icon-button>
+      <div class="title">Edit text</div>
+    </paper-toolbar>
+    <div class="content">
+      <div id="text-editor">
+        <code-mirror id="cm" mode="markdown" theme="[[theme]]" value="{{value}}"></code-mirror>
+      </div>
+      <div id="preview">
+        <marked-element markdown="[[value]]">
+          <div class="markdown-html markdown-body"></div>
+        </marked-element>
+      </div>
+    </div>
+    <form-action-bar>
+      <paper-button class="cancelButton" on-tap="cancel">cancel</paper-button>
+      <paper-button class="nextButton" on-tap="save">save</paper-button>
+    </form-action-bar>
+  </template>
+  <script src="markdown-editor.js"></script>
+</dom-module>

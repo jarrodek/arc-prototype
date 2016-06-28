@@ -65,6 +65,14 @@ Polymer({
     mediaType: {
       type: String,
       notify: true
+    },
+
+    // Description input element.
+    descInput: {
+      type: HTMLElement,
+      value: function() {
+        return this.$.descInput;
+      }
     }
   },
 
