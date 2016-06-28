@@ -14,12 +14,19 @@ Polymer({
       type: Boolean,
       readOnly: true,
       notify: true
-    }
+    },
+
+    // Currently selected endpoint.
+    selectedEndpoint: Object
   },
 
   observers: [
     '_endpointsChanged(endpoints.*)'
   ],
+
+  listeners: {
+    'tap': '_workspaceTap'
+  },
 
   _endpointsChanged: function() {
     var s = this.endpoints;
@@ -27,6 +34,7 @@ Polymer({
   },
 
   addEndpoint: function() {
+    this.$.endpointEditor.endpoint = this.selectedEndpoint;
     this.$.endpointEditor.open();
   },
 
@@ -61,5 +69,22 @@ Polymer({
     arr.push(d);
 
     this.set('endpoints.' + index + '.methods', arr);
+  },
+
+  addMethod: function() {
+    if (!this.selectedEndpoint) {
+      this.$.noEndpoint.open();
+      return;
+    }
+    this.$.methodEditor.endpoint = this.selectedEndpoint;
+    this.$.methodEditor.open();
+  },
+
+  _workspaceTap: function(e) {
+    e = Polymer.dom(e);
+    if (e.path[0] !== this) {
+      return;
+    }
+    this.selectedEndpoint = undefined;
   }
 });

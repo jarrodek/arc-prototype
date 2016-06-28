@@ -120,10 +120,10 @@
       <div class="editor-content">
         <div class="row">
           <div class="toggle-left">
-            <paper-dropdown-menu label="Select type" selected-item-label="{{type}}">
-              <paper-listbox class="dropdown-content">
+            <paper-dropdown-menu label="Select type">
+              <paper-listbox class="dropdown-content" attr-for-selected="data-type" selected="{{dataType}}">
                 <template is="dom-repeat" items="[[availableTypes]]">
-                  <paper-item>[[item]]</paper-item>
+                  <paper-item data-type="{{item}}">[[item]]</paper-item>
                 </template>
               </paper-listbox>
             </paper-dropdown-menu>

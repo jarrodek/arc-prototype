@@ -7,6 +7,7 @@
 <link rel="import" href="../../bower_components/iron-collapse/iron-collapse.html">
 
 <link rel="import" href="../arc-icons/arc-icons.html">
+<link rel="import" href="api-tree-methods.html">
 
 <dom-module id="api-tree-table">
   <template>
@@ -34,7 +35,7 @@
       }
 
       .children {
-        margin-left: 20px;
+        margin-left: 40px;
       }
 
       .toggleButton {
@@ -44,9 +45,13 @@
       .opened .toggleButton {
         transform: rotate(90deg);
       }
+
+      paper-item[endpoint][selected]:not([focused]) {
+        background-color: rgba(0, 0, 0, 0.12);
+      }
     </style>
     <template is="dom-repeat" items="[[endpoints]]" id="repeater">
-      <paper-item class$="[[_computeendpointItemClass(item.opened)]]">
+      <paper-item class$="[[_computeendpointItemClass(item.opened)]]" endpoint selected$="[[item.selected]]">
         <paper-icon-button icon="arc:chevron-right" on-tap="toggle" class="toggleButton"></paper-icon-button>
         <paper-item-body class="api-def">
           <div class="endpoint-name">{{_computeEndpointDisplayName(item)}}</div>
@@ -54,7 +59,7 @@
         </paper-item-body>
         <paper-icon-button icon="arc:more-vert"></paper-icon-button>
       </paper-item>
-      <iron-collapse class="children">
+      <iron-collapse class="children" opened="[[item.opened]]">
         <api-tree-methods methods="[[item.methods]]"></api-tree-methods>
       </iron-collapse>
     </template>

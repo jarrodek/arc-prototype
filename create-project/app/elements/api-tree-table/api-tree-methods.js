@@ -9,6 +9,10 @@ Polymer({
         return [];
       }
     }
-    
+
+  },
+
+  _computeMethodDisplayName: function(method) {
+    return method.displayName || method.method;
   }
 });

@@ -112,7 +112,7 @@
         </div>
 
         <div class="row">
-          <label>URL:</label> <span class="prefix">/</span> <paper-input label="Enter path" value="{{url}}"></paper-input>
+          <label>URL:</label> <span class="prefix">[[_computeUrlPrefix(endpoint.fullUrl)]]</span> <paper-input label="Enter path" value="{{url}}"></paper-input>
         </div>
 
         <div class="row">

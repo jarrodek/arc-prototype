@@ -22,9 +22,18 @@ Polymer({
         return [];
       }
     },
+    // A method display name
+    displayName: String,
+    // Method description
+    description: String
   },
 
-  _computeEndpointName: function(endpoint) {
+  observers: [
+    '_endpointChanged(endpoint.*)'
+  ],
+
+  _computeEndpointName: function() {
+    var endpoint = this.endpoint;
     return endpoint.displayName || endpoint.url;
   },
 
@@ -51,8 +60,18 @@ Polymer({
       endpoint: this.endpoint,
       method: this.method,
       queryParams: this.queryParams,
-      headers: this.headers
+      headers: this.headers,
+      displayName: this.displayName,
+      description: this.description
     });
     this.opened = false;
+  },
+
+  _endpointChanged: function() {
+    this.method = undefined;
+    this.queryParams = [];
+    this.headers = [];
+    this.displayName = undefined;
+    this.description = undefined;
   }
 });

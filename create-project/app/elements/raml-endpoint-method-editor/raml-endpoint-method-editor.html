@@ -88,13 +88,13 @@
     <div class="content">
       <section class="form">
         <div class="row">
-          <label>Endpoint:</label> <span class="prefix">[[_computeEndpointName(endpoint)]]</span>
+          <label>Endpoint:</label> <span class="prefix">[[_computeEndpointName(endpoint.*)]]</span>
         </div>
         <div class="row">
-          <paper-input label="Display name (optional)"></paper-input>
+          <paper-input label="Display name (optional)" value="{{displayName}}"></paper-input>
         </div>
         <div class="row">
-          <paper-input label="Description (optional)"></paper-input>
+          <paper-input label="Description (optional)" value="{{description}}"></paper-input>
           <paper-icon-button icon="arc:markdown"></paper-icon-button>
         </div>
 

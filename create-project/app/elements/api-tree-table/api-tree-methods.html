@@ -4,8 +4,34 @@
       :host {
         display: block;
       }
+      .api-def {
+        @apply(--layout-horizontal);
+      }
+
+      .method-name {
+        /*@apply(--layout-flex-2);*/
+        @apply(--paper-font-body1);
+        font-size: 13px;
+        color: rgba(0, 0, 0, 0.87);
+        margin-right: 12px;
+      }
+
+      .method-type {
+        @apply(--layout-flex);
+        @apply(--paper-font-body1);
+        font-size: 13px;
+        color: rgba(0, 0, 0, 0.54);
+      }
     </style>
-test
+    <template is="dom-repeat" items="[[methods]]" id="repeater">
+      <paper-item>
+        <paper-item-body class="api-def">
+          <div class="method-name">{{_computeMethodDisplayName(item)}}</div>
+          <div class="method-type">[[item.method]]</div>
+        </paper-item-body>
+        <paper-icon-button icon="arc:more-vert"></paper-icon-button>
+      </paper-item>
+    </template>
   </template>
 </dom-module>
 <script src="api-tree-methods.js"></script>

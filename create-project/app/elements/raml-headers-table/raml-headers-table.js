@@ -10,7 +10,8 @@ Polymer({
       type: String,
       value: ''
     },
-    type: {
+    // The type of the header.
+    dataType: {
       type: String,
       value: 'string'
     },
@@ -60,7 +61,7 @@ Polymer({
     this.fire('save', {
       name: this.name,
       description: this.description,
-      type: this.type,
+      type: this.dataType,
       example: this.example,
       pattern: this.pattern,
       required: this.required

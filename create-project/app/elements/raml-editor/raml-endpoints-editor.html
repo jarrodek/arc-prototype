@@ -2,6 +2,7 @@
 <link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../bower_components/paper-fab-menu/paper-fab-menu.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../raml-endpoint-editor/raml-endpoint-editor.html">
 <link rel="import" href="../raml-endpoint-method-editor/raml-endpoint-method-editor.html">
 <link rel="import" href="../api-tree-table/api-tree-table.html">
@@ -11,6 +12,7 @@
     <style>
       :host {
         display: block;
+        height: 100%;
       }
       .row {
         @apply(--layout-horizontal);
@@ -41,10 +43,11 @@
       	right: 20px;
       	bottom: 80px;
       }
+
     </style>
     <section class="api-tree" hidden="[[!hasEndpoints]]">
       <h2>Endpoints</h2>
-      <api-tree-table endpoints="[[endpoints]]"></api-tree-table>
+      <api-tree-table endpoints="[[endpoints]]" selected="{{selectedEndpoint}}"></api-tree-table>
     </section>
     <section class="tutorial" hidden="[[hasEndpoints]]">
       <p>Endpoint is the URI of the resource accessible via the API.</p>
@@ -56,6 +59,7 @@
 	  </paper-fab-menu>
     <raml-endpoint-editor id="endpointEditor" on-save="_onEndpointSave"></raml-endpoint-editor>
     <raml-endpoint-method-editor id="methodEditor" on-save="_onEndpointMethodSave"></raml-endpoint-method-editor>
+    <paper-toast text="Select an endpoint first." id="noEndpoint"></paper-toast>
   </template>
 </dom-module>
 <script src="raml-endpoints-editor.js"></script>

@@ -14,7 +14,6 @@
     <style>
     :host {
       display: block;
-      height: 100%;
 
       --paper-fab-mini: {
         font-size: 18px;
@@ -24,9 +23,6 @@
 
     .workspace {
       max-width: 700px;
-    }
-
-    .workspace {
       padding: 16px;
     }
 
@@ -40,6 +36,12 @@
 
     .cancelButton {
       color: rgba(0,0,0,.54)
+    }
+
+    :host,
+    iron-pages,
+    .workspace {
+      height: 100%;
     }
 
     </style>
