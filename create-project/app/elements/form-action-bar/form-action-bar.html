@@ -9,17 +9,25 @@
         box-shadow: 0px -5px 6px -3px rgba(0, 0, 0, 0.4);
         height: 64px;
         @apply(--layout-horizontal);
+        @apply(--layout-center);
         /*@apply(--layout-end);*/
-        @apply(--layout-end-justified);
-
         width: 100%;
         position: fixed;
         bottom: 0px;
         height: 64px;
         left: 0;
       }
+
+      .content {
+        @apply(--layout-flex);
+        @apply(--layout-end-justified);
+        @apply(--layout-horizontal);
+      }
     </style>
-    <content></content>
+    <content select="[prefix]" id="prefix"></content>
+    <div class="content">
+      <content select=":not([prefix])"></content>
+    </div>
   </template>
 </dom-module>
 <script src="form-action-bar.js"></script>
