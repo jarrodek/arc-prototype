@@ -25,7 +25,15 @@ Polymer({
     // A method display name
     displayName: String,
     // Method description
-    description: String
+    description: String,
+
+    // Description input element.
+    descInput: {
+      type: HTMLElement,
+      value: function() {
+        return this.$.descInput;
+      }
+    }
   },
 
   observers: [

@@ -93,6 +93,13 @@ Polymer({
       value: function() {
         return [];
       }
+    },
+    // Description input element.
+    descInput: {
+      type: HTMLElement,
+      value: function() {
+        return this.$.descInput;
+      }
     }
   },
 

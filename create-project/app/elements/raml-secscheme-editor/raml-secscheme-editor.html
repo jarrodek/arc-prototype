@@ -13,6 +13,7 @@
 <link rel="import" href="../raml-headers-editor/raml-headers-editor.html">
 <link rel="import" href="../raml-query-params-editor/raml-query-params-editor.html">
 <link rel="import" href="../form-action-bar/form-action-bar.html">
+<link rel="import" href="../markdown-editor/markdown-icon-button.html">
 
 <dom-module id="raml-secscheme-editor">
   <template>
@@ -207,8 +208,9 @@
           <paper-tooltip for="displayNameHelp" fit-to-visible-bounds>This will be displayed as a name of the security scheme.</paper-tooltip>
         </div>
         <div class="row">
-          <paper-input label="Description (optional)" value="{{description}}"></paper-input>
-          <paper-icon-button icon="arc:markdown"></paper-icon-button>
+          <paper-input label="Description (optional)" value="{{description}}" id="descInput"></paper-input>
+          <!-- <paper-icon-button icon="arc:markdown"></paper-icon-button> -->
+          <markdown-icon-button target="[[descInput]]"></markdown-icon-button>
           <paper-icon-button icon="arc:help-outline" id="descriptionHelp"></paper-icon-button>
           <paper-tooltip for="descriptionHelp" fit-to-visible-bounds>The description (documentation) for the security scheme type. Can be markdown.</paper-tooltip>
         </div>
