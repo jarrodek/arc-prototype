@@ -1,0 +1,60 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="raml-type-property-behavior.html">
+<link rel="import" href="raml-type-property-string.html">
+
+<dom-module id="raml-type-property-editor">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <template is="dom-if" if="[[isAny]]">
+      <p>isAny: fixme</p>
+    </template>
+    <template is="dom-if" if="[[isObject]]">
+      <p>isObject: fixme</p>
+    </template>
+    <template is="dom-if" if="[[isArray]]">
+      <p>isArray: fixme</p>
+    </template>
+    <template is="dom-if" if="[[isUnion]]">
+      <p>isUnion: fixme</p>
+    </template>
+    <template is="dom-if" if="[[isNumber]]">
+      <p>isNumber: fixme</p>
+    </template>
+    <template is="dom-if" if="[[isBoolean]]">
+      <p>isBoolean: fixme</p>
+    </template>
+    <template is="dom-if" if="[[isString]]">
+      <raml-type-property-string pattern="[[property.pattern]]" minLength="[[property.minLength]]" maxLength="[[property.maxLength]]"></raml-type-property-string>
+    </template>
+    <template is="dom-if" if="[[isDateOnly]]">
+      <p>isDateOnly: fixme</p>
+    </template>
+    <template is="dom-if" if="[[isTimeOnly]]">
+      <p>isTimeOnly: fixme</p>
+    </template>
+    <template is="dom-if" if="[[isDateTimeOnly]]">
+      <p>isDateTimeOnly: fixme</p>
+    </template>
+    <template is="dom-if" if="[[isDateTime]]">
+      <p>isDateTime: fixme</p>
+    </template>
+    <template is="dom-if" if="[[isFile]]">
+      <p>isFile: fixme</p>
+    </template>
+    <template is="dom-if" if="[[isInteger]]">
+      <p>isInteger: fixme</p>
+    </template>
+    <template is="dom-if" if="[[isNull]]">
+      <p>isNull: fixme</p>
+    </template>
+    <template is="dom-if" if="[[isDeclared]]">
+      <p>isDeclared: fixme</p>
+    </template>
+  </template>
+  <script src="raml-type-property-editor.js"></script>
+</dom-module>

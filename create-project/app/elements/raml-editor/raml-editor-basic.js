@@ -218,6 +218,13 @@ Polymer({
     } else if (!hasValues && this.onboarding) {
       this.onboarding = false;
     }
+  },
 
+  openTraitEditor: function() {
+    this.$.traitEditor.open();
+  },
+
+  openTypeEditor: function() {
+    this.$.typeEditor.open();
   }
 });

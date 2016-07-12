@@ -16,6 +16,8 @@
 <link rel="import" href="../raml-secscheme-editor/raml-secscheme-editor.html">
 <link rel="import" href="../raml-security-scheme-table/raml-security-scheme-table.html">
 <link rel="import" href="../markdown-editor/markdown-icon-button.html">
+<link rel="import" href="../raml-trait-editor/raml-trait-editor.html">
+<link rel="import" href="../raml-type-editor/raml-type-editor.html">
 
 <dom-module id="raml-editor-basic">
   <template>
@@ -130,13 +132,16 @@
 
     <paper-fab-menu icon="add" position="vertical" color="#48942A">
 			<paper-fab-menu-item label="D" tooltip="Documentation" color="#E91E63" on-tap="openDocsEditor"></paper-fab-menu-item>
-			<paper-fab-menu-item label="T" tooltip="Type" color="#3f51b5"></paper-fab-menu-item>
-			<paper-fab-menu-item label="T" tooltip="Trait" color="#2e7d32"></paper-fab-menu-item>
+			<paper-fab-menu-item label="T" tooltip="Type" color="#3f51b5" on-tap="openTypeEditor"></paper-fab-menu-item>
+			<paper-fab-menu-item label="T" tooltip="Trait" color="#2e7d32" on-tap="openTraitEditor"></paper-fab-menu-item>
       <paper-fab-menu-item label="S" tooltip="Security scheme" color="#ef6c00" on-tap="openSecuritySchemeEditor"></paper-fab-menu-item>
 	  </paper-fab-menu>
 
     <raml-docs-editor id="docsEditor" on-documentation-saved="_onSavedDocumentation"></raml-docs-editor>
     <raml-secscheme-editor id="securitySchemeEditor" on-security-scheme-saved="_onSecuritySchemeSaved"></raml-secscheme-editor>
+    <raml-trait-editor id="traitEditor"></raml-trait-editor>
+    <raml-type-editor id="typeEditor" on-type-saved="_onTypeSaved"></raml-type-editor>
+
   </template>
 </dom-module>
 <script src="raml-editor-basic.js"></script>

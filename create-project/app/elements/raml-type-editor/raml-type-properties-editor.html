@@ -1,0 +1,25 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<!-- <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html"> -->
+
+<link rel="import" href="../raml-type-property-editor/raml-type-property-editor.html">
+<dom-module id="raml-type-properties-editor">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      h2 {
+        @apply(--paper-font-caption);
+        margin-left: 12px;
+        @apply(--raml-headers-editor-title);
+      }
+    </style>
+    <h2>Properties</h2>
+    <template is="dom-repeat" items="[[typeProperties]]" id="paramsRepeater">
+      <raml-type-property-editor property="[[item]]"></raml-type-property-editor>
+    </template>
+    <paper-button raised on-tap="add">ADD property</paper-button>
+  </template>
+  <script src="raml-type-properties-editor.js"></script>
+</dom-module>
