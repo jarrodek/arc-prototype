@@ -14,12 +14,17 @@
         margin-left: 12px;
         @apply(--raml-headers-editor-title);
       }
+      .add-button {
+        margin-top: 20px;
+        background-color: var(--primary-color);
+        color: rgba(255, 255, 255, 0.87);
+      }
     </style>
     <h2>Properties</h2>
-    <template is="dom-repeat" items="[[typeProperties]]" id="paramsRepeater">
-      <raml-type-property-editor property="[[item]]"></raml-type-property-editor>
+    <template is="dom-repeat" items="[[typeProperties]]" id="propertyRepeater">
+      <raml-type-property-editor property="[[item]]" on-delete-property="_propertyDeleted" on-save-property="_propertySaved"></raml-type-property-editor>
     </template>
-    <paper-button raised on-tap="add">ADD property</paper-button>
+    <paper-button class="add-button" raised on-tap="add">ADD property</paper-button>
   </template>
   <script src="raml-type-properties-editor.js"></script>
 </dom-module>

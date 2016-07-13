@@ -1,37 +1,28 @@
-/* global RamlBehaviors */
+
 Polymer({
   is: 'raml-type-property-string',
 
-  behaviors: [RamlBehaviors.RamlTypePropertyBehavior],
-
   properties: {
     // Maximum length of the string. Value MUST be equal to or greater than 0.
-    maxLength: Number,
+    maxLength: {
+      type: Number,
+      notify: true
+    },
     // Minimum length of the string. Value MUST be equal to or greater than 0.
-    minLength: Number,
+    minLength: {
+      type: Number,
+      notify: true
+    },
     // Regular expression that this string should match.
-    pattern: Number
-  },
-
-  ready: function() {
-    if (!this.name) {
-      this.$.collapse.show();
+    pattern: {
+      type: Number,
+      notify: true
+    },
+    // Property example.
+    example: {
+      type: String,
+      notify: true
     }
-  },
-
-  toggle: function() {
-    this.$.collapse.toggle();
-  },
-
-  _computeIcon: function(opened) {
-    return opened ? 'arc:expand-less' : 'arc:expand-more';
-  },
-
-  cancel: function() {
-    this.$.collapse.hide();
-  },
-
-  delete: function() {
-    this.fire('delete-property');
   }
+
 });

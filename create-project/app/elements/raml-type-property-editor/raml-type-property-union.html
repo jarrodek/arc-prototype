@@ -1,0 +1,38 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<!-- <link rel="import" href="../../bower_components/paper-styles/paper-styles.html"> -->
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+
+<link rel="import" href="../arc-icons/arc-icons.html">
+
+<dom-module id="raml-type-property-union">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .row {
+        @apply(--layout-horizontal);
+        padding: 0 12px;
+        @apply(--raml-type-property-row);
+      }
+      paper-input {
+        @apply(--layout-flex);
+      }
+    </style>
+    <div class="row">
+      <paper-dropdown-menu label="Select type">
+        <paper-listbox class="dropdown-content" selected="{{selectedType}}" attr-for-selected="base-type">
+          <template is="dom-repeat" items="[[availableTypes]]">
+            <paper-item base-type="[[item.value]]">[[item.name]]</paper-item>
+          </template>
+        </paper-listbox>
+      </paper-dropdown-menu>
+      <paper-button raised>and</paper-button>
+      <paper-button raised>or</paper-button>
+      <paper-button raised>remove</paper-button>
+    </div>
+  </template>
+  <script src="raml-type-property-union.js"></script>
+</dom-module>
