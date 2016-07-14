@@ -46,6 +46,11 @@
       white-space: nowrap;
       overflow: hidden;
       color: rgba(0, 0, 0, 0.54);
+      text-transform: capitalize;
+    }
+
+    .property-type > span {
+      margin-right: 12px;
     }
 
     paper-icon-button {
@@ -121,11 +126,14 @@
     }
     </style>
     <div class="list-row" opened$="[[opened]]">
-      <div class="property-name" hidden$="[[opened]]">[[property.name]]</div>
+      <div class="property-name" hidden$="[[opened]]" on-tap="open">[[property.name]]</div>
       <div class="property-name" hidden$="[[!opened]]">
         <paper-input label="Property name" value="{{property.name}}" error-message="Name is required." required auto-validate></paper-input>
       </div>
-      <div class="property-type" hidden$="[[opened]]">[[property.type]]</div>
+      <div class="property-type" hidden$="[[opened]]" on-tap="open">
+        <span>[[property.type]]</span>
+        <span hidden$="[[!property.required]]">Required</span>
+      </div>
       <div class="property-type" hidden$="[[!opened]]">
         <paper-dropdown-menu label="Property type">
           <paper-listbox class="dropdown-content" attr-for-selected="data-type" selected="{{property.type}}">

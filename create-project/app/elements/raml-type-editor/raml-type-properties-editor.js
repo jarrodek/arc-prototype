@@ -8,8 +8,19 @@ Polymer({
       value: function() {
         return [];
       }
+    },
+    // True when at least one property is available for this type.
+    hasProperties: {
+      type: Boolean,
+      readOnly: true,
+      value: false,
+      notify: true
     }
   },
+
+  observers: [
+    '_computeHasProperties(typeProperties.length)'
+  ],
 
   add: function() {
     var p = this.typeProperties;
@@ -40,5 +51,9 @@ Polymer({
       return;
     }
     this.splice('typeProperties', index, 1);
+  },
+
+  _computeHasProperties: function(size) {
+    this._setHasProperties(!!size);
   }
 });

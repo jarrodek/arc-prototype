@@ -75,6 +75,30 @@
     .cancelButton {
       color: rgba(0,0,0,.54)
     }
+
+    raml-type-properties-editor {
+      margin-top: 32px;
+    }
+
+    .tutorial {
+      @apply(--layout-vertical);
+      @apply(--layout-center-center);
+      color: rgba(0,0,0,0.24);
+      position: absolute;
+      width: 358px;
+      bottom: 120px;
+      left: calc(50% - 358px/2);
+    }
+    .tutorial p {
+      @apply(--paper-font-body2);
+      text-align: center;
+    }
+    .tutorial paper-button {
+      background-color: var(--primary-color);
+      color: #fff;
+      font-size: 14px;
+    }
+
     </style>
     <paper-toolbar>
       <paper-icon-button icon="arc:arrow-back" on-tap="cancel"></paper-icon-button>
@@ -105,15 +129,24 @@
 
       <section class="form">
         <iron-pages selected="[[baseType]]" attr-for-selected="base-type">
-          <raml-type-properties-editor base-type="object" type-properties="{{typeProperties}}"></raml-type-properties-editor>
+          <raml-type-properties-editor has-properties="{{isDefinedObject}}" base-type="object" type-properties="{{typeProperties}}"></raml-type-properties-editor>
           <section base-type="schema" class="form">schema</section>
         </iron-pages>
       </section>
+
+
+      <section class="tutorial" hidden$="{{isDefinedObject}}">
+        <p>The type is a <b>model</b> used by the API. Here you can define types's properties or describe it as a <b>JSON</b> or <b>XML</b> schema.</p>
+        <p>Types can be later used when defining request or response body, or in traits speeding up API description.</p>
+        <paper-button raised>Learn more</paper-button>
+      </section>
+
+
     </div>
 
     <form-action-bar>
       <paper-button class="cancelButton" on-tap="cancel">cancel</paper-button>
-      <paper-button class="nextButton" on-tap="save">save</paper-button>
+      <paper-button class="nextButton" on-tap="save" disabled$="[[!isDefinedObject]]">save</paper-button>
     </form-action-bar>
 
   </template>

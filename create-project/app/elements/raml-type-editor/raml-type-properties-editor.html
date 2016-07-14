@@ -19,11 +19,16 @@
         background-color: var(--primary-color);
         color: rgba(255, 255, 255, 0.87);
       }
+      .empty-info {
+        @apply(--paper-font-body1);
+        color: rgba(0, 0, 0, 0.54);
+      }
     </style>
     <h2>Properties</h2>
     <template is="dom-repeat" items="[[typeProperties]]" id="propertyRepeater">
       <raml-type-property-editor property="[[item]]" on-delete-property="_propertyDeleted" on-save-property="_propertySaved"></raml-type-property-editor>
     </template>
+    <p class="empty-info" hidden$="[[hasProperties]]">No properties added so far. Go ahead and create a property of the object.</p>
     <paper-button class="add-button" raised on-tap="add">ADD property</paper-button>
   </template>
   <script src="raml-type-properties-editor.js"></script>

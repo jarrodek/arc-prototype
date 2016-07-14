@@ -33,6 +33,10 @@ Polymer({
     this.$.collapse.toggle();
   },
 
+  open: function() {
+    this.$.collapse.opened = true;
+  },
+
   _computeIcon: function(opened) {
     return opened ? 'arc:expand-less' : 'arc:expand-more';
   },
