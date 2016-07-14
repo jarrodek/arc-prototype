@@ -36,6 +36,36 @@ Polymer({
       readOnly: true,
       notify: true
     },
+    // The type node of the RAML file.
+    types: {
+      type: Array,
+      value: function() {
+        return [];
+      },
+      notify: true
+    },
+    // True if has at least one type.
+    hasTypes: {
+      type: Boolean,
+      value: false,
+      readOnly: true,
+      notify: true
+    },
+    // The trits node of the RAML file.
+    traits: {
+      type: Array,
+      value: function() {
+        return [];
+      },
+      notify: true
+    },
+    // True if has at least one trit.
+    hasTraits: {
+      type: Boolean,
+      value: false,
+      readOnly: true,
+      notify: true
+    },
     // True when the tutorial should be displayed.
     onboarding: {
       type: Boolean,
@@ -79,6 +109,8 @@ Polymer({
   observers: [
     '_docsChanged(documentation.*)',
     '_secSchemasChanged(securitySchemas.*)',
+    '_typesChanged(types.*)',
+    '_traitsChanged(traits.*)',
     '_valueChanged(name)',
     '_valueChanged(description)',
     '_valueChanged(baseUrl)',
@@ -111,6 +143,18 @@ Polymer({
     var docs = this.documentation;
     var exists = docs && docs.length && docs.length > 0;
     this._setHasDocs(exists);
+  },
+
+  _typesChanged: function() {
+    var t = this.types;
+    var exists = t && t.length && t.length > 0;
+    this._setHasTypes(exists);
+  },
+
+  _traitsChanged: function() {
+    var t = this.traits;
+    var exists = t && t.length && t.length > 0;
+    this._setHasTraits(exists);
   },
 
   _onDocsDelete: function(e) {
@@ -211,7 +255,9 @@ Polymer({
       !!this.version ||
       !!this.mediaType || */
       !!this.hasDocs ||
-      !!this.hasSecuritySchemas;
+      !!this.hasSecuritySchemas ||
+      !!this.hasTypes ||
+      !!this.traits;
     // console.log('_valueChanged');
     if (hasValues && !this.onboarding) {
       this.onboarding = true;
@@ -226,5 +272,52 @@ Polymer({
 
   openTypeEditor: function() {
     this.$.typeEditor.open();
+  },
+
+  _onTypeSaved: function(e) {
+    var data = e.detail;
+    if (this.editingType) {
+      this.editingType = false;
+      let i = this.editingTypeIndex;
+      this.editingTypeIndex = undefined;
+      this.set('types.' + i, data);
+      return;
+    }
+    this.push('types', data);
+  },
+
+  _onTypeEdit: function(e) {
+    var item = this.$.typesRepeater.itemForElement(e.target);
+    if (!item) {
+      return;
+    }
+    var all = this.types;
+    var index = all.indexOf(item);
+    if (index === -1) {
+      return;
+    }
+    this.editingType = true;
+    this.editingTypeIndex = index;
+    this.$.typeEditor.reset();
+    this.$.typeEditor.typeId = item.typeId;
+    this.$.typeEditor.displayName = item.displayName;
+    this.$.typeEditor.description = item.description;
+    this.$.typeEditor.typeProperties = item.typeProperties;
+    this.$.typeEditor.baseType = item.baseType;
+    this.$.typeEditor.open();
+  },
+
+  _onTypeDelete: function(e) {
+    var item = this.$.typesRepeater.itemForElement(e.target);
+    if (!item) {
+      return;
+    }
+    var all = this.types;
+    var index = all.indexOf(item);
+    if (index === -1) {
+      return;
+    }
+    this.splice('types', index, 1);
   }
+
 });

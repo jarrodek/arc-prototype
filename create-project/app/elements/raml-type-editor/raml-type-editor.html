@@ -11,10 +11,12 @@
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 
 <link rel="import" href="../form-action-bar/form-action-bar.html">
 <link rel="import" href="../markdown-editor/markdown-icon-button.html">
 <link rel="import" href="raml-type-properties-editor.html">
+<link rel="import" href="raml-type-schema-editor.html">
 
 <dom-module id="raml-type-editor">
   <template>
@@ -130,10 +132,9 @@
       <section class="form">
         <iron-pages selected="[[baseType]]" attr-for-selected="base-type">
           <raml-type-properties-editor has-properties="{{isDefinedObject}}" base-type="object" type-properties="{{typeProperties}}"></raml-type-properties-editor>
-          <section base-type="schema" class="form">schema</section>
+          <raml-type-schema-editor base-type="schema"></raml-type-schema-editor>
         </iron-pages>
       </section>
-
 
       <section class="tutorial" hidden$="{{isDefinedObject}}">
         <p>The type is a <b>model</b> used by the API. Here you can define types's properties or describe it as a <b>JSON</b> or <b>XML</b> schema.</p>
@@ -141,14 +142,14 @@
         <paper-button raised>Learn more</paper-button>
       </section>
 
-
     </div>
 
     <form-action-bar>
       <paper-button class="cancelButton" on-tap="cancel">cancel</paper-button>
-      <paper-button class="nextButton" on-tap="save" disabled$="[[!isDefinedObject]]">save</paper-button>
+      <paper-button class="nextButton" on-tap="save">save</paper-button>
     </form-action-bar>
-
+    <paper-toast text="Enter type id before save" id="typeIdToast"></paper-toast>
+    <paper-toast text="Define type's properties or schema first" id="schemaToast"></paper-toast>
   </template>
   <script src="raml-type-editor.js"></script>
 </dom-module>

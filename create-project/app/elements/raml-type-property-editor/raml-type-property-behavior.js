@@ -23,7 +23,10 @@ window.RamlBehaviors.RamlTypePropertyBehavior = {
 
   properties: {
     // The RAML type's property.
-    property: Object,
+    property: {
+      type: Object,
+      notify: true
+    },
 
     /**
      * A list of declared in the RAML definition types.

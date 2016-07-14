@@ -7,7 +7,8 @@ Polymer({
       type: Array,
       value: function() {
         return [];
-      }
+      },
+      notify: true
     },
     // True when at least one property is available for this type.
     hasProperties: {

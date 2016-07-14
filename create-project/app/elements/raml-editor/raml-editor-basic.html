@@ -18,6 +18,7 @@
 <link rel="import" href="../markdown-editor/markdown-icon-button.html">
 <link rel="import" href="../raml-trait-editor/raml-trait-editor.html">
 <link rel="import" href="../raml-type-editor/raml-type-editor.html">
+<link rel="import" href="../raml-types-table/raml-types-table.html">
 
 <dom-module id="raml-editor-basic">
   <template>
@@ -121,6 +122,13 @@
       <h2>Security schemas</h2>
       <template is="dom-repeat" items="[[securitySchemas]]" id="ssRepeater">
         <raml-security-scheme-table scheme="[[item]]" on-edit-security-scheme="_onSecSchemaEdit" on-delete-security-scheme="_onSecSchemaDelete"></raml-security-scheme-table>
+      </template>
+    </section>
+
+    <section hidden$="[[!hasTypes]]">
+      <h2>Types</h2>
+      <template is="dom-repeat" items="[[types]]" id="typesRepeater">
+        <raml-types-table type="[[item]]" on-edit-type="_onTypeEdit" on-delete-type="_onTypeDelete"></raml-types-table>
       </template>
     </section>
 

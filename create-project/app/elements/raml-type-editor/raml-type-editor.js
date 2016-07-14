@@ -32,7 +32,36 @@ Polymer({
       value: function() {
         return this.$.descInput;
       }
+    },
+
+    isDefinedObject: Boolean
+  },
+
+  save: function() {
+    if (!this.typeId) {
+      this.$.typeIdToast.open();
+      return;
     }
+    if (!this.isDefinedObject) {
+      this.$.schemaToast.open();
+      return;
+    }
+    this.fire('type-saved', {
+      typeId: this.typeId,
+      displayName: this.displayName,
+      description: this.description,
+      typeProperties: this.typeProperties,
+      baseType: this.baseType
+    });
+    this.opened = false;
+  },
+
+  reset: function() {
+    this.typeId = '';
+    this.displayName = '';
+    this.description = '';
+    this.typeProperties = [];
+    this.baseType = 'object';
   }
 
 });

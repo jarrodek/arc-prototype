@@ -10,6 +10,7 @@ Polymer({
     endpoints: Array,
     documentation: Array,
     securitySchemas: Array,
+    types: Array,
     name: String,
     description: String,
     baseUrl: String,
