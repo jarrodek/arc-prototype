@@ -1,0 +1,145 @@
+<dom-module id="raml-traits-table-item">
+  <template>
+    <style>
+    :host {
+      display: block;
+    }
+
+    :host([opened]) {
+      margin: 20px 0;
+    }
+
+    .row {
+      @apply(--layout-center);
+    }
+
+    iron-collapse,
+    .row {
+      border: 1px rgba(0, 0, 0, 0.12) solid;
+    }
+
+    .item-name {
+      @apply(--paper-font-body1);
+      @apply(--layout-horizontal);
+      font-weight: 500;
+      color: rgba(0, 0, 0, 0.87);
+      padding: 0 12px;
+    }
+
+    .item-desc {
+      @apply(--paper-font-caption);
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      color: rgba(0, 0, 0, 0.54);
+    }
+
+    paper-icon-button {
+      color: rgba(0, 0, 0, 0.54);
+    }
+
+    .editor-content,
+    .toggle-content,
+    .row {
+      @apply(--layout-horizontal);
+    }
+
+    .item-name,
+    .toggle-left {
+      @apply(--layout-flex);
+      padding: 0 12px;
+    }
+
+    .item-desc,
+    .toggle-content {
+      @apply(--layout-flex-3);
+    }
+
+    .row[opened] {
+      border-bottom-color: transparent;
+    }
+
+    .button-placeholder {
+      width: 40px;
+      height: 40px;
+    }
+
+    iron-collapse {
+      border-top-color: transparent;
+    }
+
+    .editor-actions {
+      height: 64px;
+      @apply(--layout-horizontal);
+      @apply(--layout-end-justified);
+      border-top: 1px rgba(0, 0, 0, 0.12) solid;
+    }
+
+    .delete-button {
+      color: rgba(0, 0, 0, 0.54);
+    }
+
+    .edit-button {
+      color: #00A1DF;
+    }
+
+    .toggle-content {
+      @apply(--paper-font-caption);
+      color: rgba(0, 0, 0, 0.87);
+    }
+    .expanded-desc {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      margin-right: 16px;
+    }
+
+    .help-doc {
+      font-size: 11px;
+      color: rgba(0, 0, 0, 0.40);
+      max-width: 120px;
+      padding-left: 12px;
+      border-left: 1px rgba(0,0,0,0.12) solid;
+      margin-bottom: 20px;
+    }
+
+    .help-doc paper-button {
+      color: #00A1DF;
+    }
+    .expanded-desc {
+      @apply(--layout-flex);
+    }
+    </style>
+    <div class="row" opened$="[[opened]]">
+      <div class="item-name" hidden$="[[opened]]">[[trait.name]]</div>
+      <div class="item-name" hidden$="[[!opened]]">Trait</div>
+      <div class="item-desc" hidden$="[[opened]]">[[trait.description]]</div>
+      <div class="item-desc" hidden$="[[!opened]]">Trait description</div>
+      <paper-icon-button on-tap="toggle" icon="[[_computeIcon(opened)]]"></paper-icon-button>
+    </div>
+    <iron-collapse id="collapse" opened="{{opened}}">
+      <div class="editor-content">
+        <div class="toggle-left">
+
+        </div>
+        <div class="toggle-content">
+          <section class="expanded-desc">
+            <p>[[trait.description]]</p>
+            <p>[[trait.usage]]</p>
+          </section>
+          <section class="help-doc">
+            Use traits when defining API structure
+            <br/>
+            <paper-button>learn more</paper-button>
+          </section>
+        </div>
+        <div class="button-placeholder"></div>
+      </div>
+      <div class="editor-actions">
+        <paper-button class="delete-button" on-tap="delete">DELETE</paper-button>
+        <paper-button class="edit-button" on-tap="edit">EDIT</paper-button>
+      </div>
+    </iron-collapse>
+  </template>
+</dom-module>
+<script src="raml-traits-table-item.js"></script>

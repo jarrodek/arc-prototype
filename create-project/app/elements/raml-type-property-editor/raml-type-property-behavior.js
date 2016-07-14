@@ -19,54 +19,13 @@ window.RamlBehaviors = window.RamlBehaviors || {};
  *
  * @polymerBehavior RamlBehaviors.RamlTypePropertyBehavior
  */
-window.RamlBehaviors.RamlTypePropertyBehavior = {
+window.RamlBehaviors.RamlTypePropertyBehaviorImpl = {
 
   properties: {
     // The RAML type's property.
     property: {
       type: Object,
       notify: true
-    },
-
-    /**
-     * A list of declared in the RAML definition types.
-     * Changing this property will change the list of properties available types.
-     * Note that Type created from schema can't be extended and therefore it won't be
-     * considered bu the UI.
-     */
-    declaredTypes: {
-      type: Array,
-      value: function() {
-        return [];
-      }
-    },
-
-    baseTypes: {
-      type: Array,
-      value: function() {
-        return [
-          {value: 'any', name: 'Any'},
-          {value: 'object', name: 'Object'},
-          {value: 'array', name: 'Array'},
-          {value: 'union', name: 'Union'},
-          {value: 'number', name: 'Number'},
-          {value: 'boolean', name: 'Boolean'},
-          {value: 'string', name: 'String'},
-          {value: 'datetime', name: 'Date and time'},
-          {value: 'date-only', name: 'Date and time', hidden: true},
-          {value: 'time-only', name: 'Date and time', hidden: true},
-          {value: 'datetime-only', name: 'Date and time', hidden: true},
-          {value: 'file', name: 'File'},
-          {value: 'integer', name: 'Integer'},
-          {value: 'null', name: 'Null'}
-        ];
-      },
-      readOnly: true
-    },
-    // List of available types
-    availableTypes: {
-      type: Array,
-      computed: '_computeAvailableTypes(baseTypes, declaredTypes.*)'
     },
 
     // True when the collapsable panel is opened.
@@ -152,22 +111,6 @@ window.RamlBehaviors.RamlTypePropertyBehavior = {
     '_typeChanged(property.type)'
   ],
 
-  _computeAvailableTypes: function(baseTypes) {
-    var declared = this.declaredTypes;
-    var result = baseTypes;
-    if (declared && declared.length) {
-      let tmp = declared.map((item) => {
-        return {
-          'value': item.typeId,
-          'name': item.displayName || item.typeId
-        };
-      });
-      result = result.concat(tmp);
-    }
-    // console.log('_computeAvailableTypes', result);
-    return result;
-  },
-
   _typeChanged: function(type) {
     this.isAny = false;
     this.isObject = false;
@@ -200,6 +143,9 @@ window.RamlBehaviors.RamlTypePropertyBehavior = {
       case 'null': this.isNull = true; break;
     }
   }
-
 };
+window.RamlBehaviors.RamlTypePropertyBehavior = [
+  window.RamlBehaviors.RamlTypeBehavior,
+  window.RamlBehaviors.RamlTypePropertyBehaviorImpl
+];
 })();

@@ -267,7 +267,7 @@ Polymer({
   },
 
   openTraitEditor: function() {
-    this.$.traitEditor.open();
+    this.$.traitTable.add();
   },
 
   openTypeEditor: function() {

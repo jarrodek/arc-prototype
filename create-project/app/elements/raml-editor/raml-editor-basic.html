@@ -16,9 +16,9 @@
 <link rel="import" href="../raml-secscheme-editor/raml-secscheme-editor.html">
 <link rel="import" href="../raml-security-scheme-table/raml-security-scheme-table.html">
 <link rel="import" href="../markdown-editor/markdown-icon-button.html">
-<link rel="import" href="../raml-trait-editor/raml-trait-editor.html">
 <link rel="import" href="../raml-type-editor/raml-type-editor.html">
 <link rel="import" href="../raml-types-table/raml-types-table.html">
+<link rel="import" href="../raml-traits-table/raml-traits-table.html">
 
 <dom-module id="raml-editor-basic">
   <template>
@@ -132,6 +132,8 @@
       </template>
     </section>
 
+    <raml-traits-table id="traitTable" declared-types="[[types]]" traits="[[traits]]"></raml-traits-table>
+
     <section class="tutorial" hidden$="{{onboarding}}">
       <iron-icon class="big" icon="arc:assignment"></iron-icon>
       <p>How to describe an API?</p>
@@ -147,7 +149,7 @@
 
     <raml-docs-editor id="docsEditor" on-documentation-saved="_onSavedDocumentation"></raml-docs-editor>
     <raml-secscheme-editor id="securitySchemeEditor" on-security-scheme-saved="_onSecuritySchemeSaved"></raml-secscheme-editor>
-    <raml-trait-editor id="traitEditor"></raml-trait-editor>
+    <raml-trait-editor declared-types="[[types]]" id="traitEditor" on-trait-saved="_onTraitSaved"></raml-trait-editor>
     <raml-type-editor id="typeEditor" on-type-saved="_onTypeSaved"></raml-type-editor>
 
   </template>
