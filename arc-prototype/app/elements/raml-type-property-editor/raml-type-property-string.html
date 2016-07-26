@@ -1,0 +1,68 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<!-- <link rel="import" href="../../bower_components/paper-styles/paper-styles.html"> -->
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-tooltip/paper-tooltip.html">
+
+<link rel="import" href="../arc-icons/arc-icons.html">
+
+<dom-module id="raml-type-property-string">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .row {
+        @apply(--layout-horizontal);
+        padding: 0 12px;
+        @apply(--raml-type-property-row);
+      }
+      .left,
+      .right {
+        @apply(--layout-flex);
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
+      }
+      .left {
+        margin-right: 8px;
+      }
+      .right {
+        margin-left: 8px;
+      }
+
+      paper-input {
+        @apply(--layout-flex);
+      }
+    </style>
+    <div class="row">
+      <paper-input label="Pattern (optional)" value="{{pattern}}"></paper-input>
+      <paper-icon-button icon="arc:help-outline" id="patternHelp"></paper-icon-button>
+      <paper-tooltip for="patternHelp" fit-to-visible-bounds>Regular expression that this string should match.</paper-tooltip>
+    </div>
+    <div class="row">
+      <div class="left">
+        <paper-input label="Min length (optional)" value="{{minLength}}" type="number"></paper-input>
+        <a href="https://github.com/raml-org/raml-spec/blob/master/versions/raml-10/raml-10.md/#string" target="_blank">
+          <paper-icon-button icon="arc:help-outline" id="minLengthHelp"></paper-icon-button>
+        </a>
+        <paper-tooltip for="minLengthHelp" fit-to-visible-bounds>Minimum length of the string. Value must be equal to or greater than 0.</paper-tooltip>
+      </div>
+      <div class="right">
+        <paper-input label="Max length (optional)" value="{{maxLength}}" type="number"></paper-input>
+        <a href="https://github.com/raml-org/raml-spec/blob/master/versions/raml-10/raml-10.md/#string" target="_blank">
+          <paper-icon-button icon="arc:help-outline" id="maxLengthHelp"></paper-icon-button>
+        </a>
+        <paper-tooltip for="maxLengthHelp" fit-to-visible-bounds>Maximum length of the string. Value must be equal to or greater than 0.</paper-tooltip>
+      </div>
+    </div>
+    <div class="row">
+      <paper-input label="Example (optional)" value="{{example}}"></paper-input>
+      <a href="https://github.com/raml-org/raml-spec/blob/master/versions/raml-10/raml-10.md/#string" target="_blank">
+        <paper-icon-button icon="arc:help-outline" id="exampleHelp"></paper-icon-button>
+      </a>
+      <paper-tooltip for="exampleHelp" fit-to-visible-bounds>An example value of the property.</paper-tooltip>
+    </div>
+  </template>
+  <script src="raml-type-property-string.js"></script>
+</dom-module>

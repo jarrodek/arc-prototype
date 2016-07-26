@@ -1,0 +1,34 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tab.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../headers-editor/headers-editor.html">
+
+<dom-module id="request-config-panel">
+  <template>
+    <style>
+    :host {
+      display: block;
+      --paper-tab: {
+        flex: inherit;
+      }
+    }
+    iron-pages > * {
+      border: 1px rgba(0, 0, 0, 0.24) solid;
+    }
+    </style>
+    <paper-tabs selected="{{selectedPage}}">
+      <paper-tab>Headers</paper-tab>
+      <paper-tab>Authorization</paper-tab>
+      <paper-tab>Variables</paper-tab>
+      <paper-tab>Tests</paper-tab>
+    </paper-tabs>
+    <iron-pages selected="[[selectedPage]]">
+      <headers-editor></headers-editor>
+      <section>Authorization panel</section>
+      <section>Variables panel</section>
+      <section>Tests panel</section>
+    </iron-pages>
+  </template>
+</dom-module>
+<script src="request-config-panel.js"></script>

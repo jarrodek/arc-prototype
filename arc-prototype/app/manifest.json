@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+  "name": "ARC prototype",
+  "description": "The prototype of the Advanced REST client",
+  "version": "1.0.0",
+  "minimum_chrome_version": "47",
+  "author": "Pawel Psztyc",
+  "app": {
+    "background": {
+      "scripts": [
+        "scripts/background.js"
+      ]
+    }
+  }
+}

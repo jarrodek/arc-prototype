@@ -1,0 +1,195 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-overlay-behavior/iron-overlay-behavior.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-fab-menu/paper-fab-menu.html">
+<link rel="import" href="../../bower_components/paper-fab-menu/paper-fab-menu-item.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+
+<link rel="import" href="../raml-type-behavior/raml-type-behavior.html">
+<link rel="import" href="../raml-headers-editor/raml-headers-editor.html">
+<link rel="import" href="../form-action-bar/form-action-bar.html">
+<link rel="import" href="../markdown-editor/markdown-icon-button.html">
+
+<dom-module id="raml-response-editor">
+  <template>
+    <style>
+    :host {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: #fff;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .content {
+      height: 100%;
+      padding-bottom: 160px;
+    }
+
+    .form {
+      margin: 0 12px;
+    }
+
+    .form.optional {
+      margin-top: 40px;
+    }
+
+    .row {
+      @apply(--layout-horizontal);
+      @apply(--layout-end);
+    }
+
+    h2 {
+      @apply(--paper-font-caption);
+      margin-left: 12px;
+      @apply(--raml-editor-title2);
+    }
+
+    paper-input,
+    paper-input-container {
+      min-width: 300px;
+    }
+
+    paper-icon-button {
+      color: rgba(0, 0, 0, 0.54);
+      fill: rgba(0, 0, 0, 0.54);
+    }
+
+    paper-icon-button:hover {
+      color: rgba(0, 0, 0, 0.74);
+      fill: rgba(0, 0, 0, 0.74);
+    }
+
+    paper-fab-menu {
+      position: fixed;
+      right: 20px;
+      bottom: 80px;
+    }
+
+    .body-selector {
+      max-width: 700px;
+    }
+
+    .body-dropdown {
+      @apply(--layout-horizontal);
+      @apply(--layout-center);
+    }
+
+    .body-dropdown paper-dropdown-menu {
+      margin-right: 16px;
+    }
+
+    .query-params-editor,
+    .headers-editor {
+      max-width: 700px;
+      margin: 0 12px;
+    }
+
+    .nextButton {
+      color: #00A1DF;
+    }
+
+    .cancelButton {
+      color: rgba(0, 0, 0, .54)
+    }
+    </style>
+    <paper-toolbar>
+      <paper-icon-button icon="arc:arrow-back" on-tap="cancel"></paper-icon-button>
+      <div class="title">Create response</div>
+    </paper-toolbar>
+    <div class="content">
+      <section class="form">
+        <div class="row">
+          <paper-input label="Status code" value="{{statusCode}}" allowed-pattern="[0-9]" min="100" max="599" type="number" prevent-invalid-input></paper-input>
+        </div>
+        <div class="row">
+          <paper-dropdown-menu label="Content type">
+            <paper-listbox class="dropdown-content" selected="{{contentType}}" attr-for-selected="data-type">
+              <paper-item data-type="application/json">application/json</paper-item>
+              <paper-item data-type="application/xml">application/xml</paper-item>
+              <paper-item data-type="application/atom+xml">application/atom+xml</paper-item>
+              <paper-item data-type="multipart/form-data">multipart/form-data</paper-item>
+              <paper-item data-type="multipart/alternative">multipart/alternative</paper-item>
+              <paper-item data-type="multipart/mixed">multipart/mixed</paper-item>
+              <paper-item data-type="application/x-www-form-urlencoded">application/x-www-form-urlencoded</paper-item>
+              <paper-item data-type="application/base64">application/base64</paper-item>
+              <paper-item data-type="application/octet-stream">application/octet-stream</paper-item>
+              <paper-item data-type="text/plain">text/plain</paper-item>
+              <paper-item data-type="text/css">text/css</paper-item>
+              <paper-item data-type="text/html">text/html</paper-item>
+              <paper-item data-type="application/javascript">application/javascript</paper-item>
+            </paper-listbox>
+          </paper-dropdown-menu>
+        </div>
+        <div class="row">
+          <paper-input label="Description (optional)" value="{{description}}" id="descInput"></paper-input>
+          <markdown-icon-button target="[[descInput]]"></markdown-icon-button>
+        </div>
+      </section>
+      <raml-headers-editor class="headers-editor" headers="{{headers}}" hidden$="{{!_canDisplayTable(headers.length)}}" id="headersEditor"></raml-headers-editor>
+      <section class="form">
+        <h2>Body (optional)</h2>
+        <div class="body-selector">
+          <paper-tabs selected="{{bodySelectorPage}}">
+            <paper-tab>Select type</paper-tab>
+            <paper-tab>Define type</paper-tab>
+          </paper-tabs>
+          <iron-pages selected="{{bodySelectorPage}}">
+            <section>
+              <div class="body-dropdown" hidden$="[[!hasUserTypes]]">
+                <paper-dropdown-menu label="Select type">
+                  <paper-listbox class="dropdown-content" selected="{{selectedType}}" attr-for-selected="base-type">
+                    <template is="dom-repeat" items="[[userTypes]]">
+                      <paper-item base-type="[[item.value]]">[[item.name]]</paper-item>
+                    </template>
+                  </paper-listbox>
+                </paper-dropdown-menu>
+                <div class="">
+                  <paper-checkbox checked="{{typeArray}}">Is array</paper-checkbox>
+                </div>
+              </div>
+              <div hidden$="[[hasUserTypes]]">
+                <p>You haven't defined a type yet.</p>
+              </div>
+            </section>
+            <section>
+              <div class="form">
+                <paper-dropdown-menu label="Type">
+                  <paper-listbox class="dropdown-content" selected="{{type.baseType}}" attr-for-selected="base-type">
+                    <paper-item base-type="object">Object</paper-item>
+                    <paper-item base-type="schema">Schema</paper-item>
+                  </paper-listbox>
+                </paper-dropdown-menu>
+              </div>
+              <section class="form">
+                <iron-pages selected="[[type.baseType]]" attr-for-selected="base-type">
+                  <raml-type-properties-editor has-properties="{{isDefinedObject}}" base-type="object" type-properties="{{type.typeProperties}}"></raml-type-properties-editor>
+                  <raml-type-schema-editor base-type="schema"></raml-type-schema-editor>
+                </iron-pages>
+              </section>
+            </section>
+          </iron-pages>
+        </div>
+      </section>
+    </div>
+    <paper-fab-menu icon="add" position="vertical" color="#48942A">
+      <paper-fab-menu-item label="H" tooltip="Header" color="#3f51b5" on-tap="appendHeader"></paper-fab-menu-item>
+      <!-- <paper-fab-menu-item label="B" tooltip="Body" color="#ef6c00"></paper-fab-menu-item> -->
+    </paper-fab-menu>
+    <form-action-bar>
+      <paper-button class="cancelButton" on-tap="cancel">cancel</paper-button>
+      <paper-button class="nextButton" on-tap="save">save</paper-button>
+    </form-action-bar>
+  </template>
+  <script src="raml-response-editor.js"></script>
+</dom-module>

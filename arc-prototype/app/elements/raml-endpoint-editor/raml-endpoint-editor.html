@@ -1,0 +1,162 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-overlay-behavior/iron-overlay-behavior.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item-body.html">
+<link rel="import" href="../../bower_components/paper-tooltip/paper-tooltip.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
+
+<link rel="import" href="../raml-headers-editor/raml-headers-editor.html">
+<link rel="import" href="../raml-query-params-editor/raml-query-params-editor.html">
+<link rel="import" href="../form-action-bar/form-action-bar.html">
+<link rel="import" href="../markdown-editor/markdown-icon-button.html">
+<link rel="import" href="raml-endpont-path.html">
+
+<dom-module id="raml-endpoint-editor">
+  <template>
+    <style>
+    :host {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: #fff;
+      overflow-y: auto;
+      overflow-x: hidden;
+      @apply(--paper-font-body1);
+    }
+    .content {
+      height: 100%;
+      padding-bottom: 160px;
+      @apply(--layout-horizontal);
+    }
+    .row {
+      @apply(--layout-horizontal);
+      @apply(--layout-center);
+      min-height: 48px;
+    }
+
+    .form {
+      margin: 0 12px;
+      @apply(--layout-flex);
+    }
+
+    paper-input,
+    paper-input-container {
+      min-width: 300px;
+    }
+
+    paper-icon-button {
+      color: rgba(0,0,0,0.24);
+      fill: rgba(0,0,0,0.24);
+    }
+
+    paper-icon-button:hover {
+      color: rgba(0,0,0,0.74);
+      fill: rgba(0,0,0,0.74);
+    }
+
+    paper-fab-menu {
+      position: fixed;
+      right: 20px;
+      bottom: 80px;
+    }
+
+    .cancelButton {
+      color: rgba(0,0,0,.54)
+    }
+    .row label,
+    .prefix {
+      margin-right: 12px;
+    }
+
+    .helpers {
+      width: 360px;
+      border-left: 1px rgba(0, 0, 0, .24) solid;
+      padding: 24px;
+      color: rgba(0, 0, 0, 0.54);
+      height: 120px;
+      margin-top: 40px;
+    }
+    paper-button {
+      color: var(--primary-color);
+    }
+    .query-params-editor {
+      max-width: 700px;
+    }
+
+    .info {
+      @apply(--layout-horizontal);
+      @apply(--layout-center);
+      color: rgba(0, 0, 0, 0.4);
+      margin-top: 32px;
+    }
+
+    .info iron-icon {
+      margin-right: 8px;
+    }
+    </style>
+    <paper-toolbar>
+      <paper-icon-button icon="arc:arrow-back" on-tap="cancel"></paper-icon-button>
+      <div class="title">Add endpoint</div>
+    </paper-toolbar>
+
+    <div class="content">
+      <section class="form">
+        <div class="row">
+          <label>Location:</label> <raml-endpont-path parent-endpoint="[[endpoint]]"></raml-endpont-path>
+        </div>
+
+        <div class="row">
+          <label>URL:</label> <span class="prefix">[[_computeUrlPrefix(endpoint.*)]]</span> <paper-input label="Enter path" value="{{url}}"></paper-input>
+        </div>
+
+        <div class="row">
+          <paper-input label="Name (optional)" value="{{displayName}}"></paper-input>
+        </div>
+        <div class="row">
+          <paper-input label="Description (optional)" value="{{description}}" id="descInput"></paper-input>
+          <!-- <paper-icon-button icon="arc:markdown"></paper-icon-button> -->
+          <markdown-icon-button target="[[descInput]]"></markdown-icon-button>
+        </div>
+
+        <raml-query-params-editor class="query-params-editor" params="{{queryParams}}" hidden$="{{!_canDisplayParamsTable(queryParams.length)}}" id="queryParamsEditor"></raml-query-params-editor>
+
+        <section class="info">
+          <iron-icon icon="arc:help-outline"></iron-icon>
+          <p>In next step you’ll be asked to add a HTTP method to this endpoint. <br/>Endpoint must be consistent with at least one HTTP method.</p>
+        </section>
+      </section>
+      <section class="helpers">
+        <p>An endpoint represents a resource available
+        in the API.</p>
+
+        <p>You can add common behaviours (traits) to
+        the endpoint, security schemas and methods.</p>
+
+        <p>
+          <paper-button>learn more</paper-button>
+        </p>
+      </section>
+    </div>
+    <paper-fab-menu icon="add" position="vertical" color="#48942A" hidden$="[[!hasDescribedBy]]">
+      <paper-fab-menu-item label="Q" tooltip="Add query parameter" color="#E91E63" on-tap="appendQueryParameter"></paper-fab-menu-item>
+      <paper-fab-menu-item label="T" tooltip="Add resource type" color="#3f51b5"></paper-fab-menu-item>
+      <paper-fab-menu-item label="T" tooltip="Add trait" color="#2e7d32"></paper-fab-menu-item>
+      <paper-fab-menu-item label="S" tooltip="Add security scheme" color="#ef6c00"></paper-fab-menu-item>
+    </paper-fab-menu>
+
+    <form-action-bar>
+      <paper-button class="cancelButton" on-tap="cancel">cancel</paper-button>
+      <paper-button class="nextButton" on-tap="save">next</paper-button>
+    </form-action-bar>
+
+  </template>
+</dom-module>
+<script src="raml-endpoint-editor.js"></script>

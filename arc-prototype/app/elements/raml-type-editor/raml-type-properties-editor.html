@@ -1,0 +1,35 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<!-- <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html"> -->
+
+<link rel="import" href="../raml-type-property-editor/raml-type-property-editor.html">
+<dom-module id="raml-type-properties-editor">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      h2 {
+        @apply(--paper-font-caption);
+        margin-left: 12px;
+        @apply(--raml-editor-title2);
+      }
+      .add-button {
+        margin-top: 20px;
+        background-color: var(--primary-color);
+        color: rgba(255, 255, 255, 0.87);
+      }
+      .empty-info {
+        @apply(--paper-font-body1);
+        color: rgba(0, 0, 0, 0.54);
+      }
+    </style>
+    <h2>Properties</h2>
+    <template is="dom-repeat" items="[[typeProperties]]" id="propertyRepeater">
+      <raml-type-property-editor property="[[item]]" on-delete-property="_propertyDeleted" on-save-property="_propertySaved"></raml-type-property-editor>
+    </template>
+    <p class="empty-info" hidden$="[[hasProperties]]">No properties added so far. Go ahead and create a property of the object.</p>
+    <paper-button class="add-button" raised on-tap="add">ADD property</paper-button>
+  </template>
+  <script src="raml-type-properties-editor.js"></script>
+</dom-module>

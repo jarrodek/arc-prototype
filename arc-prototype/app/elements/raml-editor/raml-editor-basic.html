@@ -1,0 +1,157 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-tooltip/paper-tooltip.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/iron-collapse/iron-collapse.html">
+<link rel="import" href="../../bower_components/paper-fab-menu/paper-fab-menu.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+
+<link rel="import" href="../arc-icons/arc-icons.html">
+<link rel="import" href="../raml-docs-editor/raml-docs-editor.html">
+<link rel="import" href="../raml-docs-table/raml-docs-table.html">
+<link rel="import" href="../raml-secscheme-editor/raml-secscheme-editor.html">
+<link rel="import" href="../raml-security-scheme-table/raml-security-scheme-table.html">
+<link rel="import" href="../markdown-editor/markdown-icon-button.html">
+<link rel="import" href="../raml-type-editor/raml-type-editor.html">
+<link rel="import" href="../raml-types-table/raml-types-table.html">
+<link rel="import" href="../raml-traits-table/raml-traits-table.html">
+
+<dom-module id="raml-editor-basic">
+  <template>
+    <style>
+      :host {
+        display: block;
+
+      }
+      .row {
+        @apply(--layout-horizontal);
+        @apply(--layout-end);
+      }
+
+      h2 {
+        @apply(--paper-font-body1);
+        color: var(--paper-pink-700);
+        margin-left: 12px;
+        margin-top: 24px;
+      }
+
+      paper-input {
+        min-width: 320px;
+      }
+
+      paper-fab-menu {
+      	position: fixed;
+      	right: 20px;
+      	bottom: 80px;
+      }
+
+      paper-button {
+        color: var(--primary-color);
+      }
+      .tutorial {
+        @apply(--layout-vertical);
+        @apply(--layout-center-center);
+        color: rgba(0,0,0,0.24);
+        position: absolute;
+        width: 358px;
+        bottom: 120px;
+        left: calc(50% - 258px/2);
+      }
+      .tutorial p {
+        @apply(--paper-font-display2);
+        text-align: center;
+      }
+      .tutorial .big {
+        --iron-icon-height: 112px;
+        --iron-icon-width: 112px;
+      }
+      .tutorial paper-button {
+        background-color: var(--primary-color);
+        color: #fff;
+        font-size: 14px;
+      }
+      .showMoreButton {
+        margin-top: 24px;
+      }
+
+    </style>
+
+    <div class="row">
+      <paper-input label="Name" required value="{{name}}"></paper-input>
+    </div>
+
+    <div class="row">
+      <paper-input label="Description" value="{{description}}" id="descInput"></paper-input>
+      <!-- <paper-icon-button icon="arc:markdown"></paper-icon-button> -->
+      <markdown-icon-button target="[[descInput]]"></markdown-icon-button>
+    </div>
+
+    <div class="row">
+      <paper-input label="Base URL" value="{{baseUrl}}"></paper-input>
+      <paper-icon-button icon="arc:help-outline" id="baseUrl"></paper-icon-button>
+      <paper-tooltip for="baseUrl" fit-to-visible-bounds>A URI that's to be used as the base of all the resources' URIs.
+        Often used as the base of the URL of each resource, containing the location of the API. Can be a template URI.</paper-tooltip>
+    </div>
+
+    <div class="row" hidden$="[[basicFields]]">
+      <paper-input label="Version" value="{{version}}"></paper-input>
+      <paper-icon-button icon="arc:help-outline" id="tooltip"></paper-icon-button>
+      <paper-tooltip for="tooltip">The version of the API, e.g. 'v1'</paper-tooltip>
+    </div>
+
+    <div class="row" hidden$="[[basicFields]]">
+      <paper-input label="Media type" value="{{mediaType}}"></paper-input>
+      <paper-icon-button icon="arc:help-outline" id="mediaType"></paper-icon-button>
+      <paper-tooltip for="mediaType" fit-to-visible-bounds>The default media type to use for request and response bodies (payloads), e.g. "application/json"</paper-tooltip>
+    </div>
+
+    <paper-button on-tap="showAdvanced" hidden$="[[!basicFields]]" class="showMoreButton">SHOW MORE DEFINITIONS</paper-button>
+
+    <section hidden$="[[!hasDocs]]">
+      <h2>Documentation</h2>
+      <template is="dom-repeat" items="[[documentation]]" id="docsRepeater">
+        <raml-docs-table name="[[item.name]]" documentation="[[item.markdown]]" on-edit="_onDoscEdit" on-delete="_onDocsDelete"></raml-docs-table>
+      </template>
+    </section>
+
+    <section hidden$="[[!hasSecuritySchemas]]">
+      <h2>Security schemas</h2>
+      <template is="dom-repeat" items="[[securitySchemas]]" id="ssRepeater">
+        <raml-security-scheme-table scheme="[[item]]" on-edit-security-scheme="_onSecSchemaEdit" on-delete-security-scheme="_onSecSchemaDelete"></raml-security-scheme-table>
+      </template>
+    </section>
+
+    <section hidden$="[[!hasTypes]]">
+      <h2>Types</h2>
+      <template is="dom-repeat" items="[[types]]" id="typesRepeater">
+        <raml-types-table type="[[item]]" on-edit-type="_onTypeEdit" on-delete-type="_onTypeDelete"></raml-types-table>
+      </template>
+    </section>
+
+    <raml-traits-table id="traitTable" declared-types="[[types]]" traits="[[traits]]"></raml-traits-table>
+
+    <section class="tutorial" hidden$="{{onboarding}}">
+      <iron-icon class="big" icon="arc:assignment"></iron-icon>
+      <p>How to describe an API?</p>
+      <paper-button raised>Learn more</paper-button>
+    </section>
+
+    <paper-fab-menu icon="add" position="vertical" color="#48942A">
+			<paper-fab-menu-item label="D" tooltip="Documentation" color="#E91E63" on-tap="openDocsEditor"></paper-fab-menu-item>
+			<paper-fab-menu-item label="T" tooltip="Type" color="#3f51b5" on-tap="openTypeEditor"></paper-fab-menu-item>
+			<paper-fab-menu-item label="T" tooltip="Trait" color="#2e7d32" on-tap="openTraitEditor"></paper-fab-menu-item>
+      <paper-fab-menu-item label="S" tooltip="Security scheme" color="#ef6c00" on-tap="openSecuritySchemeEditor"></paper-fab-menu-item>
+	  </paper-fab-menu>
+
+    <raml-docs-editor id="docsEditor" on-documentation-saved="_onSavedDocumentation"></raml-docs-editor>
+    <raml-secscheme-editor id="securitySchemeEditor" on-security-scheme-saved="_onSecuritySchemeSaved"></raml-secscheme-editor>
+    <raml-trait-editor declared-types="[[types]]" id="traitEditor" on-trait-saved="_onTraitSaved"></raml-trait-editor>
+    <raml-type-editor id="typeEditor" on-type-saved="_onTypeSaved"></raml-type-editor>
+
+  </template>
+</dom-module>
+<script src="raml-editor-basic.js"></script>

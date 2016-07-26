@@ -1,0 +1,33 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<dom-module id="object-editor">
+  <template>
+    <style>
+    :host {
+      display: block;
+    }
+    paper-input {
+      display: inline-block;
+    }
+    </style>
+    <div class="key-line">
+      <span>&quot;</span>
+      <paper-input label="key name"></paper-input>
+      <span>&quot;</span>
+      <span>:</span>
+
+      <template is="dom-if" if="[[isObject]]">
+        <template is="dom-repeat" items="[[value.children]]">
+          <object-editor no-key value="{{model}}"></object-editor>
+        </template>
+      </template>
+
+      <span>&quot;</span>
+      <paper-input label="value"></paper-input>
+      <span>&quot;</span>
+
+    </div>
+    <div class="value-line"></div>
+    <div class="end-line"></div>
+  </template>
+</dom-module>
+<script src="object-editor.js"></script>

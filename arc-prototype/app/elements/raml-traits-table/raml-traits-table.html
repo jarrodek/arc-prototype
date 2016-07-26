@@ -1,0 +1,29 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+
+<link rel="import" href="../raml-trait-editor/raml-trait-editor.html">
+<link rel="import" href="raml-traits-table-item.html">
+
+<dom-module id="raml-traits-table">
+  <template>
+    <style>
+    :host {
+      display: block;
+      max-width: 700px;
+      @apply(--raml-responses-table);
+    }
+
+    h2 {
+      @apply(--paper-font-caption);
+      margin-left: 12px;
+      @apply(--raml-editor-title2);
+    }
+    </style>
+    <h2>Traits</h2>
+    <template is="dom-repeat" items="[[traits]]" id="repeater">
+      <raml-traits-table-item trait="[[item]]" on-edit-trait="_edit" on-delete-trait="_delete"></raml-traits-table-item>
+    </template>
+    <raml-trait-editor declared-types="[[declaredTypes]]" id="editor" on-trait-saved="_saved"></raml-trait-editor>
+  </template>
+</dom-module>
+<script src="raml-traits-table.js"></script>

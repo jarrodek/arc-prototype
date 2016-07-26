@@ -1,0 +1,155 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-overlay-behavior/iron-overlay-behavior.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+
+<link rel="import" href="../form-action-bar/form-action-bar.html">
+<link rel="import" href="../markdown-editor/markdown-icon-button.html">
+<link rel="import" href="raml-type-properties-editor.html">
+<link rel="import" href="raml-type-schema-editor.html">
+
+<dom-module id="raml-type-editor">
+  <template>
+    <style>
+    :host {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: #fff;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    h2 {
+      @apply(--paper-font-caption);
+      margin-left: 12px;
+      @apply(--raml-headers-editor-title);
+    }
+    .content {
+      height: 100%;
+      padding-bottom: 160px;
+    }
+    .form {
+      margin: 0 12px;
+    }
+    .form.optional {
+      margin-top: 40px;
+    }
+    .row {
+      @apply(--layout-horizontal);
+      @apply(--layout-end);
+    }
+    paper-input,
+    paper-input-container {
+      min-width: 300px;
+    }
+    paper-icon-button {
+      color: rgba(0,0,0,0.54);
+      fill: rgba(0,0,0,0.54);
+    }
+
+    paper-icon-button:hover {
+      color: rgba(0,0,0,0.74);
+      fill: rgba(0,0,0,0.74);
+    }
+
+    paper-fab-menu {
+      position: fixed;
+      right: 20px;
+      bottom: 80px;
+    }
+
+    .nextButton {
+      color: #00A1DF;
+    }
+
+    .cancelButton {
+      color: rgba(0,0,0,.54)
+    }
+
+    raml-type-properties-editor {
+      margin-top: 32px;
+    }
+
+    .tutorial {
+      @apply(--layout-vertical);
+      @apply(--layout-center-center);
+      color: rgba(0,0,0,0.24);
+      position: absolute;
+      width: 358px;
+      bottom: 120px;
+      left: calc(50% - 358px/2);
+    }
+    .tutorial p {
+      @apply(--paper-font-body2);
+      text-align: center;
+    }
+    .tutorial paper-button {
+      background-color: var(--primary-color);
+      color: #fff;
+      font-size: 14px;
+    }
+
+    </style>
+    <paper-toolbar>
+      <paper-icon-button icon="arc:arrow-back" on-tap="cancel"></paper-icon-button>
+      <div class="title">Create type</div>
+    </paper-toolbar>
+    <div class="content">
+
+      <section class="form">
+        <div class="row">
+          <paper-input label="Type id" value="{{typeId}}" allowed-pattern="[0-9a-zA-Z\-\_]" prevent-invalid-input></paper-input>
+        </div>
+        <div class="row">
+          <paper-input label="Display name (Optional)" value="{{displayName}}"></paper-input>
+        </div>
+        <div class="row">
+          <paper-input label="Description (optional)" value="{{description}}" id="descInput"></paper-input>
+          <markdown-icon-button target="[[descInput]]"></markdown-icon-button>
+        </div>
+        <div class="row">
+          <paper-dropdown-menu label="Type">
+            <paper-listbox class="dropdown-content" selected="{{baseType}}" attr-for-selected="base-type">
+              <paper-item base-type="object">Object</paper-item>
+              <paper-item base-type="schema">Schema</paper-item>
+            </paper-listbox>
+          </paper-dropdown-menu>
+        </div>
+      </section>
+
+      <section class="form">
+        <iron-pages selected="[[baseType]]" attr-for-selected="base-type">
+          <raml-type-properties-editor has-properties="{{isDefinedObject}}" base-type="object" type-properties="{{typeProperties}}"></raml-type-properties-editor>
+          <raml-type-schema-editor base-type="schema"></raml-type-schema-editor>
+        </iron-pages>
+      </section>
+
+      <section class="tutorial" hidden$="{{isDefinedObject}}">
+        <p>The type is a <b>model</b> used by the API. Here you can define types's properties or describe it as a <b>JSON</b> or <b>XML</b> schema.</p>
+        <p>Types can be later used when defining request or response body, or in traits speeding up API description.</p>
+        <paper-button raised>Learn more</paper-button>
+      </section>
+
+    </div>
+
+    <form-action-bar>
+      <paper-button class="cancelButton" on-tap="cancel">cancel</paper-button>
+      <paper-button class="nextButton" on-tap="save">save</paper-button>
+    </form-action-bar>
+    <paper-toast text="Enter type id before save" id="typeIdToast"></paper-toast>
+    <paper-toast text="Define type's properties or schema first" id="schemaToast"></paper-toast>
+  </template>
+  <script src="raml-type-editor.js"></script>
+</dom-module>

@@ -1,0 +1,28 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-tooltip/paper-tooltip.html">
+
+<link rel="import" href="../arc-icons/arc-icons.html">
+
+<dom-module id="raml-type-property-boolean">
+  <template>
+    <style>
+      :host {
+        @apply(--layout-horizontal);
+        padding: 0 12px;
+        @apply(--raml-type-property-row);
+      }
+      paper-input {
+        @apply(--layout-flex);
+      }
+    </style>
+    <paper-input label="Example (optional)" value="{{example}}"></paper-input>
+    <a href="https://github.com/raml-org/raml-spec/blob/master/versions/raml-10/raml-10.md/#string" target="_blank">
+      <paper-icon-button icon="arc:help-outline" id="exampleHelp"></paper-icon-button>
+    </a>
+    <paper-tooltip for="exampleHelp" fit-to-visible-bounds>An example value of the property.</paper-tooltip>
+  </template>
+  <script src="raml-type-property-boolean.js"></script>
+</dom-module>
