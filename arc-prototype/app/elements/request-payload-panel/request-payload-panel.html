@@ -6,6 +6,9 @@
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 
 <link rel="import" href="../payload-editor/payload-editor.html">
+<link rel="import" href="../form-data-editor/form-data-editor.html">
+<link rel="import" href="../multipart-editor/multipart-editor.html">
+
 <dom-module id="request-payload-panel">
   <template>
   <style>
@@ -26,8 +29,8 @@
   </paper-tabs>
   <iron-pages selected="[[selectedPage]]">
     <payload-editor></payload-editor>
-    <section>form data</section>
-    <section>multipart</section>
+    <form-data-editor></form-data-editor>
+    <multipart-editor></multipart-editor>
   </iron-pages>
   </template>
 </dom-module>

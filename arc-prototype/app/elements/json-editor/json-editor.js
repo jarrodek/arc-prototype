@@ -13,7 +13,12 @@ Polymer({
       notify: true
     },
 
-    model: Object
+    model: Object,
+
+    noKey: {
+      type: Boolean,
+      value: false
+    }
   },
 
   observers: [
@@ -42,7 +47,7 @@ Polymer({
       result.type = 'string';
       result.value = obj;
     } else if (typeof obj === 'number') {
-      result.type = 'number';
+      result.type = Number.isInteger(obj) ? 'integer' : 'float';
       result.value = obj;
     } else if (typeof obj === 'boolean') {
       result.type = 'boolean';
@@ -58,6 +63,7 @@ Polymer({
           'name': key,
           'value': this._translate(obj[key])
         };
+        item.type = item.value.type;
         result.children.push(item);
       });
     }

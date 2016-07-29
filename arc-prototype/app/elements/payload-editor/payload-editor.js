@@ -2,6 +2,10 @@ Polymer({
   is: 'payload-editor',
 
   properties: {
+    tabSelected: {
+      type: Number,
+      value: 0
+    },
     jsonPayload: {
       type: Object,
       value: function() {
@@ -15,7 +19,11 @@ Polymer({
             'one', 'two', 3
           ],
           'objectable': {
-            'inner': 'child'
+            'inner': 'child',
+            'inner2': 'child',
+            'incepcion': {
+              'aaaa': 1234
+            }
           }
         };
       }
