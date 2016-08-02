@@ -64,16 +64,7 @@ Polymer({
     activeAutocompleteNameField: {
       type: HTMLElement,
       readOnly: true
-    },
-    // True when the headers are valid HTTP headers
-    valid: {
-      type: Boolean,
-      value: true,
-      notify: true,
-      readOnly: true
-    },
-    // Error message to diplay when the headers are not valid.
-    errorMessage: String
+    }
   },
   observers: [
     '_headerValuesChanged(headersList.*)',
@@ -181,13 +172,6 @@ Polymer({
    */
   valueChanged: function() {
     this._detectContentType();
-    var error = this.getHeaderError(this.headers);
-    if (error) {
-      this._setValid(false);
-      this.set('errorMessage', error);
-    } else {
-      this._setValid(true);
-    }
   },
   /**
    * Insert a Content-Type header into a headers list if it is not on the list already.

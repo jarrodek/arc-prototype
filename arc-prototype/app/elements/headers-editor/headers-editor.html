@@ -17,6 +17,9 @@
 <link rel="import" href="authorization-support.html">
 <link rel="import" href="wsse-support.html">
 <link rel="import" href="cookies-support.html">
+<link rel="import" href="headers-validator.html">
+<link rel="import" href="headers-editor-status.html">
+<link rel="import" href="../bytes-counter/bytes-counter.html">
 <link rel="import" href="../vertical-paper-tabs/vertical-paper-tabs.html">
 <link rel="import" href="../headers-parser-behavior/headers-parser-behavior.html">
 <link rel="import" href="../arc-icons/arc-icons.html">
@@ -103,10 +106,6 @@
       .form-row.has-support .edit-header {
         display: initial;
       }
-      .cmError{
-        @apply(--paper-font-common-base);
-        color: #dd2c00;
-      }
 
       iron-pages {
         @apply(--layout-flex);
@@ -119,12 +118,14 @@
       code-mirror {
         overflow: hidden;
       }
+      headers-editor-status {
+        border-top: 1px rgba(0, 0, 0, 0.24) solid;
+      }
     </style>
     <div class="content">
       <iron-pages selected="{{tabSelected}}">
         <section>
           <code-mirror mode="http-headers" theme="cm-arc" on-change="valueChanged" value="{{headers}}" id="cm"></code-mirror>
-          <div class="cmError" hidden$="[[valid]]">[[errorMessage]]</div>
         </section>
         <section class="headers-list">
           <label class="headers-title">HTTP headers</label>
@@ -166,6 +167,11 @@
         <!-- <paper-tab>Authorization</paper-tab> -->
       </vertical-paper-tabs>
     </div>
+
+    <headers-editor-status headers-size="[[headersSize]]" valid="[[valid]]" error-message="[[headersErrorMessage]]"></headers-editor-status>
+
+    <headers-validator headers="[[headers]]" valid="{{valid}}" error-message="{{headersErrorMessage}}"></headers-validator>
+    <bytes-counter value="[[headers]]" bytes="{{headersSize}}"></bytes-counter>
     <!-- <arc-header-object-model id="headerModel" on-data-ready="_setNameSuggestions"></arc-header-object-model> -->
     <content-type-support></content-type-support>
     <authorization-support></authorization-support>
