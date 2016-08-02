@@ -1,6 +1,8 @@
 Polymer({
   is: 'form-data-editor',
 
+  behaviors: [ArcBehaviors.PayloadParserBehavior],
+
   properties: {
     /**
      * A HTTP body message part.
@@ -46,23 +48,23 @@ Polymer({
 
   /** Encode payload button press handler */
   encodePaylod: function() {
-    var value = PayloadParser.encodeUrlEncoded(this.value);
+    var value = this.encodeUrlEncoded(this.value);
     this.internalChange = true;
     this.set('value', value);
     this.internalChange = false;
     if (this.tabSelected === 1) {
-      let arr = PayloadParser.stringToArray(value);
+      let arr = this.payloadStringToArray(value);
       this.set('valuesList', arr);
     }
   },
   /** Decode payload button press handler */
   decodePaylod: function() {
-    var value = PayloadParser.decodeUrlEncoded(this.value);
+    var value = this.decodeUrlEncoded(this.value);
     this.internalChange = true;
     this.set('value', value);
     this.internalChange = false;
     if (this.tabSelected === 1) {
-      let arr = PayloadParser.stringToArray(value);
+      let arr = this.payloadStringToArray(value);
       this.set('valuesList', arr);
     }
   },
@@ -86,7 +88,7 @@ Polymer({
     if (!this.contentType || this.contentType.indexOf('x-www-form-urlencoded') === -1) {
       return;
     }
-    var value = PayloadParser.arrayToString(this.valuesList);
+    var value = this.payloadArrayToString(this.valuesList);
     this.internalChange = true;
     this.set('value', value);
     this.internalChange = false;
@@ -131,8 +133,7 @@ Polymer({
 
   // Sets the form editor from current value.
   setFormValues: function() {
-    return;
-    var arr = PayloadParser.stringToArray(this.value);
+    var arr = this.payloadStringToArray(this.value);
     this.set('valuesList', arr);
   },
 
@@ -143,7 +144,7 @@ Polymer({
     }
     this.contentType = ct;
   },
-  
+
   _valueChanged: function() {
     if (this.internalChange) {
       return;
