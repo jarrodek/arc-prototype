@@ -1,5 +1,6 @@
 {
-  "name": "The prototype for Advanced REST Client",
+  "name": "arc-prototype",
+  "description": "The prototype for Advanced REST Client",
   "version": "1.0.0",
   "scripts": {
     "arc": "node bin/install.js"

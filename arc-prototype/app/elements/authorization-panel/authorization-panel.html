@@ -1,0 +1,61 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tab.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../vertical-paper-tabs/vertical-paper-tabs.html">
+<link rel="import" href="../basic-auth-panel/basic-auth-panel.html">
+<link rel="import" href="../oauth1-auth-panel/oauth1-auth-panel.html">
+<link rel="import" href="../oauth2-auth-panel/oauth2-auth-panel.html">
+<link rel="import" href="../ntlm-auth-panel/ntlm-auth-panel.html">
+
+<dom-module id="authorization-panel">
+  <template>
+    <style>
+    :host {
+      display: block;
+      @apply(--authorization-panel);
+    }
+    .content {
+      @apply(--layout-horizontal);
+      position: relative;
+    }
+    iron-pages {
+      @apply(--layout-flex);
+    }
+    iron-pages > * {
+      padding: 12px;
+    }
+    .enabled-marker {
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      margin-right: 12px;
+      border-radius: 50%;
+      background-color: transparent;
+      transition: all 0.4s cubic-bezier(0, 0, 0.56, 1.04);
+    }
+    .enabled-marker[enabled] {
+      background-color: var(--auth-enabled-marker-color, #48982A);
+    }
+    </style>
+    <div class="content">
+      <iron-pages selected="{{tabSelected}}">
+        <basic-auth-panel id="basic"></basic-auth-panel>
+        <oauth2-auth-panel id="oauth2"></oauth2-auth-panel>
+        <oauth1-auth-panel id="oauth1"></oauth1-auth-panel>
+        <ntlm-auth-panel id="ntlm"></ntlm-auth-panel>
+        <digest-auth-panel id="digest">Not yet available</digest-auth-panel>
+        <pass-through-auth-panel id="passthrough">Not yet available</pass-through-auth-panel>
+      </iron-pages>
+      <vertical-paper-tabs class="page-selector" selected="{{tabSelected}}">
+        <paper-tab><span class="enabled-marker" enabled$="[[_isAuthEnabled('basic', enabledAuth)]]"></span>Basic</paper-tab>
+        <paper-tab><span class="enabled-marker" enabled$="[[_isAuthEnabled('oauth2', enabledAuth)]]"></span>OAuth 2.0</paper-tab>
+        <paper-tab><span class="enabled-marker" enabled$="[[_isAuthEnabled('oauth1', enabledAuth)]]"></span>OAuth 1.0</paper-tab>
+        <paper-tab><span class="enabled-marker" enabled$="[[_isAuthEnabled('ntlm', enabledAuth)]]"></span>NTLM</paper-tab>
+        <paper-tab><span class="enabled-marker" enabled$="[[_isAuthEnabled('digest', enabledAuth)]]"></span>Digest</paper-tab>
+        <paper-tab><span class="enabled-marker" enabled$="[[_isAuthEnabled('passthrough', enabledAuth)]]"></span>Pass through</paper-tab>
+      </vertical-paper-tabs>
+    </div>
+  </template>
+</dom-module>
+<script src="authorization-panel.js"></script>

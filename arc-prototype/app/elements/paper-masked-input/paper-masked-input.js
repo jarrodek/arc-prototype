@@ -1,7 +1,10 @@
 Polymer({
-  is: 'masked-password-input',
+  is: 'paper-masked-input',
 
   properties: {
+    // Label to display
+    label: String,
+
     value: {
       type: String,
       notify: true
@@ -16,7 +19,7 @@ Polymer({
     // Icon name to display
     icon: {
       type: String,
-      value: 'visibility',
+      value: 'arc:visibility',
       readOnly: true
     },
 
@@ -24,6 +27,19 @@ Polymer({
     type: {
       type: String,
       value: 'password',
+      readOnly: true
+    },
+
+    // Icon's alt label
+    alt: {
+      type: String,
+      computed: '_computeAlt(title)'
+    },
+
+    // Icon's title label
+    title: {
+      type: String,
+      value: 'Show password',
       readOnly: true
     }
   },
@@ -39,11 +55,21 @@ Polymer({
   _visibleChanged: function(visible) {
     if (visible) {
       this._setType('text');
-      this._setIcon('visibility-off');
+      this._setIcon('arc:visibility-off');
+      this._setTitle('Hide password');
     } else {
       this._setType('password');
-      this._setIcon('visibility');
+      this._setIcon('arc:visibility');
+      this._setTitle('Show password');
     }
+  },
+
+  _computeAlt: function(title) {
+    return title + ' icon';
+  },
+
+  clear: function() {
+    this.set('value', '');
   }
 
 });

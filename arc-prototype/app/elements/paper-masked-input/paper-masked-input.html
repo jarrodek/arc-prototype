@@ -1,0 +1,19 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../arc-icons/arc-icons.html">
+
+<dom-module id="paper-masked-input">
+  <template>
+    <style>
+    :host {
+      display: block;
+    }
+    </style>
+    <paper-input label="{{label}}" type="[[type]]" value="{{value}}">
+      <paper-icon-button suffix on-tap="toggle" icon="[[icon]]" alt="[[alt]]" title="[[title]]"></paper-icon-button>
+      <paper-icon-button suffix on-tap="clear" icon="arc:clear" alt="Clear input icon" title="Clear input"></paper-icon-button>
+    </paper-input>
+  </template>
+  <script src="paper-masked-input.js"></script>
+</dom-module>
