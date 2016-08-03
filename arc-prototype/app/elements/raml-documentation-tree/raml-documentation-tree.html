@@ -1,0 +1,48 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<!-- <link rel="import" href="../../bower_components/paper-styles/paper-styles.html"> -->
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../raml-endpoints-tree/raml-endpoints-tree.html">
+
+<dom-module id="raml-documentation-tree">
+  <template>
+    <style>
+      :host {
+        display: block;
+
+        --base-item-name-font: {
+          font-size: 13px;
+          font-weight: normal;
+        }
+
+        --raml-endpoints-tree-name: {
+          @apply(--base-item-name-font);
+        }
+
+        --raml-endpoints-tree-methods-name: {
+          @apply(--base-item-name-font);
+        }
+
+
+      }
+      .docItemName {
+        @apply(--base-item-name-font);
+      }
+      raml-endpoints-tree {
+        --paper-item: {
+          padding-left: 0 !important;
+        }
+      }
+    </style>
+    <div hidden$="[[!showDocs]]">
+      <paper-menu selected="{{selectedDocs}}">
+        <template is="dom-repeat" items="[[documentation]]">
+          <paper-item class="docItemName">{{item.name}}</paper-item>
+        </template>
+      </paper-menu>
+    </div>
+    <div hidden$="[[!showEndpoints]]">
+      <raml-endpoints-tree endpoints="[[endpoints]]" on-method-selected="_onMethodSelected" on-endpoint-selected="_onEndpointSelected"></raml-endpoints-tree>
+    </div>
+  </template>
+  <script src="raml-documentation-tree.js"></script>
+</dom-module>

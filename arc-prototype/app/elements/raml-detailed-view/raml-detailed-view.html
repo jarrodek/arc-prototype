@@ -1,0 +1,38 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<!-- <link rel="import" href="../../bower_components/paper-styles/paper-styles.html"> -->
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tab.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+
+<link rel="import" href="../raml-structure-viewer/raml-structure-viewer.html">
+<link rel="import" href="../raml-documentation-panel/raml-documentation-panel.html">
+
+<dom-module id="raml-detailed-view">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <div class="api-data">
+      <paper-tabs selected="{{selectedTab}}">
+        <paper-tab>API structure</paper-tab>
+        <paper-tab>Types</paper-tab>
+        <paper-tab>Documentation</paper-tab>
+      </paper-tabs>
+      <iron-pages selected="[[selectedTab]]">
+        <section>
+          <raml-structure-viewer endpoints="[[data.endpoints]]"></raml-structure-viewer>
+        </section>
+        <section>
+          Yet to be done.
+        </section>
+        <section>
+          <raml-documentation-panel data="[[data]]"></raml-documentation-panel>
+        </section>
+      </iron-pages>
+    </div>
+  </template>
+  <script src="raml-detailed-view.js"></script>
+</dom-module>

@@ -1,0 +1,70 @@
+<dom-module id="raml-method-documentation-viewer">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <div class="title-area">
+      <div class="title">
+        <span hidden$="[[!hasParentEndpointName]]">[[parentEndpointName]]</span>
+        <span hidden$="[[!hasParentEndpointName]]">:</span>
+        <span class="methodName">[[_computeMethodName(method.*)]]</span>
+      </div>
+      <div class="action">
+        <paper-button>Try it</paper-button>
+      </div>
+    </div>
+    <div hidden$="[[_computeHideMethodDesc(method.description)]]" class="method-desc"></div>
+
+    <h2>Request</h2>
+    <div class="url-area">
+      <div class="method-value">[[method.method]]</div>
+      <div class="url-value">[[parentEndpoint.fullUrl]]</div>
+    </div>
+
+    <h2>Parameters</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="3">Path parameters</td>
+        </tr>
+        <tr>
+          <td>test</td>
+          <td>string</td>
+          <td>test of the table</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Headers</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>test</td>
+          <td>test of the table</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Headers</h2>
+    <div>This endpoint do not require request body.</div>
+
+    <h2>Request</h2>
+    ...
+  </template>
+  <script src="raml-method-documentation-viewer.js"></script>
+</dom-module>

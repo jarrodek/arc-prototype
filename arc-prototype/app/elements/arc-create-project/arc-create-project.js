@@ -62,5 +62,19 @@ Polymer({
     if (cl.contains('visible')) {
       cl.remove('visible');
     }
+  },
+
+  toJson: function() {
+    return JSON.stringify({
+      endpoints: this.endpoints,
+      documentation: this. documentation,
+      securitySchemas: this. securitySchemas,
+      types: this. types,
+      name: this. name,
+      description: this. description,
+      baseUrl: this. baseUrl,
+      version: this. version,
+      mediaType: this. mediaType
+    });
   }
 });

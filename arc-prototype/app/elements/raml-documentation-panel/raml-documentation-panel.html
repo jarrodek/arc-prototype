@@ -1,0 +1,45 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<!-- <link rel="import" href="../../bower_components/paper-styles/paper-styles.html"> -->
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+
+<link rel="import" href="../raml-documentation-tree/raml-documentation-tree.html">
+<link rel="import" href="../raml-documentation-page-viewer/raml-documentation-page-viewer.html">
+<link rel="import" href="../raml-method-documentation-viewer/raml-method-documentation-viewer.html">
+
+<dom-module id="raml-documentation-panel">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .docs-panel {
+        @apply(--layout-horizontal);
+      }
+      .doc-viewer {
+        @apply(--layout-flex);
+      }
+      raml-documentation-tree {
+        min-width: 320px;
+        max-width: 40%;
+      }
+    </style>
+
+    <div class="docs-panel">
+      <raml-documentation-tree selected="{{selectedObject}}" documentation="[[data.documentation]]" endpoints="[[data.endpoints]]"></raml-documentation-tree>
+      <div class="doc-viewer">
+        <!-- This elements should not be initialized until required so it's safer to use `dom-if` than `iron-pages` -->
+        <template is="dom-if" if="[[isRenderer(selectedRenderer, 'docs')]]">
+          <raml-documentation-page-viewer documentation="{{selectedObject.object}}"></raml-documentation-page-viewer>
+        </template>
+        <template is="dom-if" if="[[isRenderer(selectedRenderer, 'method')]]">
+          <raml-method-documentation-viewer method="{{selectedObject.object}}" parent-endpoint="[[_computeParentEndpoint(selectedObject.path)]]"></raml-method-documentation-viewer>
+        </template>
+        <template is="dom-if" if="[[isRenderer(selectedRenderer, 'endpoint')]]">
+          <section data-renderer="endpoint">Endpoint</section>
+        </template>
+      </div>
+    </div>
+
+  </template>
+  <script src="raml-documentation-panel.js"></script>
+</dom-module>

@@ -1,0 +1,19 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<!-- <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html"> -->
+<link rel="import" href="../../bower_components/marked-element/marked-element.html">
+
+<dom-module id="raml-documentation-page-viewer">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <div id="preview">
+      <marked-element markdown="[[documentation.markdown]]">
+        <div class="markdown-html markdown-body"></div>
+      </marked-element>
+    </div>
+  </template>
+  <script src="raml-documentation-page-viewer.js"></script>
+</dom-module>

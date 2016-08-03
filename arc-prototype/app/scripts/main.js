@@ -1,6 +1,8 @@
 (function(scope) {
   // Current screen
-  scope.currentScreen = 'request';
+  // scope.currentScreen = 'request';
+  scope.currentScreen = 'projectview';
+  scope.raml = {};
   /**
    * Navigation support.
    * The detail of the event must contain a 'screen' property with the screen name to display.
@@ -11,5 +13,12 @@
       return;
     }
     scope.currentScreen = d.screen;
+  });
+
+  // Initialize data
+  fetch('scripts/mock-raml.json').then((r) => {
+    r.json().then((data) => {
+      scope.raml = data;
+    });
   });
 })(document.querySelector('#app'));

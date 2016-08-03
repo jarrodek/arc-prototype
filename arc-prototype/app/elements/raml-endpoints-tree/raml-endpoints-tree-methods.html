@@ -1,0 +1,23 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+
+<dom-module id="raml-endpoints-tree-methods">
+  <template>
+    <style>
+    :host {
+      display: block;
+    }
+
+    .methodName {
+      @apply(--raml-endpoints-tree-methods-name);
+    }
+
+    </style>
+    <template is="dom-repeat" items="[[methods]]" id="repeater">
+      <paper-item on-tap="_fireSeelction" class="methodName">[[_computeMethodDisplayName(item)]]</paper-item>
+    </template>
+  </template>
+  <script src="raml-endpoints-tree-methods.js"></script>
+</dom-module>

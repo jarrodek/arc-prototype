@@ -1,0 +1,28 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+
+<link rel="import" href="../raml-summary-view/raml-summary-view.html">
+<link rel="import" href="../raml-detailed-view/raml-detailed-view.html">
+<!--
+The `<raml-view-panel>` element is only a display for RAML definition.
+-->
+<dom-module id="raml-view-panel">
+  <template>
+    <style>
+    :host {
+      display: block;
+      height: 100%;
+
+      --paper-tab: {
+        flex: initial;
+        text-transform: uppercase;
+        padding: 0px 28px;
+      }
+    }
+    </style>
+    <raml-summary-view name="[[data.name]]" base-url="[[data.baseUrl]]" version="[[data.version]]" description="[[data.description]]"></raml-summary-view>
+    <raml-detailed-view data="{{data}}"></raml-detailed-view>
+  </template>
+  <script src="raml-view-panel.js"></script>
+</dom-module>
