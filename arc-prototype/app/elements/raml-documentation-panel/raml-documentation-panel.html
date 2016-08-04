@@ -28,12 +28,25 @@
         @apply(--layout-horizontal);
       }
       raml-method-documentation-viewer {
-        @apply(--layout-flex);
+        @apply(--layout-flex-2);
         margin-right: 20px;
       }
       raml-examples-panel {
-        width: 380px;
+        /*max-width: 380px;*/
+        @apply(--layout-flex);
+        margin-right: 0px;
       }
+
+      @media (max-width: 1000px) {
+        .method-doc-container {
+          @apply(--layout-vertical);
+        }
+        raml-examples-panel {
+          margin-right: 20px;
+        }
+      }
+
+
     </style>
 
     <div class="docs-panel">

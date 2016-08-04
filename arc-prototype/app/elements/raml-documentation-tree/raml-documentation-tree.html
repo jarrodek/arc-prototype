@@ -2,36 +2,41 @@
 <!-- <link rel="import" href="../../bower_components/paper-styles/paper-styles.html"> -->
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../raml-endpoints-tree/raml-endpoints-tree.html">
-
 <dom-module id="raml-documentation-tree">
   <template>
     <style>
-      :host {
-        display: block;
+    :host {
+      display: block;
+      @apply(--paper-font-body1);
 
-        --base-item-name-font: {
-          font-size: 13px;
-          font-weight: normal;
-        }
-
-        --raml-endpoints-tree-name: {
-          @apply(--base-item-name-font);
-        }
-
-        --raml-endpoints-tree-methods-name: {
-          @apply(--base-item-name-font);
-        }
-
-
+      --base-item-name-font: {
+        /*font-size: 13px;*/
+        font-weight: normal;
       }
-      .docItemName {
+      --raml-endpoints-tree-name: {
         @apply(--base-item-name-font);
       }
-      raml-endpoints-tree {
-        --paper-item: {
-          padding-left: 0 !important;
-        }
+      --raml-endpoints-tree-methods-name: {
+        @apply(--base-item-name-font);
       }
+    }
+
+    .docItemName {
+      @apply(--base-item-name-font);
+    }
+
+    raml-endpoints-tree {
+      --paper-item: {
+        padding-left: 0 !important;
+        @apply(--paper-font-body1);
+      }
+    }
+
+    h3 {
+      @apply(--paper-font-subhead);
+      color: rgba(0, 0, 0, 0.54);
+      padding-left: 12px;
+    }
     </style>
     <div hidden$="[[!showDocs]]">
       <paper-menu selected="{{selectedDocs}}">
@@ -41,6 +46,7 @@
       </paper-menu>
     </div>
     <div hidden$="[[!showEndpoints]]">
+      <h3>Resources</h3>
       <raml-endpoints-tree endpoints="[[endpoints]]" on-method-selected="_onMethodSelected" on-endpoint-selected="_onEndpointSelected"></raml-endpoints-tree>
     </div>
   </template>

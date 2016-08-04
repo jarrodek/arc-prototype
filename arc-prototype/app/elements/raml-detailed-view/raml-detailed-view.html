@@ -14,6 +14,10 @@
       :host {
         display: block;
       }
+      iron-pages {
+        border: 1px rgba(0, 0, 0, 0.12) solid;
+        padding: 0;
+      }
     </style>
     <div class="api-data">
       <paper-tabs selected="{{selectedTab}}">
@@ -22,15 +26,11 @@
         <paper-tab>Documentation</paper-tab>
       </paper-tabs>
       <iron-pages selected="[[selectedTab]]">
-        <section>
-          <raml-structure-viewer endpoints="[[data.endpoints]]"></raml-structure-viewer>
-        </section>
+        <raml-structure-viewer endpoints="[[data.endpoints]]"></raml-structure-viewer>
         <!-- <section>
           Yet to be done.
         </section> -->
-        <section>
-          <raml-documentation-panel data="[[data]]"></raml-documentation-panel>
-        </section>
+        <raml-documentation-panel data="[[data]]"></raml-documentation-panel>
       </iron-pages>
     </div>
   </template>

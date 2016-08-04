@@ -10,10 +10,10 @@ Polymer({
       },
       notify: true
     },
-    
+
     selectedTab: {
       type: Number,
-      value: 0
+      value: 1
     }
   }
 });
