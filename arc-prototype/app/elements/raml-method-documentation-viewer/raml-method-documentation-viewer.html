@@ -1,70 +1,185 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+
 <dom-module id="raml-method-documentation-viewer">
   <template>
     <style>
-      :host {
-        display: block;
-      }
+    h1 {
+      @apply(--paper-font-headline);
+    }
+    h2 {
+      @apply(--paper-font-title);
+    }
+    h3 {
+      @apply(--paper-font-subhead);
+      padding: 8px 12px;
+    }
+    .methodName {
+      font-weight: 500;
+    }
+    .title-area {
+      @apply(--layout-horizontal);
+      @apply(--layout-center);
+    }
+    .title {
+      @apply(--layout-flex);
+    }
+    .primaryButton {
+      background-color: var(--accent-color);
+      color: #fff;
+    }
+    .method-desc {
+      @apply(--paper-font-body1);
+    }
+    .params-table {
+      border-collapse: collapse;
+      text-align: left;
+      width: 100%;
+      margin-bottom: 40px;
+      @apply(--paper-font-body1);
+      font-size: 15px;
+      @apply(--raml-docs-params-table);
+    }
+    .params-table-header {
+      vertical-align: middle;
+      background-color: var(--primary-color);
+      color: rgba(255, 255, 255, 0.87);
+      @apply(--raml-docs-params-table-header);
+    }
+    .params-table-header.subheader {
+      background-color: rgba(0, 161, 223, 0.24);
+      color: rgba(0, 0, 0, 0.87);
+      @apply(--raml-docs-params-table-subheader);
+    }
+    .params-table-heade th {
+      height: 36px;
+    }
+    .params-table th,
+    .params-table td {
+      padding: 8px 12px;
+    }
+
+    .url-area {
+      @apply(--layout-horizontal);
+      @apply(--paper-font-body1);
+      font-size: 16px;
+      margin-bottom: 40px;
+      color: var(--accent-color);
+    }
+    .method-value {
+      font-weight: 500;
+    }
+    .url-value {
+      font-style: italic;
+      margin-left: 12px;
+    }
+
+    td.param-name,
+    td.param-type {
+      font-weight: 500;
+    }
+    .no-body-info {
+      @apply(--paper-font-body1);
+      font-size: 16px;
+      margin-bottom: 40px;
+      padding: 8px 12px;
+    }
+    .action-row {
+      @apply(--layout-horizontal);
+    }
+    .fill-space {
+      @apply(--layout-flex);
+    }
     </style>
     <div class="title-area">
-      <div class="title">
+      <h1 class="title">
         <span hidden$="[[!hasParentEndpointName]]">[[parentEndpointName]]</span>
         <span hidden$="[[!hasParentEndpointName]]">:</span>
         <span class="methodName">[[_computeMethodName(method.*)]]</span>
-      </div>
+      </h1>
       <div class="action">
-        <paper-button>Try it</paper-button>
+        <paper-button class="primaryButton">Try it</paper-button>
       </div>
     </div>
-    <div hidden$="[[_computeHideMethodDesc(method.description)]]" class="method-desc"></div>
+    <div hidden$="[[_computeHideMethodDesc(method.description)]]" class="method-desc">[[method.description]]</div>
 
-    <h2>Request</h2>
-    <div class="url-area">
-      <div class="method-value">[[method.method]]</div>
-      <div class="url-value">[[parentEndpoint.fullUrl]]</div>
-    </div>
+    <section>
+      <h2>Request</h2>
+      <div class="url-area">
+        <div class="method-value">[[method.method]]</div>
+        <div class="url-value">[[_computeUrl(baseUrl, parentEndpoint.fullUrl)]]</div>
+      </div>
 
-    <h2>Parameters</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Parameter</th>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td colspan="3">Path parameters</td>
-        </tr>
-        <tr>
-          <td>test</td>
-          <td>string</td>
-          <td>test of the table</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <h2>Headers</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Value</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>test</td>
-          <td>test of the table</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <h2>Headers</h2>
-    <div>This endpoint do not require request body.</div>
-
-    <h2>Request</h2>
+      <template is="dom-if" if="[[hasParameters]]">
+        <h3>Parameters</h3>
+        <table class="params-table">
+          <thead class="params-table-header">
+            <tr>
+              <th>Parameter</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <template is="dom-if" if="[[hasUriParameteres]]">
+              <tr class="params-table-header subheader">
+                <td colspan="3">Path parameters</td>
+              </tr>
+              <template is="dom-repeat" items="[[uriParameters]]">
+                <tr>
+                  <td class="param-name">[[item.param]]<span hidden$="[[!item.required]]">*</span></td>
+                  <td class="param-type">[[item.type]]</td>
+                  <td class="param-desc">[[item.description]]</td>
+                </tr>
+              </template>
+            </template>
+            <template is="dom-if" if="[[hasQueryParameteres]]">
+              <tr class="params-table-header subheader">
+                <td colspan="3">Query parameters</td>
+              </tr>
+              <template is="dom-repeat" items="[[queryParameters]]">
+                <tr>
+                  <td class="param-name">[[item.name]]<span hidden$="[[!item.required]]">*</span></td>
+                  <td class="param-type">[[item.type]]</td>
+                  <td class="param-desc">[[item.description]]</td>
+                </tr>
+              </template>
+            </template>
+          </tbody>
+        </table>
+      </template>
+      <template is="dom-if" if="[[hasHeaders]]">
+        <h3>Headers</h3>
+        <table class="params-table">
+          <thead class="params-table-header">
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <template is="dom-repeat" items="[[headers]]">
+              <tr>
+                <td class="param-name">[[item.name]]<span hidden$="[[!item.required]]">*</span></td>
+                <td class="param-desc"><b>[[item.type]].</b> [[item.description]]</td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+      </template>
+      <h3>Body</h3>
+      <div class="no-body-info">This endpoint do not require request body.</div>
+    </section>
+    <h2>Responses</h2>
     ...
+
+    <section class="action-row">
+      <div class="fill-space"></div>
+      <div>
+        <paper-button class="primaryButton">Try it</paper-button>
+      </div>
+    </section>
   </template>
   <script src="raml-method-documentation-viewer.js"></script>
 </dom-module>

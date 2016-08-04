@@ -13,6 +13,7 @@ Polymer({
 
     selectedObject: Object,
     selectedRenderer: String,
+    parentEndpoint: Object
   },
 
   observers: [
@@ -22,6 +23,11 @@ Polymer({
   _docChanged: function() {
     var doc = this.selectedObject;
     this.selectedRenderer = doc.type;
+    if (doc.type === 'method') {
+      this.parentEndpoint = this._computeParentEndpoint(doc.path);
+    } else {
+      this.parentEndpoint = undefined;
+    }
   },
 
   isRenderer: function(selected, type) {

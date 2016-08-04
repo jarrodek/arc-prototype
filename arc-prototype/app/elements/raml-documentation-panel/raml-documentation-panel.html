@@ -5,6 +5,8 @@
 <link rel="import" href="../raml-documentation-tree/raml-documentation-tree.html">
 <link rel="import" href="../raml-documentation-page-viewer/raml-documentation-page-viewer.html">
 <link rel="import" href="../raml-method-documentation-viewer/raml-method-documentation-viewer.html">
+<link rel="import" href="../raml-examples-panel/raml-examples-panel.html">
+<link rel="import" href="../raml-endpoint-documentation-viewer/raml-endpoint-documentation-viewer.html">
 
 <dom-module id="raml-documentation-panel">
   <template>
@@ -19,8 +21,18 @@
         @apply(--layout-flex);
       }
       raml-documentation-tree {
-        min-width: 320px;
-        max-width: 40%;
+        margin-right: 20px;
+        min-width: 240px;
+      }
+      .method-doc-container {
+        @apply(--layout-horizontal);
+      }
+      raml-method-documentation-viewer {
+        @apply(--layout-flex);
+        margin-right: 20px;
+      }
+      raml-examples-panel {
+        width: 380px;
       }
     </style>
 
@@ -32,10 +44,13 @@
           <raml-documentation-page-viewer documentation="{{selectedObject.object}}"></raml-documentation-page-viewer>
         </template>
         <template is="dom-if" if="[[isRenderer(selectedRenderer, 'method')]]">
-          <raml-method-documentation-viewer method="{{selectedObject.object}}" parent-endpoint="[[_computeParentEndpoint(selectedObject.path)]]"></raml-method-documentation-viewer>
+          <div class="method-doc-container">
+            <raml-method-documentation-viewer data="[[data]]" path="[[selectedObject.path]]" base-url="[[data.baseUrl]]" method="{{selectedObject.object}}" parent-endpoint="[[parentEndpoint]]"></raml-method-documentation-viewer>
+            <raml-examples-panel base-url="[[data.baseUrl]]" method="[[selectedObject.object]]" parent-endpoint="[[parentEndpoint]]"></raml-examples-panel>
+          </div>
         </template>
         <template is="dom-if" if="[[isRenderer(selectedRenderer, 'endpoint')]]">
-          <section data-renderer="endpoint">Endpoint</section>
+          <raml-endpoint-documentation-viewer endpoint="[[selectedObject.object]]"></raml-endpoint-documentation-viewer>
         </template>
       </div>
     </div>

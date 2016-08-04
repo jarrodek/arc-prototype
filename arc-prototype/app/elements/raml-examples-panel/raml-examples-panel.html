@@ -1,0 +1,44 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<!-- <link rel="import" href="../../bower_components/paper-styles/paper-styles.html"> -->
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tab.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+
+
+<link rel="import" href="../request-example-items/request-example-http.html">
+<link rel="import" href="../request-example-items/request-example-curl.html">
+<link rel="import" href="../request-example-items/request-example-xhr.html">
+
+<dom-module id="raml-examples-panel">
+  <template>
+    <style>
+      :host {
+        display: block;
+
+        --request-example: {
+
+        }
+        --request-example-code-container: {
+          font-family: monospace;
+          font-size: 14px;
+          background-color: #e0e0e0;
+          padding: 12px;
+        }
+      }
+    </style>
+    <h2>Examples</h2>
+
+    <paper-tabs selected="{{selectedExample}}">
+      <paper-tab>HTTP</paper-tab>
+      <paper-tab>cURL</paper-tab>
+      <paper-tab>XHR</paper-tab>
+    </paper-tabs>
+    <iron-pages selected="{{selectedExample}}">
+      <request-example-http url="[[methodUrl]]" method="[[method]]"></request-example-http>
+      <request-example-curl url="[[methodUrl]]" method="[[method]]"></request-example-curl>
+      <request-example-xhr url="[[methodUrl]]" method="[[method]]"></request-example-xhr>
+    </iron-pages>
+  </template>
+  <script src="raml-examples-panel.js"></script>
+</dom-module>

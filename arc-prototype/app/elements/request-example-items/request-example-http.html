@@ -1,0 +1,56 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<!-- <link rel="import" href="../../bower_components/paper-styles/paper-styles.html"> -->
+<!-- <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html"> -->
+
+<script src="../../bower_components/uri.js/src/URI.js"></script>
+
+<dom-module id="request-example-http">
+  <template>
+    <style>
+    :host {
+      display: block;
+      @apply(--request-example);
+    }
+    h3 {
+      @apply(--paper-font-title);
+    }
+    .code {
+      @apply(--request-example-code-container);
+    }
+    .label {
+      font-weight: 500;
+    }
+    .value {
+      margin-left: 8px;
+    }
+    </style>
+    <h3>Request</h3>
+    <div class="code">
+      <div class="line">
+        <span class="label">[[method.method]]</span>
+        <span class="value">[[path]]</span>
+        <span class="value">HTTP/1.1</span>
+        <span class="end-line-marker">&#9252;</span>
+      </div>
+      <div class="line">
+        <span class="label">Host:</span>
+        <span class="value">[[hostValue]]</span>
+        <span class="end-line-marker">&#9252;</span>
+      </div>
+      <template is="dom-repeat" items="[[method.headers]]">
+        <div class="line">
+          <span class="label">[[item.name]]</span>
+          <span class="value">[[_computeHeaderValue(item)]]</span>
+          <span class="end-line-marker">&#9252;</span>
+        </div>
+      </template>
+      <div class="line">
+        <span class="end-line-marker">&#9252;</span>
+      </div>
+      <div class="line">
+        <span class="end-line-marker">&#9252;</span>
+      </div>
+    </div>
+  </template>
+  <script src="request-example-http.js"></script>
+</dom-module>

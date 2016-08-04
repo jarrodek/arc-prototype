@@ -1,0 +1,36 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/prism-element/prism-import.html">
+<link rel="import" href="../../bower_components/prism-element/prism-highlighter.html">
+<link rel="import" href="../../bower_components/prism-element/prism-theme-default.html">
+<!-- <link rel="import" href="../../bower_components/paper-styles/paper-styles.html"> -->
+<!-- <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html"> -->
+
+<dom-module id="request-example-xhr">
+  <template>
+
+    <style include="prism-theme-default"></style>
+    <style>
+      :host {
+        display: block;
+      }
+      h3 {
+        @apply(--paper-font-title);
+      }
+    </style>
+    <h3>Request</h3>
+    <prism-highlighter></prism-highlighter>
+    <pre id="output"></pre>
+    <div hidden id="code">
+var xhr = new XMLHttpRequest();
+xhr.addEventListener('load', (e) =&gt; {
+  var response = e.target.responseText;
+});
+<template is="dom-repeat" items="[[method.headers]]">
+xhr.setRequestHeader('[[item.name]]', '[[_computeHeaderValue(item)]]');
+</template>
+xhr.open('[[method.method]]', '[[url]]');
+xhr.send();
+    </div>
+  </template>
+  <script src="request-example-xhr.js"></script>
+</dom-module>

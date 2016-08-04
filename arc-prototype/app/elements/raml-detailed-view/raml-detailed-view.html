@@ -18,16 +18,16 @@
     <div class="api-data">
       <paper-tabs selected="{{selectedTab}}">
         <paper-tab>API structure</paper-tab>
-        <paper-tab>Types</paper-tab>
+        <!-- <paper-tab>Types</paper-tab> -->
         <paper-tab>Documentation</paper-tab>
       </paper-tabs>
       <iron-pages selected="[[selectedTab]]">
         <section>
           <raml-structure-viewer endpoints="[[data.endpoints]]"></raml-structure-viewer>
         </section>
-        <section>
+        <!-- <section>
           Yet to be done.
-        </section>
+        </section> -->
         <section>
           <raml-documentation-panel data="[[data]]"></raml-documentation-panel>
         </section>

@@ -1,0 +1,26 @@
+<dom-module id="request-example-curl">
+  <template>
+    <style>
+    :host {
+      display: block;
+      @apply(--request-example);
+    }
+    h3 {
+      @apply(--paper-font-title);
+    }
+    .code {
+      @apply(--request-example-code-container);
+    }
+    </style>
+    <h3>Request</h3>
+    <div class="code">
+      <div class="line">
+        curl [[url]]
+        <template is="dom-repeat" items="[[method.headers]]">
+          --header "[[item.name]]: [[_computeHeaderValue(item)]]"
+        </template>
+      </div>
+    </div>
+  </template>
+  <script src="request-example-curl.js"></script>
+</dom-module>

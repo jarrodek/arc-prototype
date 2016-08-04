@@ -1,0 +1,113 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+
+<dom-module id="raml-endpoint-documentation-viewer">
+  <template>
+    <style>
+    :host {
+      display: block;
+    }
+    h1 {
+      @apply(--paper-font-headline);
+    }
+    h2 {
+      @apply(--paper-font-title);
+    }
+    section {
+      margin-bottom: 40px;
+    }
+    .endpoint-desc {
+      @apply(--paper-font-body1);
+      margin-bottom: 40px;
+    }
+    .methods-table {
+      border-collapse: collapse;
+      text-align: left;
+      width: 100%;
+      @apply(--raml-docs-params-table);
+    }
+    .methods-table-header {
+      vertical-align: middle;
+      height: 36px;
+      background-color: var(--primary-color);
+      color: rgba(255, 255, 255, 0.87);
+      @apply(--raml-docs-params-table-header);
+    }
+    .methods-table th,
+    .methods-table td {
+      padding: 8px;
+      @apply(--paper-font-body1);
+    }
+    td.method-name {
+      color: var(--primary-color);
+      font-weight: 500;
+    }
+
+    .content {
+      @apply(--layout-horizontal);
+    }
+    .docs-content {
+      @apply(--layout-flex);
+    }
+    .nav-content {
+      width: 200px;
+      border-left: 1px rgba(0,0,0,0.12) solid;
+      margin-left: 20px;
+    }
+    .nav-content ul {
+      list-style: none;
+      line-height: 40px;
+      color: var(--primary-color);
+    }
+    .nav-content li:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    </style>
+
+    <div class="content">
+      <div class="docs-content">
+
+        <div class="title-area">
+          <h1 class="title">[[_computeEndpointName(endpoint.*)]]</h1>
+        </div>
+        <div hidden$="[[_computeHideDesc(endpoint.description)]]" class="endpoint-desc">[[endpoint.description]]</div>
+
+        <section>
+          <h2>Resources representation</h2>
+          <p>No resources found for this endpoint</p>
+        </section>
+
+        <section>
+          <h2>Methods</h2>
+          <table class="methods-table">
+            <thead class="methods-table-header">
+              <tr>
+                <th>Method</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <template is="dom-repeat" items="[[endpoint.methods]]">
+                <tr>
+                  <td class="method-name">[[_computeMethodName(item)]]</td>
+                  <td>[[item.description]]</td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </section>
+      </div>
+      <div class="nav-content">
+        <ul>
+          <li>Resource</li>
+          <li>Properties</li>
+          <li>Methods</li>
+        </ul>
+      </div>
+    </div>
+
+  </template>
+  <script src="raml-endpoint-documentation-viewer.js"></script>
+</dom-module>

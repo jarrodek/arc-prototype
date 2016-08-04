@@ -2,19 +2,26 @@
   "endpoints": [{
     "url": "/people",
     "fullUrl": "/people",
-    "path": ["People", "A person"],
+    "path": ["People"],
     "displayName": "People",
     "description": "The people API used to access data about the people.",
     "queryParams": [],
+    "is": ["Secured"],
+    "securedBy": ["oauth_2_0"],
     "methods": [{
       "method": "POST",
       "queryParams": [],
       "headers": [],
       "displayName": "Create a person",
       "description": "Use this method to add new person"
+    },{
+      "method": "GET",
+      "queryParams": [],
+      "headers": [],
+      "displayName": "List people",
+      "description": "Use this method to list all the people.",
+      "is": ["Paginated"]
     }],
-    "opened": true,
-    "selected": false,
     "endpoints": [{
       "url": "/{personId}",
       "fullUrl": "/people/{personId}",
@@ -22,26 +29,86 @@
       "displayName": "A person",
       "description": "The endpoint to access information about the person",
       "queryParams": [],
+      "is": ["Secured"],
+      "uriParameters": [{
+        "param": "personId",
+        "type": "integer",
+        "required": true,
+        "example": 1234
+      }],
       "methods": [{
         "method": "GET",
         "queryParams": [],
-        "headers": [],
+        "is": [],
+        "headers": [{
+          "name": "Authorization",
+          "example": "ya.uays73HnswHraKG877-Gasd/aIKuVar",
+          "description": "The autjorization token.",
+          "type": "string",
+          "required": true
+        }],
         "displayName": "Get a person",
-        "description": " koasjDOJ ASLKDFJ ASDFSDFSDF"
-      }],
-      "opened": true,
-      "selected": true
+        "description": "Returns a person",
+        "responses": [{
+          "statusCode": "200",
+          "contentType": "application/json",
+          "body": {
+            "baseType": "User"
+          }
+        },{
+          "statusCode": "404",
+          "contentType": "application/json",
+          "body": {
+            "baseType": "object",
+            "typeProperties": [{
+              "type": "number",
+              "name": "code",
+              "required": true,
+              "example": 404
+            }, {
+              "type": "string",
+              "name": "error",
+              "required": true,
+              "example": "User not found."
+            }]
+          }
+        }]
+      },{
+        "method": "DELETE",
+        "displayName": "Remove a person",
+        "description": "Removes the person from the datastore. This method do not returns any data in 200 response.",
+        "responses": [{
+          "statusCode": "200"
+        }]
+      }]
+    }]
+  },{
+    "url": "/products",
+    "fullUrl": "/products",
+    "path": ["Products"],
+    "displayName": "Products",
+    "description": "The API is to be used to access data about the products.",
+    "queryParams": [],
+    "securedBy": ["oauth_2_0"],
+    "methods": [{
+      "method": "GET",
+      "displayName": "List products",
+      "description": "Returns a list of products.",
+      "queryParams": [],
+      "is": ["Paginated"],
+      "headers": []
     }]
   }],
   "documentation": [{
     "markdown": "# `arc-magic-variables`\n\nThe `<arc-magic-variables>` element adds \"magic variables\" support in the ARC.\nMagic variables are special strings that are passed to any string property in\nthe request and it will be replaced with other string that is defined for\nthis variable.\n\n## Example\nLet's say you want to generate a random number in the request. So the property\nvalue like:\n```\nhttp://www.domain.com/?time=${now}\n```\ncan produce:\n```\nhttp://www.domain.com/?time=12312312312\n```\n\n## Build-in magic variables.\n| Variable | Description | Example |\n| --- | --- | --- |\n| `${random}` | Will generate random number in range from 0 to Number.MAX_SAFE_INTEGER | 9007199254740991 |\n| `${random:NUMBER}` | A variation of `${random}` where the result will be remembered and can be used in other property. If the same `NUMBER` occurs again then previously generated value will be used. | 7199254740 |\n| `${now}` | Inserts current epoch time | 12312312312 |\n\n## Magic variables scopes\nThere are two types of magic variables:\n* **global** - Applied to every request,\n* **scoped** - Applied to a request enclosed in a project.\n\n### Global variables\nVariables of this type will be applied to every outgoing request.\n\n### Scoped variables.\nScoped variables are associated with a project and are applied to those request\nthat are added to corresponding project.\n\n## User magic variables\nThis element supports user defined variables. Variables defined by the user are kept\nin IndexedDB locally and retreived\nby the element on run time. Users can decide either the variable is global or scoped.\n\n## Database structure\n| Property | Type | Is key | Description |\n| --- | --- | --- | --- |\n| id | Number | Yes, key path | An autoincremental key for the rule |\n| variable | String | Yes | A variable name. It must be consisted with [0-9A-Za-z${}_-] |\n| value | String | No | Replacement value. Replacement value may include other magic variables |\n| type | String | Yes | Either `global` or `scoped` (for now) |\n| project | Number | Yes | Relevant if the `type` is set to `scoped`. The rule will be applied to the requests that are associated with this project. If not set if will be omnited. |\n\n## Usage\nThe element's `value` property contains a value that will be parsed during the work.\nIt may be either String or Object.\n\nWhile String is obvious, the Object will be treated differently. It will parse only\nstring values of each first level key.\nThis means that no deep objects will be taken into consideration.\nBefore start applying new magic variables the program should call `clear()`\nfunction to clear the groups defined by previous use.\nThe element will keep groups generated data so it can be uses many times on\ndifferent strings resulting with the same group values.\n\n```html\n\n\n```\nJavaScript code:\n```\n...\nthis.$.mv.clear();\nthis.set('headersList', headers);\nthis.$.mv.parse();\n...\n_onParsed = (e) => {\n  var headers = e.detail.result;\n};\n...\n```\nThe parse method returns a Promise which will be fulfilled when it finish parsing data:\n```\n...\nthis.set('headersList', headers);\nthis.$.mv.parse()\n.then((result) => {\n  // parsed data\n});\n...\n```",
-    "name": "My doc name"
+    "name": "About"
   }, {
-    "markdown": "# `arc-magic-variables`\n\nThe `<arc-magic-variables>` element adds \"magic variables\" support in the ARC.\nMagic variables are special strings that are passed to any string property in\nthe request and it will be replaced with other string that is defined for\nthis variable.\n\n## Example\nLet's say you want to generate a random number in the request. So the property\nvalue like:\n```\nhttp://www.domain.com/?time=${now}\n```\ncan produce:\n```\nhttp://www.domain.com/?time=12312312312\n```\n\n## Build-in magic variables.\n| Variable | Description | Example |\n| --- | --- | --- |\n| `${random}` | Will generate random number in range from 0 to Number.MAX_SAFE_INTEGER | 9007199254740991 |\n| `${random:NUMBER}` | A variation of `${random}` where the result will be remembered and can be used in other property. If the same `NUMBER` occurs again then previously generated value will be used. | 7199254740 |\n| `${now}` | Inserts current epoch time | 12312312312 |\n\n## Magic variables scopes\nThere are two types of magic variables:\n* **global** - Applied to every request,\n* **scoped** - Applied to a request enclosed in a project.\n\n### Global variables\nVariables of this type will be applied to every outgoing request.\n\n### Scoped variables.\nScoped variables are associated with a project and are applied to those request\nthat are added to corresponding project.\n\n## User magic variables\nThis element supports user defined variables. Variables defined by the user are kept\nin IndexedDB locally and retreived\nby the element on run time. Users can decide either the variable is global or scoped.\n\n## Database structure\n| Property | Type | Is key | Description |\n| --- | --- | --- | --- |\n| id | Number | Yes, key path | An autoincremental key for the rule |\n| variable | String | Yes | A variable name. It must be consisted with [0-9A-Za-z${}_-] |\n| value | String | No | Replacement value. Replacement value may include other magic variables |\n| type | String | Yes | Either `global` or `scoped` (for now) |\n| project | Number | Yes | Relevant if the `type` is set to `scoped`. The rule will be applied to the requests that are associated with this project. If not set if will be omnited. |\n\n## Usage\nThe element's `value` property contains a value that will be parsed during the work.\nIt may be either String or Object.\n\nWhile String is obvious, the Object will be treated differently. It will parse only\nstring values of each first level key.\nThis means that no deep objects will be taken into consideration.\nBefore start applying new magic variables the program should call `clear()`\nfunction to clear the groups defined by previous use.\nThe element will keep groups generated data so it can be uses many times on\ndifferent strings resulting with the same group values.\n\n```html\n\n\n```\nJavaScript code:\n```\n...\nthis.$.mv.clear();\nthis.set('headersList', headers);\nthis.$.mv.parse();\n...\n_onParsed = (e) => {\n  var headers = e.detail.result;\n};\n...\n```\nThe parse method returns a Promise which will be fulfilled when it finish parsing data:\n```\n...\nthis.set('headersList', headers);\nthis.$.mv.parse()\n.then((result) => {\n  // parsed data\n});\n...\n```",
-    "name": "asdfasdf sdf asdf sd"
+    "markdown": "# A test documentation.\n\nThis text was created by ARC's RAML editor.",
+    "name": "Test docs"
   }],
   "securitySchemas": [{
     "type": "OAuth 2.0",
+    "id": "oauth_2_0",
     "displayName": "",
     "description": "",
     "authorizationUri": "http://api.domain.com/auth",
@@ -89,6 +156,63 @@
       "uniqueItems": true
     }],
     "baseType": "object"
+  }],
+  "traits": [{
+    "name": "Paginated",
+    "description": "Pagination trait.",
+    "usage": "Use it when want to paginate the result",
+    "headers": [{
+      "name": "X-Paginated",
+      "example": "true",
+      "description": "Required for paginated resources. It's value is always true.",
+      "type": "string",
+      "required": true
+    }],
+    "queryParams": [{
+      "name": "limit",
+      "example": "25",
+      "description": "Limit in the response list",
+      "type": "number",
+      "pattern": "[0-9]{,3}"
+    }, {
+      "name": "start",
+      "example": "0",
+      "description": "The start entry of the list",
+      "type": "number",
+      "pattern": "[0-9]{,3}"
+    }],
+    "responses": [{
+      "statusCode": "200",
+      "contentType": "application/json",
+      "headers": [],
+      "description": "Paginated response",
+      "body": {
+        "baseType": "object",
+        "typeProperties": [{
+          "type": "array",
+          "name": "items",
+          "required": true,
+          "items": ["object"]
+        }, {
+          "type": "string",
+          "name": "nextPageToken",
+          "required": true,
+          "example": "asdas87axJNASoHm9Hs"
+        }]
+      }
+    }],
+    "requests": []
+  },{
+    "name": "Secured",
+    "description": "Secured resources by the access token parameter.",
+    "usage": "Use it when want the endpoint or method is secured by the OAuth.",
+    "queryParams": [{
+      "name": "accessToken",
+      "example": "",
+      "description": "The access token obtained by the OAuth endpoint.",
+      "type": "String",
+      "required": true
+    }]
   }],
   "name": "Ry raml",
   "description": "Desc od the file.",
