@@ -58,7 +58,18 @@
         </template>
         <template is="dom-if" if="[[isRenderer(selectedRenderer, 'method')]]">
           <div class="method-doc-container">
-            <raml-method-documentation-viewer data="[[data]]" path="[[selectedObject.path]]" base-url="[[data.baseUrl]]" method="{{selectedObject.object}}" parent-endpoint="[[parentEndpoint]]"></raml-method-documentation-viewer>
+            <raml-method-documentation-viewer
+              data="[[data]]"
+              base-url="[[data.baseUrl]]"
+              method="{{selectedObject.object}}"
+              parent-endpoint="[[parentEndpoint]]"
+              traits="[[traits]]"
+              security-schemas="[[securitySchemas]]"
+              uri-parameters="[[uriParameters]]"
+              query-parameters="[[queryParams]]"
+              headers="[[headers]]",
+              bodies="[[bodies]]"
+              responses="[[responses]]"></raml-method-documentation-viewer>
             <raml-examples-panel base-url="[[data.baseUrl]]" method="[[selectedObject.object]]" parent-endpoint="[[parentEndpoint]]"></raml-examples-panel>
           </div>
         </template>

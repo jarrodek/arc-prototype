@@ -1,7 +1,8 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
-
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../raml-responses-panel-view/raml-responses-panel-view.html">
 <dom-module id="raml-method-documentation-viewer">
   <template>
     <style>
@@ -168,11 +169,22 @@
           </tbody>
         </table>
       </template>
-      <h3>Body</h3>
-      <div class="no-body-info">This endpoint do not require request body.</div>
+      <template is="dom-if" if="[[canHasBody]]">
+        <h3>Body</h3>
+        <template is="dom-if" if="[[!hasBodies]]">
+          <div class="no-body-info">This endpoint do not require request body.</div>
+        </template>
+        <template is="dom-if" if="[[hasBodies]]">
+          <template is="dom-repeat" items="[[bodies]]">
+            <p>TODO: body listing</p>
+          </template>
+        </template>
+      </template>
     </section>
-    <h2>Responses</h2>
-    ...
+    <template is="dom-if" if="[[hasResponses]]">
+      <h2>Responses</h2>
+      <raml-responses-panel-view responses="[[responses]]"></raml-responses-panel-view>
+    </template>
 
     <section class="action-row">
       <div class="fill-space"></div>

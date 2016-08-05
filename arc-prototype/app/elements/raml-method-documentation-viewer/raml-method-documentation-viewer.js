@@ -2,38 +2,47 @@ Polymer({
   is: 'raml-method-documentation-viewer',
 
   properties: {
-    data: Object,
+    // data: Object,
     method: Object,
     parentEndpoint: Object,
     parentEndpointName: String,
-    hasParentEndpointName: String,
     baseUrl: String,
-    path: String,
-    _pathList: Array,
+
+    // Traits used in selected endpoint / method
+    traits: Array,
+    // Security schemas used in selected endpoint / method
+    securitySchemas: Array,
+    // Uri paramteres used in selected endpoint / method
+    uriParameters: Array,
+    // types: Array,
+    // Query parametres used in selected endpoint / method
+    queryParameters: Array,
+    // Headers used in selected endpoint / method
+    headers: Array,
+    // Request bodies used in selected endpoint / method
+    bodies: Array,
+    // Responses used in selected endpoint / method
+    responses: Array,
 
     hasParameters: Boolean,
-
-    uriParameters: Array,
     hasUriParameteres: Boolean,
-
-    queryParameters: Array,
     hasQueryParameteres: Boolean,
-
-    headers: Array,
     hasHeaders: Boolean,
-
-    bodies: Array,
-    hasBodies: Boolean
+    hasBodies: Boolean,
+    canHasBody: Boolean,
+    hasResponses: Boolean,
+    hasParentEndpointName: String
   },
 
   observers: [
     '_parentEndpointChanged(parentEndpoint.*)',
-    '_splitPath(path)',
-    '_computeUriParameters(_pathList.*, data.*)',
-    '_computeQueryParameters(_pathList.*, data.*)',
     '_computeHasParameters(uriParameters.*, queryParameters.*)',
-    '_computeHeaders(_pathList.*, data.*)',
-    '_computeBodies(_pathList.*, data.*)',
+    '_computeHasQueryParameteres(queryParameters.*)',
+    '_computeHasUriParameteres(uriParameters.*)',
+    '_computeHasBodies(bodies.*)',
+    '_computeCanHasBody(method.method)',
+    '_computeHasHeaders(headers.*)',
+    '_computeHasResponses(responses.*)'
   ],
 
   _parentEndpointChanged: function() {
@@ -50,6 +59,9 @@ Polymer({
 
   _computeMethodName: function() {
     var m = this.method;
+    if (!m) {
+      return '';
+    }
     return m.displayName || m.method;
   },
 
@@ -61,15 +73,6 @@ Polymer({
     return base + path;
   },
 
-  _splitPath: function(path) {
-    var list = [];
-    if (!(!path || typeof path !== 'string')) {
-      list = path.split('.');
-    }
-
-    this.set('_pathList', list);
-  },
-
   _computeHasParameters: function() {
     var a = this.uriParameters;
     var b = this.queryParameters;
@@ -77,267 +80,43 @@ Polymer({
     this.hasParameters = res;
   },
 
-  _computeUriParameters: function() {
-    var list = this._pathList;
-    if (!list || !list.length) {
-      this.uriParameters = [];
-      this.hasUriParameteres = false;
+  _computeHasQueryParameteres: function() {
+    // debugger;
+    var qp = this.queryParameters;
+    var has = qp && qp.length;
+    this.hasQueryParameteres = has;
+  },
+
+  _computeHasUriParameteres: function() {
+    // debugger;
+    var qp = this.uriParameters;
+    var has = qp && qp.length;
+    this.hasUriParameteres = has;
+  },
+
+  _computeHasHeaders: function() {
+    var h = this.headers;
+    var has = h && h.length;
+    this.hasHeaders = has;
+  },
+
+  _computeHasBodies: function() {
+    var b = this.bodies;
+    var has = b && b.length;
+    this.hasBodies = has;
+  },
+
+  _computeCanHasBody: function(method) {
+    if (!method) {
+      this.canHasBody = false;
       return;
     }
-    var params = [];
-    var current = this.data;
-    for (let i = 0, len = list.length; i < len; i++) {
-      let segment = list[i];
-      if (segment === 'endpoints') {
-        current = current.endpoints;
-        continue;
-      } else if (segment === 'methods') {
-        // current = current.methods;
-        // That's it! Current is the parent endpoint.
-        break;
-      } else {
-        let n = Number(segment);
-        if (n !== n) {
-          console.info('Unknown segment ' + segment + ' in path ' + list.join('.'));
-          return undefined;
-        }
-        current = current[n];
-        if (!current) {
-          continue;
-        }
-        // look for params
-        if (!current.uriParameters || !current.uriParameters.length) {
-          continue;
-        }
-        params = params.concat(current.uriParameters);
-      }
-    }
-    this.uriParameters = params;
-    this.hasUriParameteres = !!params.length;
+    this.canHasBody = ['GET', 'HEAD'].indexOf(method.toUpperCase()) === -1;
   },
 
-  _computeQueryParameters: function() {
-    var list = this._pathList;
-    if (!list || !list.length) {
-      this.queryParameters = [];
-      this.hasQueryParameteres = false;
-      return;
-    }
-    var params = [];
-    var current = this.data;
-    for (let i = 0, len = list.length; i < len; i++) {
-      let segment = list[i];
-      if (segment === 'endpoints') {
-        // Entering endpoints array
-        current = current.endpoints;
-        continue;
-      } else if (segment === 'methods') {
-        current = current.methods;
-        continue;
-      } else {
-        let n = Number(segment);
-        if (n !== n) {
-          console.info('Unknown segment ' + segment + ' in path ' + list.join('.'));
-          return undefined;
-        }
-        current = current[n];
-        if (!current) {
-          continue;
-        }
-        // Look for query parameters in endpoints and traits
-
-        let qp = this.__getQueryParams(current);
-        if (qp && qp.length) {
-          params = params.concat(qp);
-        }
-      }
-    }
-    this.queryParameters = params;
-    this.hasQueryParameteres = !!params.length;
-  },
-
-  __getQueryParams: function(current) {
-    var params = [];
-    if (current.queryParams && current.queryParams.length) {
-      params = params.concat(current.queryParams);
-    }
-    if (current.is && current.is.length) {
-      for (let i = 0, len = current.is.length; i < len; i++) {
-        let t = this._findTrait(current.is[i]);
-        if (!t || !t.queryParams || !t.queryParams.length) {
-          continue;
-        }
-        params = params.concat(t.queryParams);
-      }
-    }
-    if (current.securedBy && current.securedBy.length) {
-      for (let i = 0, len = current.securedBy.length; i < len; i++) {
-        let s = this._findSecurityScheme(current.securedBy[i]);
-        if (!s || !s.queryParams || !s.queryParams.length) {
-          continue;
-        }
-        params = params.concat(s.queryParams);
-      }
-    }
-    return params;
-  },
-
-  _findTrait: function(name) {
-    var d = this.data;
-    if (!d || !d.traits || !d.traits.length) {
-      return null;
-    }
-    var t = d.traits;
-    for (let i = 0, len = t.length; i < len; i++) {
-      if (t[i].name === name) {
-        return t[i];
-      }
-    }
-    return null;
-  },
-  _findSecurityScheme: function(id) {
-    var d = this.data;
-    if (!d || !d.securitySchemas || !d.securitySchemas.length) {
-      return null;
-    }
-    var s = d.securitySchemas;
-    for (let i = 0, len = s.length; i < len; i++) {
-      if (s[i].id === id) {
-        return s[i];
-      }
-    }
-    return null;
-  },
-
-  _computeHeaders: function() {
-    var list = this._pathList;
-    if (!list || !list.length) {
-      this.headers = [];
-      this.hasHeaders = false;
-      return;
-    }
-    var params = [];
-    var current = this.data;
-    for (let i = 0, len = list.length; i < len; i++) {
-      let segment = list[i];
-      if (segment === 'endpoints') {
-        // Entering endpoints array
-        current = current.endpoints;
-        continue;
-      } else if (segment === 'methods') {
-        current = current.methods;
-        continue;
-      } else {
-        let n = Number(segment);
-        if (n !== n) {
-          console.info('Unknown segment ' + segment + ' in path ' + list.join('.'));
-          return undefined;
-        }
-        current = current[n];
-        if (!current) {
-          continue;
-        }
-        // Look for query parameters in endpoints and traits
-
-        let data = this.__getHeaders(current);
-        if (data && data.length) {
-          params = params.concat(data);
-        }
-      }
-    }
-    this.headers = params;
-    this.hasHeaders = !!params.length;
-  },
-
-  __getHeaders: function(current) {
-    var params = [];
-    if (current.headers && current.headers.length) {
-      params = params.concat(current.headers);
-    }
-    if (current.is && current.is.length) {
-      for (let i = 0, len = current.is.length; i < len; i++) {
-        let t = this._findTrait(current.is[i]);
-        if (!t || !t.headers || !t.headers.length) {
-          continue;
-        }
-        params = params.concat(t.headers);
-      }
-    }
-    if (current.securedBy && current.securedBy.length) {
-      for (let i = 0, len = current.securedBy.length; i < len; i++) {
-        let s = this._findSecurityScheme(current.securedBy[i]);
-        if (!s || !s.headers || !s.headers.length) {
-          continue;
-        }
-        params = params.concat(s.headers);
-      }
-    }
-    return params;
-  },
-
-  _computeBodies: function() {
-    var list = this._pathList;
-    if (!list || !list.length) {
-      this.bodies = [];
-      this.hasBodies = false;
-      return;
-    }
-    var params = [];
-    var current = this.data;
-    for (let i = 0, len = list.length; i < len; i++) {
-      let segment = list[i];
-      if (segment === 'endpoints') {
-        // Entering endpoints array
-        current = current.endpoints;
-        continue;
-      } else if (segment === 'methods') {
-        current = current.methods;
-        continue;
-      } else {
-        let n = Number(segment);
-        if (n !== n) {
-          console.info('Unknown segment ' + segment + ' in path ' + list.join('.'));
-          return undefined;
-        }
-        current = current[n];
-        if (!current) {
-          continue;
-        }
-        // Look for query parameters in endpoints and traits
-
-        let data = this.__getBodies(current);
-        if (data && data.length) {
-          params = params.concat(data);
-        }
-      }
-    }
-    this.bodies = params;
-    this.hasBodies = !!params.length;
-  },
-
-  __getBodies: function(current) {
-    var params = [];
-    if (current.body && current.body.length) {
-      params = params.concat(current.body);
-    }
-    if (current.is && current.is.length) {
-      for (let i = 0, len = current.is.length; i < len; i++) {
-        let t = this._findTrait(current.is[i]);
-        if (!t || !t.body || !t.body.length) {
-          continue;
-        }
-        params = params.concat(t.body);
-      }
-    }
-    if (current.securedBy && current.securedBy.length) {
-      for (let i = 0, len = current.securedBy.length; i < len; i++) {
-        let s = this._findSecurityScheme(current.securedBy[i]);
-        if (!s || !s.body || !s.body.length) {
-          continue;
-        }
-        params = params.concat(s.body);
-      }
-    }
-    return params;
-  },
+  _computeHasResponses: function() {
+    var r = this.responses;
+    var has = r && !!r.length;
+    this.hasResponses = has;
+  }
 });

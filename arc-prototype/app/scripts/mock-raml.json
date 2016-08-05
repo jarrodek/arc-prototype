@@ -6,14 +6,18 @@
     "displayName": "People",
     "description": "The people API used to access data about the people.",
     "queryParams": [],
-    "is": ["Secured"],
+    "is": [],
     "securedBy": ["oauth_2_0"],
     "methods": [{
       "method": "POST",
       "queryParams": [],
       "headers": [],
       "displayName": "Create a person",
-      "description": "Use this method to add new person"
+      "description": "Use this method to add new person",
+      "body": [{
+        "contentType": "application/json",
+        "baseType": "person"
+      }]
     },{
       "method": "GET",
       "queryParams": [],
@@ -29,7 +33,7 @@
       "displayName": "A person",
       "description": "The endpoint to access information about the person",
       "queryParams": [],
-      "is": ["Secured"],
+      "is": [],
       "uriParameters": [{
         "param": "personId",
         "type": "integer",
@@ -50,11 +54,9 @@
         "displayName": "Get a person",
         "description": "Returns a person",
         "responses": [{
-          "statusCode": "200",
+          "statusCode": 200,
           "contentType": "application/json",
-          "body": {
-            "baseType": "User"
-          }
+          "body": "person"
         },{
           "statusCode": "404",
           "contentType": "application/json",
@@ -78,7 +80,7 @@
         "displayName": "Remove a person",
         "description": "Removes the person from the datastore. This method do not returns any data in 200 response.",
         "responses": [{
-          "statusCode": "200"
+          "statusCode": 200
         }]
       }]
     }]
@@ -110,34 +112,89 @@
     "type": "OAuth 2.0",
     "id": "oauth_2_0",
     "displayName": "",
-    "description": "",
-    "authorizationUri": "http://api.domain.com/auth",
-    "accessTokenUri": "http://api.domain.com/token",
-    "authorizationGrants": [],
+    "description": "This API supports OAuth 2.0 for authenticating all API requests.",
+    "authorizationUri": "http://api.domain.com/oauth2/auth",
+    "accessTokenUri": "http://api.domain.com/oauth2/token",
+    "authorizationGrants": ["authorization_code"],
     "scopes": ["profile", "email"],
-    "queryParams": [],
+    "queryParams": [{
+      "name": "access_token",
+      "description": "Used to send a valid OAuth 2 access token. Do not use with the \"Authorization\" header.",
+      "type": "string"
+    }],
     "headers": [{
       "name": "authorization",
       "example": "ya.2453vfDb3cJHisdf.*&H",
-      "description": "An OAuth 2 authorization ",
+      "description": "Used to send a valid OAuth 2 access token. Do not use with the \"access_token\" query string parameter.",
       "type": "string",
-      "required": true
+      "required": false
+    }],
+    "responses": [{
+      "statusCode": 401,
+      "contentType": "application/json",
+      "headers": [],
+      "description": "Bad or expired token. This can happen if the user or Dropbox revoked or expired an access token. To fix, re-authenticate the user."
+    },{
+      "statusCode": 403,
+      "description": "Bad OAuth request (wrong consumer key, bad nonce, expired timestamp...). Unfortunately, re-authenticating the user won't help here."
     }]
+  },{
+    "type": "OAuth 1.0",
+    "id": "oauth_1_0",
+    "displayName": "",
+    "description": "OAuth 1.0 continues to be supported for all API requests, but OAuth 2.0 is now preferred.",
+    "requestTokenUri": "http://api.domain.com/oauth1/request_token",
+    "authorizationUri": "http://api.domain.com/oauth1/authorize",
+    "tokenCredentialsUri": "http://api.domain.com/oauth1/access_token"
   }],
   "types": [{
-    "typeId": "myType",
-    "displayName": "My type",
-    "description": "Use this type for whatever you want",
+    "typeId": "person",
+    "displayName": "Person resource",
+    "description": "An object representing a person in the system.",
     "typeProperties": [{
       "type": "string",
       "name": "id",
-      "required": true,
-      "pattern": "[A-Za-Z0-9]*"
+      "pattern": "[A-Za-Z0-9]*",
+      "description": "A unique identifier for a person. It is a 32 signs string containing alphanumeric characters."
     }, {
-      "type": "array",
-      "name": "type",
-      "items": ["string"],
-      "uniqueItems": true
+      "type": "string",
+      "name": "name",
+      "required": true,
+      "example": "John Smith",
+      "description": "Person full name"
+    },{
+      "name": "birthday",
+      "type": "string",
+      "description": "The person's date of birth, represented as YYYY-MM-DD."
+    },{
+      "name": "gender",
+      "type": "string",
+      "description": "The person's gender. Possible values include, but are not limited to, the following values:\n* \"male\" - Male gender.\n* \"female\" - Female gender.\n* \"other\" - Other."
+    },{
+      "name": "url",
+      "type": "string",
+      "description": "The URL of this person's profile."
+    },{
+      "name": "image",
+      "type": "object",
+      "description": "The representation of the person's profile photo.",
+      "typeProperties": [{
+        "name": "url",
+        "type": "string",
+        "description": "The URL of the person's profile photo. To resize the image and crop it to a square, append the query string ?sz=x, where x is the dimension in pixels of each side."
+      }]
+    },{
+      "name": "tagline",
+      "type": "string",
+      "description": "The brief description (tagline) of this person."
+    },{
+      "name": "etag",
+      "type": "string",
+      "description": "ETag of this response for caching purposes."
+    },{
+      "name": "language",
+      "type": "string",
+      "description": "The user's preferred language for rendering."
     }],
     "baseType": "object"
   }, {
@@ -182,7 +239,7 @@
       "pattern": "[0-9]{,3}"
     }],
     "responses": [{
-      "statusCode": "200",
+      "statusCode": 200,
       "contentType": "application/json",
       "headers": [],
       "description": "Paginated response",
@@ -215,7 +272,7 @@
     }]
   }],
   "name": "Ry raml",
-  "description": "Desc od the file.",
+  "description": "Description of the file.",
   "baseUrl": "http://api.domain.com",
   "version": "1",
   "mediaType": "application/json"
