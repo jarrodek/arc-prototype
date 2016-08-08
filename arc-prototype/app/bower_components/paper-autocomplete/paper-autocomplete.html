@@ -1,0 +1,146 @@
+<!--
+@license
+Copyright 2016 Pawel Psztyc, The ARC team
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+--><html><head><link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-item/paper-item.html">
+<link rel="import" href="../paper-ripple/paper-ripple.html">
+<link rel="import" href="../paper-material/paper-material.html">
+<link rel="import" href="../iron-overlay-behavior/iron-overlay-behavior.html">
+<link rel="import" href="../iron-selector/iron-selector.html">
+<link rel="import" href="../iron-a11y-keys/iron-a11y-keys.html">
+<link rel="import" href="../iron-scroll-target-behavior/iron-scroll-target-behavior.html">
+<link rel="import" href="../paper-progress/paper-progress.html">
+
+<!--
+Use `paper-autocomplete` to add autocomplete functionality to the input elements.
+It also works wilt polymer inputs.
+
+The element works with static list of suggestions or with dynamic (asynchronous)
+operation that require calling te backend or local datastore.
+In second case you should set `loader` property which will display a loader animation
+while results are loaded.
+
+You must associate suggestions with the input field. This can be done by passing
+an element reference to the `target` property.
+
+## Example:
+
+### Static suggestions
+
+    <paper-input label="Enter fruit name" id="fruits"></paper-input>
+    <paper-autocomplete
+      id="fruitsSuggestions"
+      target="[[fruits]]"
+      on-selected="_fruitSelected"></paper-input-autocomplete>
+
+    <script>
+      document.querySelector('#fruitsSuggestions').source = ['Apple', 'Orange', 'Bananas'];
+    </script>
+
+### Dynamic suggestions
+    <paper-input-container>
+      <label>Enter friut name</label>
+      <input is="iron-input" type="text" value="{{async::input}}" id="asyncField" />
+    </paper-input-container>
+    <paper-autocomplete loader id="fruitAsync" on-query="_asyncSuggestions"></paper-input-autocomplete>
+
+    <script>
+      document.querySelector('#fruitAsync').target = document.querySelector('#asyncField');
+      document.querySelector('#fruitAsync').addEventListener('query', (e) => {
+        var query = e.detail.value;
+        asyncQuery(query, (suggestions) => {
+          document.querySelector('#fruitAsync').source = suggestions;
+        });
+      });
+    </script>
+
+## Displaying the suggestions
+Suggestions array can be either an array of strings or objects.
+For strings, displayed in the list and inserted to the input field value is the same item.
+
+You can set different list item display value and value inserted into the field when the array contains
+onject. Each object must contain `value` and `display` properties where `value` property
+will be inserted into the text field and `display` will be used to display description inside the list.
+
+## Query event
+The `query` event is fired when the user query change in the way so the element is
+not able to display suggestions properly.
+This means if the user add a letter to previously entered value the query event will not
+fire since it already have list of suggestion that should be used to filter suggestions from.
+And again when the user will delete a letter the element will still have list of
+source suggestions to filter suggestions from.
+However, if the user change the query entirely it will fire `query` event
+and the app will expect to `source` to change. Setting source is not mandatory.
+
+## Styling
+
+Suggestions are positioned absolutely! You must include relative positioned parent to contain the suggestion
+display in the same area.
+Use CSS properties to position the display in the left bottom corner of the input field.
+
+`<paper-autocomplete>` provides the following custom properties and mixins
+for styling:
+
+| Custom property | Description | Default |
+----------------|-------------|----------
+| `--paper-autocomplete` | Mixin applied to the display | `{}` |
+
+@group Paper Elements
+@element paper-autocomplete
+@demo demo/index.html
+@hero hero.svg
+-->
+</head><body><dom-module id="paper-autocomplete">
+  <style>
+  :host {
+    position: absolute !important;
+    left: 0px;
+    top: 52px;
+    /*margin-top: 12px;
+    margin-left: 20px;*/
+    /*left: 0px;
+    top: 0px;*/
+    @apply(--paper-autocomplete);
+  }
+    paper-material {
+      background-color: white;
+    }
+    #container {
+      overflow: auto;
+    }
+  </style>
+
+  <template>
+    <paper-material elevation="2" id="container">
+      <paper-progress hidden$="[[!_showLoader]]" indeterminate=""></paper-progress>
+      <iron-selector selected="{{selectedItem}}" id="selector">
+        <template is="dom-repeat" items="{{suggestions}}" id="repeater">
+          <paper-item>
+            <div>{{_suggestionDisplay(item)}}</div>
+            <paper-ripple></paper-ripple>
+          </paper-item>
+        </template>
+      </iron-selector>
+    </paper-material>
+    <iron-a11y-keys id="a11y" target="[[target]]" keys="up" on-keys-pressed="selectPrevious"></iron-a11y-keys>
+    <iron-a11y-keys id="a11y" target="[[target]]" keys="down" on-keys-pressed="selectNext"></iron-a11y-keys>
+    <iron-a11y-keys id="a11y" target="[[target]]" keys="enter" on-keys-pressed="acceptSelection"></iron-a11y-keys>
+    <iron-a11y-keys id="a11y" target="[[this]]" keys="up" on-keys-pressed="selectPrevious"></iron-a11y-keys>
+    <iron-a11y-keys id="a11y" target="[[this]]" keys="down" on-keys-pressed="selectNext"></iron-a11y-keys>
+    <iron-a11y-keys id="a11y" target="[[this]]" keys="enter" on-keys-pressed="acceptSelection"></iron-a11y-keys>
+  </template>
+</dom-module>
+
+<script src="paper-autocomplete.js"></script></body></html>

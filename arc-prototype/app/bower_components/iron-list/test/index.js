@@ -1,0 +1,11 @@
+WCT.loadSuites([
+      'basic.html',
+      'focus.html',
+      'mutations.html',
+      'physical-count.html',
+      'hidden-list.html',
+      'selection.html',
+      'dynamic-item-size.html',
+      'different-heights.html',
+      'grid.html'
+    ]);

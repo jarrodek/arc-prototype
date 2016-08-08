@@ -1,0 +1,20 @@
+WCT.loadSuites([
+      'activate-event.html',
+      'attr-for-selected.html',
+      'basic.html',
+      'multi.html',
+      'next-previous.html',
+      'numeric-ids.html',
+      'selected-attribute.html',
+      'template-repeat.html',
+      'content.html',
+      'excluded-local-names.html',
+      'activate-event.html?dom=shadow',
+      'basic.html?dom=shadow',
+      'multi.html?dom=shadow',
+      'next-previous.html?dom=shadow',
+      'selected-attribute.html?dom=shadow',
+      'template-repeat.html?dom=shadow',
+      'content.html?dom=shadow',
+      'excluded-local-names.html?dom=shadow'
+    ]);
