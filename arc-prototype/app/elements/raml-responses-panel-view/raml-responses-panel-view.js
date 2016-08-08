@@ -22,5 +22,24 @@ Polymer({
 
   _hasProperty: function(obj, property) {
     return property in obj;
+  },
+
+  _computeCodeClass: function(code) {
+    code = Number(code);
+    if (code !== code) {
+      return '';
+    }
+    if (code >= 200 && code < 300) {
+      return 'green';
+    }
+    if (code >= 300 && code < 400) {
+      return 'blue';
+    }
+    if (code >= 400 && code < 500) {
+      return 'orange';
+    }
+    if (code >= 500 && code < 600) {
+      return 'red';
+    }
   }
 });

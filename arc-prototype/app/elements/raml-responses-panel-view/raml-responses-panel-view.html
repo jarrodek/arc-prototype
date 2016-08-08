@@ -25,9 +25,9 @@
       margin-left: 16px;
     }
 
-    .codes .iron-selected {
+    /*.codes .iron-selected:not([focused]) {
       background-color: rgba(0, 161, 223, 0.24);
-    }
+    }*/
 
     .label-value {
       font-weight: 500;
@@ -40,12 +40,24 @@
     .no-data-info {
       font-style: italic;
     }
+    .codes .green {
+      color: green;
+    }
+    .codes .blue {
+      color: blue;
+    }
+    .codes .orange {
+      color: orange;
+    }
+    .codes .red {
+      color: red;
+    }
     </style>
     <div class="container">
       <div class="codes">
         <paper-menu selected="{{selectedResource}}">
           <template is="dom-repeat" items="[[responses]]">
-            <paper-item>[[item.statusCode]]</paper-item>
+            <paper-item class$="[[_computeCodeClass(item.statusCode)]]">[[item.statusCode]]</paper-item>
           </template>
         </paper-menu>
       </div>
