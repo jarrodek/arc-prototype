@@ -7,6 +7,8 @@ Polymer({
     parentEndpoint: Object,
     parentEndpointName: String,
     baseUrl: String,
+    // If true the Try It button will be hidden
+    noTryit: Boolean,
 
     // Traits used in selected endpoint / method
     traits: Array,

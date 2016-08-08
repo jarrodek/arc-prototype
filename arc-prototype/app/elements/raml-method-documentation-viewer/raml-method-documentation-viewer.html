@@ -107,7 +107,7 @@
         <span class="methodName">[[_computeMethodName(method.*)]]</span>
       </h1>
       <div class="action">
-        <paper-button class="primaryButton">Try it</paper-button>
+        <paper-button hidden$="[[noTryit]]" class="primaryButton">Try it</paper-button>
       </div>
     </div>
     <div hidden$="[[_computeHideMethodDesc(method.description)]]" class="method-desc">[[method.description]]</div>
@@ -196,7 +196,7 @@
     <section class="action-row">
       <div class="fill-space"></div>
       <div>
-        <paper-button class="primaryButton">Try it</paper-button>
+        <paper-button hidden$="[[noTryit]]" class="primaryButton">Try it</paper-button>
       </div>
     </section>
   </template>
