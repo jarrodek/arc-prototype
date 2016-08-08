@@ -42,6 +42,7 @@
     td.method-name {
       color: var(--primary-color);
       font-weight: 500;
+      cursor: pointer;
     }
 
     .content {
@@ -89,9 +90,9 @@
               </tr>
             </thead>
             <tbody>
-              <template is="dom-repeat" items="[[endpoint.methods]]">
+              <template is="dom-repeat" items="[[endpoint.methods]]" id="methodsRepeater">
                 <tr>
-                  <td class="method-name">[[_computeMethodName(item)]]</td>
+                  <td class="method-name" on-tap="_openMethodDoc">[[_computeMethodName(item)]]</td>
                   <td>[[item.description]]</td>
                 </tr>
               </template>

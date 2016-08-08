@@ -17,6 +17,10 @@ Renders a tree of RAML's endpoints and methods.
     :host {
       display: block;
       @apply(--raml-endpoints-tree);
+
+      --paper-item: {
+        cursor: pointer;
+      }
     }
     .endpoint-name {
       @apply(--paper-font-body1);
@@ -34,6 +38,9 @@ Renders a tree of RAML's endpoints and methods.
 
     .opened .toggleButton {
       transform: rotate(90deg);
+    }
+    paper-item-body {
+      cursor: pointer;
     }
     </style>
     <template is="dom-repeat" items="[[endpoints]]" id="repeater">

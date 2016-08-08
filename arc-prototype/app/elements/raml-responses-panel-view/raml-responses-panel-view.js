@@ -14,10 +14,12 @@ Polymer({
   ],
 
   _responsesChanged: function() {
-    console.log('responsesChanged', this.responses);
+    // console.log('responsesChanged', this.responses);
     var d = this.responses;
     var has = d && !!d.length;
     this.hasResponses = has;
+    this.selectedResource = -1;
+    this.async(() => this.selectedResource = 0, 1);
   },
 
   _hasProperty: function(obj, property) {

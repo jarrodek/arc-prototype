@@ -15,5 +15,14 @@ Polymer({
 
   _computeMethodName: function(item) {
     return item.displayName || item.method;
+  },
+
+  _openMethodDoc: function(e) {
+    var index = this.$.methodsRepeater.indexForElement(e.target);
+    var path = '' + index;
+    this.fire('method-selected', {
+      path: path,
+      method: this.endpoint.methods[index]
+    });
   }
 });

@@ -40,17 +40,32 @@
     .no-data-info {
       font-style: italic;
     }
+    .codes paper-item {
+      cursor: pointer;
+    }
     .codes .green {
-      color: green;
+      color: rgba(56,142,60,1);
+    }
+    .codes .green.iron-selected:not([focused]) {
+      background-color: rgba(56, 142, 60, 0.12);
     }
     .codes .blue {
-      color: blue;
+      color: rgba(48,63,159,1);
+    }
+    .codes .blue.iron-selected:not([focused]) {
+      background-color: rgba(48,63,159,0.12);
     }
     .codes .orange {
-      color: orange;
+      color: rgba(245,124,0,1);
+    }
+    .codes .orange.iron-selected:not([focused]) {
+      background-color: rgba(245,124,0,0.12);
     }
     .codes .red {
-      color: red;
+      color: rgba(211, 47, 47, 1);
+    }
+    .codes .red.iron-selected:not([focused]) {
+      background-color: rgba(211, 47, 47, 0.12);
     }
     </style>
     <div class="container">

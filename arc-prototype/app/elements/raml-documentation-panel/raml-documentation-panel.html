@@ -74,7 +74,7 @@
           </div>
         </template>
         <template is="dom-if" if="[[isRenderer(selectedRenderer, 'endpoint')]]">
-          <raml-endpoint-documentation-viewer endpoint="[[selectedObject.object]]"></raml-endpoint-documentation-viewer>
+          <raml-endpoint-documentation-viewer endpoint="[[selectedObject.object]]" on-method-selected="_methodSelected"></raml-endpoint-documentation-viewer>
         </template>
       </div>
     </div>

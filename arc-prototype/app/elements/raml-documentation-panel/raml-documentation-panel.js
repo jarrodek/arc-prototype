@@ -369,5 +369,15 @@ Polymer({
       }
     }
     return current;
+  },
+
+  _methodSelected: function(e) {
+    var d = e.detail;
+    var s = this.selectedObject;
+    this.set('selectedObject', {
+      type: 'method',
+      path: s.path + '.methods.' + d.path,
+      object: d.method
+    });
   }
 });
