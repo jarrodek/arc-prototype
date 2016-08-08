@@ -1,0 +1,114 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/prism-element/prism-import.html">
+<!-- <link rel="import" href="../../bower_components/prism-element/prism-highlighter.html"> -->
+<link rel="import" href="../../bower_components/prism-element/prism-theme-default.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<!--
+The `<prism-highlighter>` must be placed in the main document.
+-->
+<dom-module id="raml-resource-body-viewer">
+  <template>
+    <style include="prism-theme-default"></style>
+    <style>
+    :host {
+      display: block;
+    }
+    h4 {
+      @apply(--paper-font-common-base);
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 20px;
+    }
+    .params-table {
+      border-collapse: collapse;
+      text-align: left;
+      width: 100%;
+      margin-bottom: 40px;
+      @apply(--paper-font-body1);
+      font-size: 13px;
+      font-weight: 400;
+      @apply(--raml-docs-params-table);
+    }
+    .params-table-header {
+      vertical-align: middle;
+      background-color: var(--primary-color);
+      color: rgba(255, 255, 255, 0.87);
+      @apply(--raml-docs-params-table-header);
+    }
+    .params-table-heade th {
+      height: 36px;
+    }
+    .params-table th,
+    .params-table td {
+      padding: 8px 12px;
+      vertical-align: top;
+    }
+    td.param-name,
+    td.param-type {
+      font-weight: 500;
+    }
+
+    .param-desc .pattern,
+    .param-desc .example {
+      color: rgba(0, 0, 0, 0.54);
+      margin: 8px 0;
+    }
+
+    *[data-property-doc-markdown] {
+      white-space: pre-line;
+    }
+
+    .param-name.subproperty::before {
+      content: '.';
+    }
+    .param-name.subproperty {
+      padding-left: 28px;
+    }
+    h4,
+    #output {
+      padding: 0 12px;
+    }
+    </style>
+    <h4>[[displayName]]</h4>
+    <!-- <prism-highlighter></prism-highlighter> -->
+    <pre id="output"></pre>
+
+    <table class="params-table">
+      <thead class="params-table-header">
+        <tr>
+          <th>Property</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <template is="dom-repeat" items="[[body.typeProperties]]">
+          <tr>
+            <td class="param-name">[[item.name]]<span hidden$="[[!item.required]]">*</span></td>
+            <td class="param-type">[[item.type]]</td>
+            <td class="param-desc">
+              <div hidden$="[[!_hasValue(item.description)]]" data-property-doc-markdown$="[[index]]">[[_hightlightElement(item.description, index)]]</div>
+              <div hidden$="[[!_hasValue(item.pattern)]]" class="pattern">Validation pattern: <span>[[item.pattern]]</span></div>
+              <div hidden$="[[!_hasValue(item.example)]]" class="example">Example value: <span>[[item.example]]</span></div>
+            </td>
+          </tr>
+          <template is="dom-if" if="[[_hasSubproperties(item)]]" restamp="true">
+            <template is="dom-repeat" items="[[item.typeProperties]]" index-as="subIndex">
+              <tr>
+                <td class="param-name subproperty">[[item.name]]<span hidden$="[[!item.required]]">*</span></td>
+                <td class="param-type">[[item.type]]</td>
+                <td class="param-desc">
+                  <div data-property-doc-markdown$="sub[[subIndex]]">[[_hightlightElement(item.description, subIndex, 'sub')]]</div>
+                  <div hidden$="[[!_hasValue(item.pattern)]]" class="pattern">Validation pattern: <span>[[item.pattern]]</span></div>
+                  <div hidden$="[[!_hasValue(item.example)]]" class="example">Example value: <span>[[item.example]]</span></div>
+                </td>
+              </tr>
+            </template>
+          </template>
+        </template>
+      </tbody>
+    </table>
+
+  </template>
+  <script src="raml-resource-body-viewer.js"></script>
+</dom-module>

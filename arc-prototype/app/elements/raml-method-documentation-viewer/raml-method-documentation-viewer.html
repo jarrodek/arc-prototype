@@ -3,9 +3,15 @@
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../raml-responses-panel-view/raml-responses-panel-view.html">
+<link rel="import" href="../raml-resource-body-viewer/raml-resource-body-viewer.html">
+
 <dom-module id="raml-method-documentation-viewer">
   <template>
     <style>
+    :host{
+      display: block;
+      padding-bottom: 40px;
+    }
     h1 {
       @apply(--paper-font-headline);
     }
@@ -16,6 +22,7 @@
       @apply(--paper-font-subhead);
       padding: 8px 12px;
     }
+
     .methodName {
       font-weight: 500;
     }
@@ -176,7 +183,7 @@
         </template>
         <template is="dom-if" if="[[hasBodies]]">
           <template is="dom-repeat" items="[[bodies]]">
-            <p>TODO: body listing</p>
+            <raml-resource-body-viewer body="[[item]]"></raml-resource-body-viewer>
           </template>
         </template>
       </template>

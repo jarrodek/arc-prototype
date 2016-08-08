@@ -1,0 +1,50 @@
+<dom-module id="raml-resource-property-item">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      td {
+        padding: 8px 12px;
+        vertical-align: top;
+      }
+
+      td.param-name,
+      td.param-type {
+        font-weight: 500;
+      }
+
+      .param-desc .pattern,
+      .param-desc .example {
+        color: rgba(0, 0, 0, 0.54);
+        margin: 8px 0;
+      }
+
+      *[data-property-doc-markdown] {
+        white-space: pre-line;
+      }
+
+
+    </style>
+    <content select="[name]" id="name"><span>aaaa</span></content>
+    <content select="[type]" id="type"></content>
+    <content select="[description]" id="description"></content>
+    <!-- <template is="dom-repeat" items="[[data.typeProperties]]">
+        <td class="param-name">[[item.name]]<span hidden$="[[!item.required]]">*</span></td>
+        <td class="param-type">[[item.type]]</td>
+        <td class="param-desc">
+          <div data-property-doc-markdown$="[[index]]">[[_hightlightElement(item.description, index)]]</div>
+          <div hidden$="[[!_hasValue(item.pattern)]]" class="pattern">Validation pattern: <span>[[item.pattern]]</span></div>
+          <div hidden$="[[!_hasValue(item.example)]]" class="example">Example value: <span>[[item.example]]</span></div>
+        </td>
+        <td name></td>
+        <td type></td>
+        <td description></td>
+      <template is="dom-if" if="[[_hasSubproperties(item)]]" restamp="true">
+        <tr is="raml-resource-property-item" data="[[item]]"></tr>
+      </template>
+    </template> -->
+  </template>
+  <script src="raml-resource-property-item.js"></script>
+</dom-module>

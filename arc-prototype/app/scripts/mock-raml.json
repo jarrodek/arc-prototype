@@ -82,6 +82,28 @@
         "responses": [{
           "statusCode": 200
         }]
+      },{
+        "method": "PUT",
+        "displayName": "Update a person",
+        "description": "Updates the person in the datastore. ",
+        "body": [{
+          "contentType": "application/json",
+          "baseType": "object",
+          "typeProperties": [{
+            "type": "string",
+            "name": "id",
+            "required": true,
+            "pattern": "[A-Za-Z0-9]*"
+          }, {
+            "type": "array",
+            "name": "type",
+            "items": ["string"],
+            "uniqueItems": true
+          }]
+        }],
+        "responses": [{
+          "statusCode": 200
+        }]
       }]
     }]
   },{
@@ -161,7 +183,7 @@
       "name": "name",
       "required": true,
       "example": "John Smith",
-      "description": "Person full name"
+      "description": "Person full name. The input will be rejected if this property is not set while creating new object."
     },{
       "name": "birthday",
       "type": "string",
@@ -181,7 +203,7 @@
       "typeProperties": [{
         "name": "url",
         "type": "string",
-        "description": "The URL of the person's profile photo. To resize the image and crop it to a square, append the query string ?sz=x, where x is the dimension in pixels of each side."
+        "description": "The URL of the person's profile photo. To resize the image and crop it to a square, append the query string **?sz=x**, where x is the dimension in pixels of each side."
       }]
     },{
       "name": "tagline",
@@ -190,7 +212,7 @@
     },{
       "name": "etag",
       "type": "string",
-      "description": "ETag of this response for caching purposes."
+      "description": "ETag of this response for caching purposes. __ This property will be ignored when creating an object. __"
     },{
       "name": "language",
       "type": "string",

@@ -260,6 +260,7 @@ Polymer({
         params = params.concat(s.body);
       }
     }
+    this._extractTypes(params);
     return params;
   },
 
@@ -286,7 +287,45 @@ Polymer({
         params = params.concat(s.responses);
       }
     }
+    this._extractTypes(params, 'body');
     return params;
+  },
+
+  _extractTypes: function(params, property) {
+    var baseTypes = ['object', 'array','integer', 'string','number','boolean','datetime','file',
+      'null','any'];
+    var t = this.data.types;
+    if (t && t.length) {
+      let len = t.length;
+      params.forEach((param) => {
+        let _propertyParam = property ? param[property] : param;
+        if (!_propertyParam) {
+          return;
+        }
+        let baseType = null;
+        if (typeof _propertyParam === 'string') {
+          baseType = _propertyParam;
+          _propertyParam = {};
+          _propertyParam.baseType = baseType;
+        } else {
+          baseType = _propertyParam.baseType;
+        }
+        if (baseTypes.indexOf(baseType) === -1) {
+          for (var i = 0; i < len; i++) {
+            if (t[i].typeId === baseType) {
+              let _param = Object.assign(_propertyParam, t[i]);
+              _param.baseType = baseType;
+              if (property) {
+                param[property] = _param;
+              } else {
+                param = _param;
+              }
+              return;
+            }
+          }
+        }
+      });
+    }
   },
 
   _docChanged: function() {

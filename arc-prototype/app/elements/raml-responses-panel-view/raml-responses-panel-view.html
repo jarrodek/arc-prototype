@@ -59,6 +59,7 @@
                 <span class="label">Content type</span>
                 <span class="label-value">[[item.contentType]]</span>
               </div>
+              <raml-resource-body-viewer  hidden$="[[!_hasProperty(item, 'body')]]" body="[[item.body]]"></raml-resource-body-viewer>
             </section>
           </template>
         </iron-pages>
