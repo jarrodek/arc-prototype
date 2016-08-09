@@ -4,6 +4,7 @@
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../headers-editor/headers-editor.html">
 <link rel="import" href="../authorization-panel/authorization-panel.html">
+<link rel="import" href="../variables-editor/variables-editor.html">
 
 <dom-module id="request-config-panel">
   <template>
@@ -22,13 +23,13 @@
       <paper-tab>Headers</paper-tab>
       <paper-tab>Authorization</paper-tab>
       <paper-tab>Variables</paper-tab>
-      <paper-tab>Tests</paper-tab>
+      <!-- <paper-tab>Tests</paper-tab> -->
     </paper-tabs>
     <iron-pages selected="[[selectedPage]]">
       <headers-editor></headers-editor>
       <authorization-panel></authorization-panel>
-      <section>Variables panel</section>
-      <section>Tests panel</section>
+      <variables-editor></variables-editor>
+      <!-- <section>Tests panel</section> -->
     </iron-pages>
   </template>
 </dom-module>
