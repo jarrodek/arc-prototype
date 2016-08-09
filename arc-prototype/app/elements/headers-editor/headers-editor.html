@@ -5,20 +5,14 @@
 <link rel="import" href="../../bower_components/paper-tabs/paper-tab.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../../bower_components/code-mirror/code-mirror.html">
-<link rel="import" href="../../bower_components/paper-input/paper-input-container.html">
-<link rel="import" href="../../bower_components/paper-input/paper-input-error.html">
-<link rel="import" href="../../bower_components/iron-input/iron-input.html">
-<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../../bower_components/paper-button/paper-button.html">
-<link rel="import" href="../../bower_components/paper-autocomplete/paper-autocomplete.html">
 
 <link rel="import" href="../../scripts/code-mirror/cm-arc-style/cm-arc-styles.html">
-<link rel="import" href="content-type-support.html">
 <link rel="import" href="authorization-support.html">
-<link rel="import" href="wsse-support.html">
 <link rel="import" href="cookies-support.html">
 <link rel="import" href="headers-validator.html">
 <link rel="import" href="headers-editor-status.html">
+<link rel="import" href="headers-form.html">
+<link rel="import" href="../headers-sets-selector/headers-sets-selector.html">
 <link rel="import" href="../bytes-counter/bytes-counter.html">
 <link rel="import" href="../vertical-paper-tabs/vertical-paper-tabs.html">
 <link rel="import" href="../headers-parser-behavior/headers-parser-behavior.html">
@@ -38,18 +32,14 @@
         --code-mirror-wrapper: {
           display: block;
           height: 100%;
+          padding: 0;
+          margin: 0;
         };
         --code-mirror-editor: {
           z-index: 0;
           display: block;
-        }
-
-        --paper-input-container-underline: {
-          background-color: var(--main-section-border-color);
-        }
-
-        --paper-autocomplete: {
-          top: 32px;
+          padding: 0;
+          margin: 0;
         }
       }
 
@@ -60,27 +50,12 @@
         @apply(--headers-editor);
       }
 
-      input::-webkit-input-placeholder {
-        color: var(--paper-input-container-color, --secondary-text-color);
-      }
       .headers-title {
         @apply(--paper-font-caption);
         color: #737373;
       }
-      .form-row {
-        @apply(--layout-horizontal);
-        @apply(--layout-flex);
-        @apply(--layout-relative);
-      }
-      .header-name {
-        margin-right: 12px;
-      }
-      .header-value {
-        @apply(--layout-flex);
-      }
 
       .headers-list {
-        margin: 12px 0;
         position: relative;
       }
 
@@ -100,20 +75,14 @@
         color: white;*/
       }
 
-      .form-row .edit-header {
-        display: none;
-      }
-      .form-row.has-support .edit-header {
-        display: initial;
-      }
-
       iron-pages {
         @apply(--layout-flex);
       }
-      code-mirror,
-      iron-pages > section {
+
+      iron-pages > * {
         display: block;
-        height: 100%;
+        /*height: 100%;*/
+        margin: 12px;
       }
       code-mirror {
         overflow: hidden;
@@ -124,40 +93,9 @@
     </style>
     <div class="content">
       <iron-pages selected="{{tabSelected}}">
-        <section>
-          <code-mirror mode="http-headers" theme="cm-arc" on-change="valueChanged" value="{{headers}}" id="cm"></code-mirror>
-        </section>
-        <section class="headers-list">
-          <label class="headers-title">HTTP headers</label>
-          <div class="headers-form">
-            <template is="dom-repeat" id="headersList" items="{{headersList}}" on-dom-change="_onHeadersFormRender">
-              <div class="form-row">
-                <paper-input-container class="header-name" no-label-float inline auto-validate>
-                  <input is="iron-input" on-focus="_headerNameFocus" type="text" value="{{item.name::input}}" placeholder="Header name" required pattern="\S*"/>
-                  <paper-input-error>Header name is not valid</paper-input-error>
-                </paper-input-container>
-                <paper-input-container class="header-value" no-label-float inline auto-validate>
-                  <input is="iron-input" name="headerValue" type="text" value="{{item.value::input}}" placeholder="Header value" required/>
-                  <paper-input-error>Header value should not be empty</paper-input-error>
-                </paper-input-container>
-                <div class="edit-header">
-                  <paper-icon-button icon="arc:edit" title="Edit header value" on-tap="_openHeaderSupport"></paper-icon-button>
-                </div>
-                <paper-icon-button icon="close" title="Remove header" on-tap="_removeHeader"></paper-icon-button>
-                <paper-autocomplete loader on-query="_queryHeaderName" on-selected="_onHeaderNameSelected"></paper-autocomplete>
-              </div>
-            </template>
-          </div>
-          <paper-button raised on-tap="appendEmptyHeader">Add</paper-button>
-        </section>
-        <section>
-          <h4>Use predefined sets below to insert headers into the editor</h4>
-          <h5>Default Chrome headers</h5>
-          <code>
-            <pre>[[headersDefaults]]</pre>
-          </code>
-          <paper-button raised on-tap="_insertDefaultSet">Use this set</paper-button>
-        </section>
+        <code-mirror mode="http-headers" theme="cm-arc" on-change="valueChanged" value="{{headers}}" id="cm"></code-mirror>
+        <headers-form headers-list="{{headersList}}"></headers-form>
+        <headers-sets-selector is-payload="[[isPayload]]" on-headers-set-selected="_insertDefaultSet"></headers-sets-selector>
       </iron-pages>
 
       <vertical-paper-tabs class="page-selector" selected="{{tabSelected}}">
@@ -172,11 +110,9 @@
 
     <headers-validator headers="[[headers]]" valid="{{valid}}" error-message="{{headersErrorMessage}}"></headers-validator>
     <bytes-counter value="[[headers]]" bytes="{{headersSize}}"></bytes-counter>
-    <!-- <arc-header-object-model id="headerModel" on-data-ready="_setNameSuggestions"></arc-header-object-model> -->
-    <content-type-support></content-type-support>
     <authorization-support></authorization-support>
-    <wsse-support></wsse-support>
     <cookies-support></cookies-support>
+
   </template>
   <script src="headers-editor.js"></script>
 </dom-module>

@@ -1,0 +1,76 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input-container.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input-error.html">
+<link rel="import" href="../../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-autocomplete/paper-autocomplete.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+
+<link rel="import" href="content-type-support.html">
+<link rel="import" href="authorization-support.html">
+<link rel="import" href="wsse-support.html">
+<link rel="import" href="cookies-support.html">
+<link rel="import" href="../arc-icons/arc-icons.html">
+<dom-module id="headers-form">
+  <template>
+    <style>
+    :host {
+      display: block;
+      --paper-input-container-underline: {
+        background-color: var(--main-section-border-color);
+      }
+      --paper-autocomplete: {
+        top: 32px;
+      }
+    }
+    input::-webkit-input-placeholder {
+      color: var(--paper-input-container-color, --secondary-text-color);
+    }
+    .form-row {
+      @apply(--layout-horizontal);
+      @apply(--layout-flex);
+      @apply(--layout-relative);
+    }
+    .header-name {
+      margin-right: 12px;
+    }
+    .header-value {
+      @apply(--layout-flex);
+    }
+    .form-row .edit-header {
+      display: none;
+    }
+    .form-row.has-support .edit-header {
+      display: initial;
+    }
+    </style>
+    <div class="headers-form">
+      <template is="dom-repeat" id="headersList" items="{{headersList}}" on-dom-change="_onHeadersFormRender">
+        <div class="form-row">
+          <paper-input-container class="header-name" no-label-float inline auto-validate>
+            <input is="iron-input" on-focus="_headerNameFocus" type="text" value="{{item.name::input}}" placeholder="Header name" required pattern="\S*" />
+            <paper-input-error>Header name is not valid</paper-input-error>
+          </paper-input-container>
+          <paper-input-container class="header-value" no-label-float inline auto-validate>
+            <input is="iron-input" name="headerValue" type="text" value="{{item.value::input}}" placeholder="Header value" required/>
+            <paper-input-error>Header value should not be empty</paper-input-error>
+          </paper-input-container>
+          <div class="edit-header">
+            <paper-icon-button icon="arc:edit" title="Edit header value" on-tap="_openHeaderSupport"></paper-icon-button>
+          </div>
+          <paper-icon-button icon="close" title="Remove header" on-tap="_removeHeader"></paper-icon-button>
+          <paper-autocomplete loader on-query="_queryHeaderName" on-selected="_onHeaderNameSelected"></paper-autocomplete>
+        </div>
+      </template>
+    </div>
+    <paper-button raised on-tap="appendEmptyHeader">Add</paper-button>
+    <content-type-support></content-type-support>
+    <authorization-support></authorization-support>
+    <wsse-support></wsse-support>
+    <cookies-support></cookies-support>
+    <!-- <arc-header-object-model id="headerModel" on-data-ready="_setNameSuggestions"></arc-header-object-model> -->
+  </template>
+  <script src="headers-form.js"></script>
+</dom-module>
