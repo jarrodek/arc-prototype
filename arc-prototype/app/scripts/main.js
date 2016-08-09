@@ -1,7 +1,7 @@
 (function(scope) {
   // Current screen
-  // scope.currentScreen = 'request';
-  scope.currentScreen = 'projectview';
+  scope.currentScreen = 'request';
+  // scope.currentScreen = 'projectview';
   scope.raml = {};
   /**
    * Navigation support.

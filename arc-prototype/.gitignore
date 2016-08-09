@@ -2,5 +2,6 @@
 .vscode
 .imdone
 node_modules
+bower_components
 build
 dist
