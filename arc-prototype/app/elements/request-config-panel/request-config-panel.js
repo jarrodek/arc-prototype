@@ -5,6 +5,13 @@ Polymer({
     selectedPage: {
       type: Number,
       value: 0
-    }
+    },
+
+    contentType: {
+      type: Object,
+      notify: true
+    },
+
+    isPayload: Boolean
   }
 });

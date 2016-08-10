@@ -77,6 +77,26 @@ Polymer({
     changingType: {
       type: Boolean,
       value: false
+    },
+
+    keyInput: {
+      type: HTMLElement,
+      value: function() {
+        return this.$.keyInput;
+      }
+    },
+    keySuggestionsList: {
+      type: Array,
+      value: function() {
+        return [
+          'id',
+          'kind',
+          'name',
+          'age',
+          'phone-number',
+          'address'
+        ];
+      }
     }
   },
 

@@ -38,12 +38,28 @@ Polymer({
     contentType: {
       type: String,
       notify: true
+    },
+
+    // When true then the form require encodning before sending the request.
+    requireEncoding: Boolean,
+    formErrorMessage: {
+      type: String,
+      value: 'The form may require encodning before sending the request'
+    },
+    valid: {
+      type: Boolean,
+      value: true
+    },
+    payloadSize: {
+      type: Number,
+      value: 0
     }
   },
 
   observers: [
     '_valuesListChanged(valuesList.*)',
-    '_valueChanged(value)'
+    '_valueChanged(value)',
+    '_setValid(requireEncoding)'
   ],
 
   /** Encode payload button press handler */
@@ -52,10 +68,9 @@ Polymer({
     this.internalChange = true;
     this.set('value', value);
     this.internalChange = false;
-    if (this.tabSelected === 1) {
-      let arr = this.payloadStringToArray(value);
-      this.set('valuesList', arr);
-    }
+    let arr = this.payloadStringToArray(value);
+    this.set('valuesList', arr);
+    this.updateValue();
   },
   /** Decode payload button press handler */
   decodePaylod: function() {
@@ -63,10 +78,8 @@ Polymer({
     this.internalChange = true;
     this.set('value', value);
     this.internalChange = false;
-    if (this.tabSelected === 1) {
-      let arr = this.payloadStringToArray(value);
-      this.set('valuesList', arr);
-    }
+    let arr = this.payloadStringToArray(value);
+    this.set('valuesList', arr);
   },
 
   /** Append empty param row. */
@@ -92,6 +105,8 @@ Polymer({
     this.internalChange = true;
     this.set('value', value);
     this.internalChange = false;
+
+    this._checkEncoding(value);
   },
 
   /** Compute if form tab should be shown. */
@@ -150,5 +165,25 @@ Polymer({
       return;
     }
     this.setFormValues();
+  },
+
+  _checkEncoding: function(strValue) {
+    // console.log('this.checkEncoding();', strValue);
+    var decodedValue = this.decodeUrlEncoded(strValue);
+    if (decodedValue !== strValue) {
+      if (this.encodeUrlEncoded(decodedValue) === strValue) {
+        this.set('requireEncoding', false);
+        return;
+      }
+    }
+
+    var encodedValue = this.encodeUrlEncoded(strValue);
+    var requireEncoding = strValue !== encodedValue;
+    this.set('requireEncoding', requireEncoding);
+  },
+
+  _setValid: function(requireEncoding) {
+    var valid = !requireEncoding;
+    this.set('valid', valid);
   }
 });

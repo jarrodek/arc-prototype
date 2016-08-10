@@ -20,16 +20,21 @@
     .action-status {
       @apply(--layout-flex);
     }
+    .run-action {
+      background-color: var(--primary-color);
+      color: rgba(255, 255, 255, 0.87);
+    }
     </style>
 
-    <method-selector></method-selector>
-    <request-config-panel></request-config-panel>
-    <request-payload-panel></request-payload-panel>
+    <method-selector content-type="{{contentType}}" is-payload="{{isPayload}}"></method-selector>
+    <request-config-panel content-type="{{contentType}}" is-payload="{{isPayload}}"></request-config-panel>
+    <request-payload-panel hidden$="[[!isPayload]]" content-type="{{contentType}}"></request-payload-panel>
+
     <div class="actions">
       <div class="action-status">
       </div>
       <div class="primary-actions">
-        <paper-button raised on-tap="run">RUN</paper-button>
+        <paper-button raised on-tap="run" class="run-action">RUN</paper-button>
       </div>
     </div>
 

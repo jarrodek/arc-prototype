@@ -26,7 +26,7 @@
       <!-- <paper-tab>Tests</paper-tab> -->
     </paper-tabs>
     <iron-pages selected="[[selectedPage]]">
-      <headers-editor></headers-editor>
+      <headers-editor is-payload="[[isPayload]]" content-type="{{contentType}}"></headers-editor>
       <authorization-panel></authorization-panel>
       <variables-editor></variables-editor>
       <!-- <section>Tests panel</section> -->

@@ -20,7 +20,7 @@
   }
   iron-pages > * {
     border: 1px rgba(0, 0, 0, 0.24) solid;
-    padding: 12px;
+    /*padding: 12px;*/
   }
   </style>
   <paper-tabs selected="{{selectedPage}}">
@@ -29,9 +29,9 @@
     <paper-tab>Multipart</paper-tab>
   </paper-tabs>
   <iron-pages selected="[[selectedPage]]">
-    <payload-editor></payload-editor>
-    <form-data-editor></form-data-editor>
-    <multipart-editor></multipart-editor>
+    <payload-editor content-type="{{contentType}}"></payload-editor>
+    <form-data-editor content-type="{{contentType}}"></form-data-editor>
+    <multipart-editor content-type="{{contentType}}"></multipart-editor>
   </iron-pages>
   </template>
 </dom-module>

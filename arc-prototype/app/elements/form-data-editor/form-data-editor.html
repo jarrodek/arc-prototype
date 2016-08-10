@@ -6,6 +6,9 @@
 <link rel="import" href="../../bower_components/iron-input/iron-input.html">
 
 <link rel="import" href="../payload-parser-behavior/payload-parser-behavior.html">
+<link rel="import" href="../bytes-counter/bytes-counter.html">
+
+<link rel="import" href="form-data-editor-status.html">
 
 <dom-module id="form-data-editor">
   <template>
@@ -18,6 +21,10 @@
       color: var(--paper-input-container-color, --secondary-text-color);
     }
 
+    paper-button {
+      font-size: 14px;
+    }
+
     .params-title {
       @apply(--paper-font-caption);
       color: #737373;
@@ -27,6 +34,7 @@
       @apply(--layout-horizontal);
       @apply(--layout-flex);
       @apply(--layout-center);
+      padding: 0 12px;
     }
 
     .param-name {
@@ -43,24 +51,38 @@
 
     .add-param-button {
       margin-top: 12px;
+      /*color: rgba(255, 255, 255, 0.87);
+      background-color: var(--primary-color);*/
+      color: var(--primary-color);
     }
 
     .form-info {
       @apply(--layout-horizontal);
       @apply(--layout-flex);
       @apply(--layout-center-center);
+      padding: 24px;
     }
 
     .form-info> div {
       @apply(--layout-vertical);
     }
+
+    form-data-editor-status {
+      border-top: 1px rgba(0, 0, 0, 0.36) solid;
+    }
+    .label-info {
+      padding: 12px;
+    }
+
     </style>
     <div hidden$="[[!withForm]]">
       <div class="encoder-buttons">
         <paper-button title="Encodes payload to x-www-form-urlencoded data" on-tap="encodePaylod">encode payload</paper-button>
         <paper-button title="Decodes payload to human readable form" on-tap="decodePaylod">decode payload</paper-button>
       </div>
-      <label class="params-title">Form data for x-www-form-urlencoded parameters</label>
+      <div class="label-info">
+        <label class="params-title">Form data for x-www-form-urlencoded parameters</label>
+      </div>
       <template is="dom-repeat" id="valuesList" items="{{valuesList}}" on-dom-change="_onParamsRender">
         <div class="form-row">
           <paper-input-container class="param-name" no-label-float inline>
@@ -72,7 +94,7 @@
           <paper-icon-button icon="close" title="Remove param" on-tap="_removeParam"></paper-icon-button>
         </div>
       </template>
-      <paper-button raised on-tap="appendEmptyParam" class="add-param-button">Add another parameter</paper-button>
+      <paper-button on-tap="appendEmptyParam" class="add-param-button">Add</paper-button>
     </div>
     <div hidden$="[[withForm]]" class="form-info">
       <div>
@@ -80,6 +102,8 @@
         <paper-button raised on-tap="_updateContentType" data-ct="application/x-www-form-urlencoded">Use x-www-form-urlencoded</paper-button>
       </div>
     </div>
+    <form-data-editor-status hidden$="[[!withForm]]" payload-size="[[payloadSize]]" valid="[[valid]]" error-message="[[formErrorMessage]]"></form-data-editor-status>
+    <bytes-counter value="[[value]]" bytes="{{payloadSize}}"></bytes-counter>
   </template>
 </dom-module>
 <script src="form-data-editor.js"></script>

@@ -6,6 +6,7 @@
 <link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../../bower_components/paper-autocomplete/paper-autocomplete.html">
 <dom-module id="object-editor">
   <template>
     <style>
@@ -95,7 +96,7 @@
     <div class$="[[_computeKeyLineClass(isObject, changingType)]]">
       <div hidden$="[[noKey]]">
         <span class="punctuation">&quot;</span>
-        <paper-input label="key name" class="key-input" no-label-float value="{{value.name}}"></paper-input>
+        <paper-input id="keyInput" label="key name" class="key-input" no-label-float value="{{value.name}}"></paper-input>
         <span class="punctuation">&quot;</span>
         <span class="punctuation separator">:</span>
         <template is="dom-if" if="[[isObject]]">
@@ -109,6 +110,7 @@
           </paper-menu-button>
           <paper-icon-button icon="arc:remove-circle-outline" on-tap="_remove"></paper-icon-button>
         </template>
+        <paper-autocomplete id="keySuggestions" target="[[keyInput]]" source="[[keySuggestionsList]]"></paper-input-autocomplete>
       </div>
 
       <div class="value-part" hidden$="[[changingType]]">

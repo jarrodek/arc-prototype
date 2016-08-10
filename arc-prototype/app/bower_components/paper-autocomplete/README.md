@@ -17,7 +17,7 @@ an element reference to the `target` property.
     <paper-autocomplete
       id="fruitsSuggestions"
       target="[[fruits]]"
-      on-selected="_fruitSelected></paper-input-autocomplete>
+      on-selected="_fruitSelected"></paper-autocomplete>
 
     <script>
       document.querySelector('#fruitsSuggestions').source = ['Apple', 'Orange', 'Bananas'];

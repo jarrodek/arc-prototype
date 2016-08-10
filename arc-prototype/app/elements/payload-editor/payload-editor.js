@@ -27,6 +27,22 @@ Polymer({
           }
         };
       }
+    },
+    value: String
+  },
+
+  observers: [
+    '_generateValue(jsonPayload.*)',
+    '_tabChanged(tabSelected)'
+  ],
+
+  _generateValue: function() {
+    this.set('value', JSON.stringify(this.jsonPayload, null, 2));
+  },
+
+  _tabChanged: function(tabSelected) {
+    switch (tabSelected) {
+      case 1: this.$.cm.editor.refresh(); break;
     }
   }
 });
