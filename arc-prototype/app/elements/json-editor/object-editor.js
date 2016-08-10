@@ -44,6 +44,39 @@ Polymer({
         ];
       },
       readOnly: true
+    },
+    typesValues: {
+      type: Array,
+      value: function() {
+        return [{
+            display: 'String',
+            value: 'string'
+          },{
+            display: 'Float',
+            value: 'float'
+          },{
+            display: 'Integer',
+            value: 'integer'
+          },{
+            display: 'Boolean',
+            value: 'boolean'
+          },{
+            display: 'Null',
+            value: 'null'
+          },{
+            display: 'Object',
+            value: 'object'
+          },{
+            display: 'Array',
+            value: 'array'
+          }];
+      },
+      readOnly: true
+    },
+
+    changingType: {
+      type: Boolean,
+      value: false
     }
   },
 
@@ -54,8 +87,8 @@ Polymer({
   ],
 
   _valueChanged: function() {
-    // console.log('Value changed');
     var v = this.value;
+    // console.log('Value changed', v);
     this.isObject = false;
     this.isArray = false;
     this.isString = false;
@@ -65,6 +98,7 @@ Polymer({
     this.isNull = false;
     var type = v.type || v.value.type;
     if (!type) {
+      this.changingType = true;
       return;
     }
 
@@ -95,12 +129,18 @@ Polymer({
     e.preventDefault();
     e.stopImmediatePropagation();
     e.stopPropagation();
+    // debugger;
     var rm = e.detail.value;
     /// this.value.value.children[0] === e.detail.value
-    var children = this.value.value.children;
+    var children = this.value.children || this.value.value.children;
     for (let i = 0, len = children.length; i < len; i++) {
       if (children[i] === rm) {
-        this.splice('value.value.children', i, 1);
+        if ('value' in this.value) {
+          this.splice('value.value.children', i, 1);
+        } else {
+          this.splice('value.children', i, 1);
+        }
+        Polymer.dom(this.root).querySelector('[object-repeater]').render();
         break;
       }
     }
@@ -108,6 +148,69 @@ Polymer({
   },
 
   _insertObject: function() {
-    console.log('_insertObject', this.value);
+    // console.log('_insertObject', this.value);
+    var obj = {
+      'name': '',
+      'value': {
+        value: ''
+      }
+    };
+    if ('value' in this.value) {
+      if (!this.value.value.children || !this.value.value.children.length) {
+        this.value.value.children = [];
+      }
+      this.push('value.value.children', obj);
+    } else {
+      if (!this.value.children || !this.value.children.length) {
+        this.value.children = [];
+      }
+      this.push('value.children', obj);
+    }
+    Polymer.dom(this.root).querySelector('[object-repeater]').render();
+  },
+
+  _computeKeyLineClass: function(isObject, changingType) {
+    var clazz = 'key-line';
+    if (isObject && !changingType) {
+      clazz += ' objectable';
+    }
+    return clazz;
+  },
+
+  _valueMenuItemSelected: function(e) {
+    // console.log('_valueMenuItemSelected', e, Polymer.dom(e));
+    switch (e.detail.item.dataset.action) {
+      case 'type-change':
+        this.changingType = true;
+      break;
+      case 'delete':
+        this._remove(e);
+      break;
+      case 'insert-variable':
+        this.$.noFeat.open();
+      break;
+    }
+    var target = Polymer.dom(e).rootTarget;
+    target.selected = -1;
+  },
+
+  _cancelTypeChange: function() {
+    this.changingType = false;
+  },
+
+  _typeSelected: function(e) {
+    if (!this.changingType) {
+      return;
+    }
+    this.changingType = false;
+    var type = e.detail.item.dataset.type;
+    this.set('value.type', type);
+  },
+
+  _render: function() {
+    var elm = Polymer.dom(this.root).querySelector('[object-repeater]');
+    if (elm) {
+      elm.render();
+    }
   }
 });

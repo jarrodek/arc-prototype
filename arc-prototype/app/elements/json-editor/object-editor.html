@@ -1,65 +1,143 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
-
+<link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
 <dom-module id="object-editor">
   <template>
     <style>
     :host {
       display: block;
+      --paper-input-container-color: rgba(0,0,0,0.24);
+      --paper-dropdown-menu-input: {
+        color: #673AB7;
+        /*background-color: #673AB7;*/
+      }
+      --paper-dropdown-menu-button: {
+        color: #673AB7;
+        /*background-color: #673AB7;*/
+      }
     }
+
     paper-input {
       display: inline-block;
     }
+
     paper-icon-button {
       width: 32px;
       height: 32px;
     }
+
     .indention {
       margin-left: 12px;
     }
-    </style>
-    <div class="key-line">
-      <span hidden$="[[noKey]]">
-        <span>&quot;</span>
-        <paper-input label="key name" no-label-float value="{{value.name}}"></paper-input>
-        <span>&quot;</span>
-        <span>:</span>
-      </span>
-      <template is="dom-if" if="[[isObject]]">
-        <div>{</div>
-        <div class="indention">
-          <template is="dom-repeat" items="[[childrenObjects]]" id="objectRepeater">
-            <object-editor value="{{item}}" on-remove-value="_deepRemove"></object-editor>
-          </template>
-          <div class="add-action">
-            <paper-button on-tap="_insertObject">add</paper-button>
-          </div>
-        </div>
-        <div>
-          <span>}</span>
-          <paper-icon-button icon="arc:more-vert"></paper-icon-button>
-          <paper-icon-button icon="arc:remove-circle-outline" on-tap="_remove"></paper-icon-button>
-        </div>
-      </template>
 
-      <span hidden$="[[isObject]]">
-        <span>&quot;</span>
+    .key-line {
+      @apply(--layout-horizontal);
+    }
+    .key-line.objectable {
+      @apply(--layout-vertical);
+    }
+    .key-input {
+      color: rgba(0,0,0,0.54);
+    }
+    .value-part {
+      @apply(--layout-flex);
+    }
+    .action-button {
+      font-size: 14px;
+      color: var(--primary-color);
+      padding: 8px 8px;
+      min-width: auto;
+    }
+    .punctuation {
+      @apply(--paper-font-body1);
+      color: rgba(0,0,0,0.54);
+      font-size: 14px;
+    }
+    .punctuation.string {
+      color: rgba(0,136,0,1);
+    }
+
+    .separator {
+      margin: 0 8px;
+    }
+    .gap-fill {
+      width: 4px;
+      display: inline-block;
+    }
+    .string-input {
+      --paper-input-container-input: {
+        color: #080;
+      }
+    }
+    .numeric-input {
+      --paper-input-container-input: {
+        color: #303F9F;
+      }
+    }
+    .boolean-input {
+      --paper-input-container-input: {
+        color: #4A148C;
+      }
+    }
+    .null-input {
+      color: #4A148C;
+    }
+    paper-menu-button {
+      padding: 0;
+    }
+
+    </style>
+    <div class$="[[_computeKeyLineClass(isObject, changingType)]]">
+      <div hidden$="[[noKey]]">
+        <span class="punctuation">&quot;</span>
+        <paper-input label="key name" class="key-input" no-label-float value="{{value.name}}"></paper-input>
+        <span class="punctuation">&quot;</span>
+        <span class="punctuation separator">:</span>
         <template is="dom-if" if="[[isObject]]">
-          <object-editor value="{{value.value}}"></object-editor>
+          <paper-menu-button>
+            <paper-icon-button icon="arc:more-vert" class="dropdown-trigger"></paper-icon-button>
+            <paper-menu class="dropdown-content" on-iron-select="_valueMenuItemSelected">
+              <paper-item data-action="type-change">Change type</paper-item>
+              <paper-item data-action="delete">Delete</paper-item>
+              <paper-item data-action="insert-variable">Insert variable</paper-item>
+            </paper-menu>
+          </paper-menu-button>
+          <paper-icon-button icon="arc:remove-circle-outline" on-tap="_remove"></paper-icon-button>
+        </template>
+      </div>
+
+      <div class="value-part" hidden$="[[changingType]]">
+        <span hidden$="[[isString]]" class="gap-fill"></span>
+        <template is="dom-if" if="[[isObject]]">
+          <div class="indention">
+            <div hidden$="[[!noKey]]" class="punctuation">{</div>
+            <template is="dom-repeat" items="[[childrenObjects]]" object-repeater>
+              <object-editor value="{{item}}" on-remove-value="_deepRemove"></object-editor>
+            </template>
+            <div class="add-action">
+              <paper-button class="action-button" on-tap="_insertObject">add</paper-button>
+            </div>
+            <div class="punctuation">}</div>
+          </div>
         </template>
         <template is="dom-if" if="[[isString]]">
-          <paper-input label="value" no-label-float value="{{value.value.value}}" type="string"></paper-input>
+          <span class="punctuation string">&quot;</span>
+          <paper-input label="value" class="string-input" no-label-float value="{{value.value.value}}" type="string"></paper-input>
+          <span class="punctuation string">&quot;</span>
         </template>
         <template is="dom-if" if="[[isInteger]]">
-          <paper-input label="value" no-label-float value="{{value.value.value}}" type="number" step="1"></paper-input>
+          <paper-input label="value" class="numeric-input" no-label-float value="{{value.value.value}}" type="number" step="1"></paper-input>
         </template>
         <template is="dom-if" if="[[isFloat]]">
-          <paper-input label="value" no-label-float value="{{value.value.value}}" type="number" step="0.01"></paper-input>
+          <paper-input label="value" class="numeric-input" no-label-float value="{{value.value.value}}" type="number" step="0.01"></paper-input>
         </template>
         <template is="dom-if" if="[[isBoolean]]">
-          <paper-dropdown-menu no-label-float label="Boolean value" >
+          <paper-dropdown-menu class="boolean-input" no-label-float label="Boolean value">
             <paper-listbox class="dropdown-content" selected="{{value.value.value}}" attr-for-selected="data-value">
               <template is="dom-repeat" items="[[booleanValues]]">
                 <paper-item data-value="[[item.value]]">[[item.display]]</paper-item>
@@ -67,14 +145,39 @@
             </paper-listbox>
           </paper-dropdown-menu>
         </template>
+        <template is="dom-if" if="[[isNull]]">
+          <span class="null-input">null</span>
+        </template>
+        <template is="dom-if" if="[[isArray]]">
+          <span class="null-input"><i>not yet supported</i></span>
+        </template>
         <!-- <paper-input label="value" no-label-float value="{{value.value.value}}" type="[[value.value.type]]"></paper-input> -->
-        <span>&quot;</span>
-        <paper-icon-button icon="arc:more-vert"></paper-icon-button>
-        <paper-icon-button icon="arc:remove-circle-outline" on-tap="_remove"></paper-icon-button>
-      </span>
+        <!-- <span hidden$="[[isString]]" class="gap-fill"></span> -->
+        <template is="dom-if" if="[[!isObject]]">
+          <paper-menu-button>
+            <paper-icon-button icon="arc:more-vert" class="dropdown-trigger"></paper-icon-button>
+            <paper-menu class="dropdown-content" on-iron-select="_valueMenuItemSelected">
+              <paper-item data-action="type-change">Change type</paper-item>
+              <paper-item data-action="delete">Delete</paper-item>
+              <paper-item data-action="insert-variable">Insert variable</paper-item>
+            </paper-menu>
+          </paper-menu-button>
+          <paper-icon-button icon="arc:remove-circle-outline" on-tap="_remove"></paper-icon-button>
+        </template>
+      </div>
+      <div class="value-part" hidden$="[[!changingType]]">
+        <span class="gap-fill"></span>
+        <paper-dropdown-menu no-label-float label="Select type">
+          <paper-listbox class="dropdown-content" selected="[[value.value.type]]" attr-for-selected="data-type" on-iron-select="_typeSelected">
+            <template is="dom-repeat" items="[[typesValues]]">
+              <paper-item data-type$="[[item.value]]">[[item.display]]</paper-item>
+            </template>
+          </paper-listbox>
+        </paper-dropdown-menu>
+        <paper-icon-button icon="arc:cancel" on-tap="_cancelTypeChange" title="Cancel"></paper-icon-button>
+      </div>
     </div>
-    <div class="value-line"></div>
-    <div class="end-line"></div>
+    <paper-toast text="Feature not yet available" id="noFeat"></paper-toast>
   </template>
 </dom-module>
 <script src="object-editor.js"></script>
