@@ -1,0 +1,18 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+
+<link rel="import" href="headers-display-item.html">
+
+<dom-module id="headers-display">
+  <template>
+    <style>
+    :host {
+      display: block;
+    }
+    </style>
+    <template is="dom-repeat" items="{{headers}}">
+      <headers-display-item header-name="[[item.name]]" header-value="[[item.value]]"></headers-display-item>
+    </template>
+  </template>
+  <script src="headers-display.js"></script>
+</dom-module>

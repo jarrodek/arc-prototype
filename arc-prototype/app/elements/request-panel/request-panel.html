@@ -1,12 +1,22 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-progress/paper-progress.html">
+
 <link rel="import" href="../method-selector/method-selector.html">
 <link rel="import" href="../request-config-panel/request-config-panel.html">
 <link rel="import" href="../request-payload-panel/request-payload-panel.html">
+
+<link rel="import" href="../response-panel/response-panel.html">
+
 <dom-module id="request-panel">
   <template>
     <style>
     :host {
       display: block;
+
+      --paper-progress-active-color: var(--primary-color);
     }
     :host > * {
       margin: 12px;
@@ -24,6 +34,10 @@
       background-color: var(--primary-color);
       color: rgba(255, 255, 255, 0.87);
     }
+    .request-status {
+      @apply(--paper-font-caption);
+      color: rgba(0, 0, 0, 0.54);
+    }
     </style>
 
     <method-selector content-type="{{contentType}}" is-payload="{{isPayload}}"></method-selector>
@@ -37,6 +51,15 @@
         <paper-button raised on-tap="run" class="run-action">RUN</paper-button>
       </div>
     </div>
+
+    <section class="loader" hidden$="[[!loading]]">
+      <p class="request-status">[[statusMessage]]</p>
+      <paper-progress indeterminate></paper-progress>
+    </section>
+
+    <section class="response" hidden$="[[!hasResponse]]">
+      <response-panel response="[[response]]"></response-panel>
+    </section>
 
   </template>
 </dom-module>

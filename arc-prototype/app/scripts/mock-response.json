@@ -1,0 +1,62 @@
+{
+  "_headers": {},
+  "headers": [
+    {
+      "name": "server",
+      "value": "nginx"
+    },
+    {
+      "name": "date",
+      "value": "Mon, 22 Aug 2016 19:35:32 GMT"
+    },
+    {
+      "name": "content-type",
+      "value": "application/json"
+    },
+    {
+      "name": "content-length",
+      "value": "308"
+    },
+    {
+      "name": "connection",
+      "value": "keep-alive"
+    },
+    {
+      "name": "access-control-allow-origin",
+      "value": "*"
+    },
+    {
+      "name": "access-control-allow-credentials",
+      "value": "true"
+    }
+  ],
+  "status": 200,
+  "statusText": "OK",
+  "redirects": [],
+  "stats": {
+    "startTime": 1471894531798,
+    "connect": 87.74000000000524,
+    "send": 0.8299999999871943,
+    "wait": 90.41000000001804,
+    "receive": 8.819999999992433,
+    "_lastReceived": 94710.85
+  },
+  "ok": true,
+  "rawBody": "{\n  \"args\": {\n    \"alt\": \"json\", \n    \"query[]\": [\n      \"a\", \n      \"b\"\n    ]\n  }, \n  \"headers\": {\n    \"Authorization\": \"Basic dXNlcjI6cGFzc3dk\", \n    \"Cookie\": \"k1=v1; k2=v2\", \n    \"Host\": \"httpbin.org\"\n  }, \n  \"origin\": \"213.122.163.130\", \n  \"url\": \"http://httpbin.org/get?query[]=a&query[]=b&alt=json\"\n}\n",
+  "body": {
+    "args": {
+      "alt": "json",
+      "query[]": [
+        "a",
+        "b"
+      ]
+    },
+    "headers": {
+      "Authorization": "Basic dXNlcjI6cGFzc3dk",
+      "Cookie": "k1=v1; k2=v2",
+      "Host": "httpbin.org"
+    },
+    "origin": "213.122.163.130",
+    "url": "http://httpbin.org/get?query[]=a&query[]=b&alt=json"
+  }
+}

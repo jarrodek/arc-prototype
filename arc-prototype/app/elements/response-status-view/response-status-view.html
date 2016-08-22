@@ -1,0 +1,161 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tab.html">
+<link rel="import" href="../../bower_components/paper-badge/paper-badge.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../headers-display/headers-display.html">
+<link rel="import" href="../request-timings-panel/request-timings-panel.html">
+<link rel="import" href="../headers-parser-behavior/headers-parser-behavior.html">
+<dom-module id="response-status-view">
+  <template>
+    <style include="paper-material">
+    :host {
+      @apply(--layout-vertical);
+      --paper-tab: {
+        flex: inherit;
+      }
+      --paper-badge: {
+        position: initial;
+      }
+    }
+
+    .status-row,
+    .timings-row {
+      @apply(--layout-horizontal);
+      @apply(--paper-font-subhead);
+      @apply(--layout-center);
+      padding: 0 24px;
+      min-height: 56px;
+    }
+
+    .timings-row {
+      padding-right: 0;
+    }
+
+    .status-label {
+      width: 80px;
+      @apply(--paper-font-subhead);
+    }
+
+    .status-value {
+      @apply(--layout-flex);
+      @apply(--layout-horizontal);
+      @apply(--layout-center);
+    }
+
+    .response-status-help {
+      color: rgba(0, 0, 0, 0.24);
+      transition: color 300ms ease-in-out;
+    }
+
+    .response-status-help:hover {
+      color: rgba(33, 150, 243, 1);
+    }
+
+    .status-value.status {
+      padding: 0 16px;
+    }
+
+    .status-color {
+      color: var(--paper-green-700);
+    }
+
+    .status-color.warning {
+      color: var(--paper-orange-700);
+    }
+
+    .status-color.error {
+      color: var(--paper-red-700);
+    }
+
+    .no-redirects-container {
+      @apply(--layout-vertical);
+      @apply(--layout-center);
+    }
+
+    .no-redirects-info {
+      @apply(--paper-font-body2);
+    }
+
+    .source-message {
+      margin: 16px;
+      overflow: auto;
+    }
+
+    .source-message pre {
+      word-break: break-all;
+      @apply(--paper-font-code1);
+    }
+
+    .text {
+      -webkit-user-select: text;
+      cursor: text;
+    }
+
+    paper-tab > paper-badge {
+      --paper-badge-margin-left: 12px;
+      --paper-badge-margin-bottom: 0px;
+      --paper-badge-background: var(--paper-blue-500);
+      position: initial;
+    }
+
+    paper-badge.empty {
+      --paper-badge-background: var(--paper-grey-500);
+    }
+    </style>
+    <div class="status-row">
+      <div class="status-label text">Status:</div>
+      <div class="status-value status text">
+        <span class$="{{_computeStatusClass(statusCode)}}">
+          <span>{{statusCode}}</span>: <span>{{statusMessage}}</span>
+        </span>
+        <paper-icon-button on-tap="showStatusInfo" icon="help" class="response-status-help"></paper-icon-button>
+        <span class="text">Loading time: {{loadingTime}} ms</span>
+      </div>
+    </div>
+    <paper-tabs selected="{{selectedTab}}">
+      <paper-tab>
+        <span id="rh">Response headers</span>
+        <paper-badge for="rh" class$="[[_computeBageClass(responseHeaders.length)]]" label="[[responseHeaders.length]]"></paper-badge>
+      </paper-tab>
+      <paper-tab>
+        <span id="rqh">Request headers</span>
+        <paper-badge for="rqh" class$="[[_computeBageClass(requestHeadersArray.length)]]" label="[[requestHeadersArray.length]]"></paper-badge>
+      </paper-tab>
+      <paper-tab>
+        <span id="rd">Redirects</span>
+        <paper-badge for="rd" class$="[[_computeBageClass(redirectData.length)]]" label="[[redirectData.length]]"></paper-badge>
+      </paper-tab>
+      <paper-tab>Timings</paper-tab>
+    </paper-tabs>
+    <iron-pages selected="{{selectedTab}}">
+      <section>
+        <!-- Response headers -->
+        <headers-display headers="{{responseHeaders}}"></headers-display>
+      </section>
+      <section>
+        <!-- Request headers -->
+        <headers-display headers="{{requestHeadersArray}}"></headers-display>
+        <div class="source-message text">
+          <h5>Source message</h5>
+          <pre>[[httpMessage]]</pre>
+        </div>
+      </section>
+      <section>
+        <!-- Redirects -->
+        <div class="no-redirects-container">
+          <p class="no-redirects-info">There were no redirects during this request</p>
+        </div>
+        <!-- ! Redirects -->
+      </section>
+      <section>
+        <!-- Timings -->
+        <request-timings-panel redirect-timings="[[redirectTimings]]" request-timings="[[requestTimings]]"></request-timings-panel>
+      </section>
+    </iron-pages>
+  </template>
+  <script src="response-status-view.js"></script>
+</dom-module>
