@@ -67,11 +67,16 @@ Polymer({
 
   observers: [
     '_checkHttpMessage(httpMessage.*)',
-    '_computeHasResponseHeaders(responseHeaders)'
+    '_computeHasResponseHeaders(responseHeaders)',
+    '_updateTabs(responseHeaders)'
   ],
 
   attached: function() {
     this._checkHttpMessage();
+  },
+
+  _updateTabs: function() {
+    this.$.tabs.notifyResize();
   },
 
   _checkHttpMessage: function() {
@@ -90,9 +95,9 @@ Polymer({
     }
     return cls;
   },
-  
+
   showStatusInfo: function() {
-    console.log('UPDATE WITH TOAST');
+    this.$.statusCodeInfo.open();
   },
 
   _computeRequestHeaders: function(requestHeaders) {

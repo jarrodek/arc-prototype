@@ -13,13 +13,13 @@
     }
 
     response-status-view {
-      border: 1px var(--main-section-border-color) solid;
-      margin: 0 12px;
+      border: 1px var(--google-grey-300) solid;
+      /*margin: 0 12px;*/
     }
 
     response-payload-view {
-      border: 1px var(--main-section-border-color) solid;
-      margin: 12px;
+      border: 1px var(--google-grey-300) solid;
+      /*margin: 12px;*/
     }
 
     </style>
@@ -30,7 +30,7 @@
       response-headers="[[response.headers]]"
       request-headers="[[request.headers]]"
       http-message="[[request.messageSent]]"
-      redirect-data="[[response.redirects]]" 
+      redirect-data="[[response.redirects]]"
       request-timings="[[response.stats]]"></response-status-view>
     <response-payload-view payload="[[response.body]]" raw="[[response.rawBody]]" headers="[[response.headers]]"></response-payload-view>
   </template>

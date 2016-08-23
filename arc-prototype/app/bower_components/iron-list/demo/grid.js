@@ -20,7 +20,7 @@ HTMLImports.whenReady(function() {
 
           page: {
             type: Number,
-            value: 1
+            value: 0
           },
 
           searchText: {
@@ -59,17 +59,20 @@ HTMLImports.whenReady(function() {
           this.$.scrollTheshold.clearTriggers();
         },
 
+        _onLowerThreshold: function() {
+          this.debounce('_loadPhotos', this._loadMorePhotos, 60);
+        },
+
         _loadMorePhotos: function() {
           if (this.$.ajax.lastRequest) {
             this.$.ajax.lastRequest.abort();
           }
-
           this.page++;
           this.$.ajax.generateRequest();
         },
 
         _resetPhotos: function(searchText) {
-          this.page = 1;
+          this.page = 0;
           this.photos = [];
 
           if (searchText.trim() !== '') {

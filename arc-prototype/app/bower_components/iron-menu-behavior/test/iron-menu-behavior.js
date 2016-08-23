@@ -54,6 +54,41 @@ suite('menu a11y tests', function() {
           });
         });
 
+        test('focusing on next item skips invisible items', function(done) {
+          var menu = fixture('invisible');
+
+          MockInteractions.focus(menu);
+          // Wait for async focus
+          Polymer.Base.async(function() {
+            // Key press down
+            MockInteractions.keyDownOn(menu, 40);
+
+            Polymer.Base.async(function() {
+              var focusedItem = Polymer.dom(menu).node.focusedItem;
+              assert.equal(focusedItem, menu.items[4], 'menu.items[4] is focused');
+              done();
+            });
+          });
+        });
+
+        test('focusing on next item skips nested invisible items', function(done) {
+          var nestedMenu = fixture('nested-invisible');
+          var menu = nestedMenu.$.actualMenu;
+
+          MockInteractions.focus(menu);
+          // Wait for async focus
+          Polymer.Base.async(function() {
+            // Key press down
+            MockInteractions.keyDownOn(menu, 40);
+
+            Polymer.Base.async(function() {
+              var focusedItem = Polymer.dom(menu).node.focusedItem;
+              assert.equal(focusedItem, menu.items[4], 'menu.items[4] is focused');
+              done();
+            });
+          });
+        });
+
         test('focusing on next item in empty menu', function(done) {
           var menu = fixture('empty');
           MockInteractions.focus(menu);
@@ -98,6 +133,41 @@ suite('menu a11y tests', function() {
             Polymer.Base.async(function() {
               var focusedItem = Polymer.dom(menu).node.focusedItem;
               assert.equal(focusedItem, menu.items[2], 'menu.items[2] is focused');
+              done();
+            });
+          });
+        });
+
+        test('focusing on previous item skips invisible items', function(done) {
+          var menu = fixture('invisible');
+          MockInteractions.focus(menu);
+
+          // Wait for async focus
+          Polymer.Base.async(function() {
+            // Key press up
+            MockInteractions.keyDownOn(menu, 38);
+
+            Polymer.Base.async(function() {
+              var focusedItem = Polymer.dom(menu).node.focusedItem;
+              assert.equal(focusedItem, menu.items[4], 'menu.items[4] is focused');
+              done();
+            });
+          });
+        });
+
+        test('focusing on previous item skips nested invisible items', function(done) {
+          var nestedMenu = fixture('nested-invisible');
+          var menu = nestedMenu.$.actualMenu;
+          MockInteractions.focus(menu);
+
+          // Wait for async focus
+          Polymer.Base.async(function() {
+            // Key press up
+            MockInteractions.keyDownOn(menu, 38);
+
+            Polymer.Base.async(function() {
+              var focusedItem = Polymer.dom(menu).node.focusedItem;
+              assert.equal(focusedItem, menu.items[4], 'menu.items[4] is focused');
               done();
             });
           });

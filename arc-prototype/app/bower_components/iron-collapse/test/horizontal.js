@@ -41,4 +41,14 @@ suite('horizontal', function() {
           // Size should be immediately set.
           assert.equal(collapse.style.maxWidth, '0px');
         });
+
+        test('change size with updateSize', function(done) {
+          collapse.addEventListener('transitionend', function() {
+            // size should be kept after transition
+            assert.equal(collapse.style.maxWidth, "123px");
+            done();
+          });
+          collapse.updateSize("123px", true);
+        });
+
       });

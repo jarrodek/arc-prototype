@@ -23,6 +23,11 @@ Polymer({
       primitive: {
         value: false,
         type: Boolean
+      },
+
+      useTabIndex: {
+        value: true,
+        type: Boolean
       }
     },
 
@@ -42,5 +47,9 @@ Polymer({
 
     _computedListHeight: function(listHeight) {
       return 'height: ' + (listHeight) + 'px;';
+    },
+
+    _computedTabIndex: function(tabIndex, useTabIndex) {
+      return useTabIndex ? tabIndex : undefined;
     }
   });

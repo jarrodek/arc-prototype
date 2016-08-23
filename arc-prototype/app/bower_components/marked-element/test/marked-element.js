@@ -32,7 +32,25 @@
       });
       test('has smartypants', function() {
         expect(markedElement.sanitize).to.equal(false);
-        console.log(outputElement.innerHTML)
+      });
+    });
+
+    suite('<marked-element> has some options of marked available', function( ){
+      var markedElement;
+      var proofElement;
+      var outputElement;
+      setup(function() {
+        markedElement = fixture('CustomCallbackFunction');
+        proofElement = document.createElement('div');
+        outputElement = document.getElementById('output');
+      });
+      test('calls callback after render', function() {
+        proofElement.innerHTML = '<div>Overridden!</div>'
+        markedElement.callback = function(err, text) {
+          assert.equal(text, '<p>Some content</p>\n');
+          return '<div>Overridden!</div>';
+        }
+        expect(outputElement.innerHTML).to.equal(proofElement.innerHTML);
       });
     });
 

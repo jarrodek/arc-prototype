@@ -13,6 +13,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../paper-styles/color.html">
 <link rel="import" href="../paper-styles/shadow.html">
 <link rel="import" href="../prism-element/prism-highlighter.html">
+<link rel="import" href="../prism-element/prism-theme-default.html">
 
 <!--
 `demo-snippet` is a helper element that displays the source of a code snippet and
@@ -52,6 +53,7 @@ Custom property | Description | Default
 
 </head><body><dom-module id="demo-snippet">
   <template>
+    <style is="custom-style" include="prism-theme-default"></style>
     <style>
       :host {
         display: block;

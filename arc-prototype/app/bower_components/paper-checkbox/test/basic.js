@@ -93,6 +93,45 @@ suite('defaults', function() {
           assert.isTrue(smallRect.height >= 1 * parseFloat(smallStyle.fontSize));
         });
       });
+
+      suite('ink size', function() {
+        var checkboxes;
+
+        setup(function() {
+          checkboxes = fixture('WithDifferentSizes2');
+        });
+
+        test('`--paper-checkbox-ink-size` sets the ink size', function() {
+          var checkbox = fixture('CustomInkSize');
+          assert.equal(checkbox.getComputedStyleValue('--calculated-paper-checkbox-size'), '25px');
+          assert.equal(checkbox.getComputedStyleValue('--calculated-paper-checkbox-ink-size'), '30px');
+        });
+
+        test('ink sizes are near (8/3 * checkbox size) by default', function() {
+          checkboxes.forEach(function(checkbox) {
+            var size = parseFloat(checkbox.getComputedStyleValue('--calculated-paper-checkbox-size'), 10);
+            var inkSize = parseFloat(checkbox.getComputedStyleValue('--calculated-paper-checkbox-ink-size'), 10);
+            assert.approximately(inkSize / size, 8 / 3, 0.1);
+          });
+        });
+
+        test('ink sizes are integers', function() {
+          checkboxes.forEach(function(checkbox) {
+            var unparsedInkSize = checkbox.getComputedStyleValue('--calculated-paper-checkbox-ink-size');
+            var floatInkSize = parseFloat(unparsedInkSize, 10);
+            var intInkSize = parseInt(unparsedInkSize, 10);
+            assert.equal(floatInkSize, intInkSize);
+          });
+        });
+
+        test('ink size parity matches checkbox size parity (centers are aligned)', function() {
+          checkboxes.forEach(function(checkbox) {
+            var size = parseInt(checkbox.getComputedStyleValue('--calculated-paper-checkbox-size'), 10);
+            var inkSize = parseInt(checkbox.getComputedStyleValue('--calculated-paper-checkbox-ink-size'), 10);
+            assert.equal(size % 2, inkSize % 2);
+          });
+        });
+      });
     });
 
     suite('a11y', function() {

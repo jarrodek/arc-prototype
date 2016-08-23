@@ -99,4 +99,32 @@ suite('basic', function() {
           assert.equal(collapse.style.transitionProperty, 'max-width');
         });
 
+        test('change size with updateSize', function(done) {
+          collapse.addEventListener('transitionend', function() {
+            // size should be kept after transition
+            assert.equal(collapse.style.maxHeight, "123px");
+            done();
+          });
+          collapse.updateSize("123px", true);
+        });
+
+      });
+
+      suite('empty', function() {
+
+        var collapse;
+
+        setup(function() {
+          collapse = fixture('test-empty');
+        });
+
+        test('empty&opened shows dynamically loaded content', function(done) {
+          flush(function () {
+            collapse.toggle();
+            collapse.toggle();
+            assert.equal(collapse.style.maxHeight, "");
+            done();
+          });
+        });
+
       });

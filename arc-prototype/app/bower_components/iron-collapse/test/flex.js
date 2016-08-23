@@ -89,4 +89,13 @@ suite('flex', function() {
           assert.equal(collapse.style.transitionProperty, 'max-width');
         });
 
+        test('change size with updateSize', function(done) {
+          collapse.addEventListener('transitionend', function() {
+            // size should be kept after transition
+            assert.equal(collapse.style.maxHeight, "123px");
+            done();
+          });
+          collapse.updateSize("123px", true);
+        });
+
       });

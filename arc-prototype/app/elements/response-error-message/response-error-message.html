@@ -1,0 +1,56 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../arc-icons/arc-icons.html">
+<!--
+## `response-error-message`
+The `<response-error-message>` element displays an eror message with the icon and styled text.
+It can be used as a default error element in the app.
+
+### Use
+Typical use for the element
+```
+<body>
+  <response-error-message hidden$="[[!isError]]">
+    <p>There was a general error</p>
+  </response-error-message>
+
+### Styling
+`<response-error-message>` provides the following custom properties and mixins for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--error-message-icon` | Mixin applied to the icon | `{}`
+`--error-message-text` | Mixin applied to the text | `{}`
+-->
+<dom-module id="response-error-message">
+  <template>
+    <style>
+    :host {
+      @apply(--layout-horizontal);
+      @apply(--layout-center);
+    }
+
+    .error-icon {
+      width: 128px;
+      height: 128px;
+      color: rgba(0, 0, 0, 0.56);
+      @apply(--error-message-icon);
+    }
+
+    .error-desc::content> * {
+      @apply(--paper-font-subhead);
+      color: var(--google-red-500);
+      @apply(--error-message-text);
+    }
+    </style>
+    <div>
+      <iron-icon class="error-icon" icon="[[icon]]"></iron-icon>
+    </div>
+    <div class="error-desc">
+      <content></content>
+    </div>
+  </template>
+  <script src="response-error-message.js"></script>
+</dom-module>

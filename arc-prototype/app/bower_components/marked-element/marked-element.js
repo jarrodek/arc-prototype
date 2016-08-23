@@ -37,6 +37,15 @@
         observer: 'render',
         type: Boolean,
         value: false
+      },
+      /**
+       * Callback function invoked by Marked after HTML has been rendered.
+       * It must take two arguments: err and text and must return the resulting text.
+       */
+      callback: {
+        observer: 'render',
+        type: Function,
+        value: null
       }
     },
 
@@ -119,7 +128,7 @@
         pedantic: this.pedantic,
         smartypants: this.smartypants
       };
-      Polymer.dom(this._outputElement).innerHTML = marked(this.markdown, opts);
+      Polymer.dom(this._outputElement).innerHTML = marked(this.markdown, opts, this.callback);
       this.fire('marked-render-complete');
     },
 

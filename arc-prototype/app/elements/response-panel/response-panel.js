@@ -8,7 +8,7 @@ Polymer({
       type: Object,
       value: function() {
         return {
-          'messageSent': 'GET /get?query[]=a&query[]=b&alt=json HTTP/1.1\nauthorization: Basic dXNlcjI6cGFzc3dk\ncookie: k1=v1; k2=v2\n\n',
+          'messageSent': 'GET /get?query[]=a&query[]=b&alt=json HTTP/1.1\nHOST: httpbin.org\nauthorization: Basic dXNlcjI6cGFzc3dk\ncookie: k1=v1; k2=v2\n\n',
           headers: new Headers({
             'authorization': 'Basic dXNlcjI6cGFzc3dk',
             'cookie': 'k1=v1; k2=v2'

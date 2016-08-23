@@ -6,9 +6,15 @@
 <link rel="import" href="../../bower_components/paper-tabs/paper-tab.html">
 <link rel="import" href="../../bower_components/paper-badge/paper-badge.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+
 <link rel="import" href="../headers-display/headers-display.html">
-<link rel="import" href="../request-timings-panel/request-timings-panel.html">
+<link rel="import" href="../request-timings/request-timings-panel.html">
 <link rel="import" href="../headers-parser-behavior/headers-parser-behavior.html">
+<link rel="import" href="http-source-message-view.html">
+
 <dom-module id="response-status-view">
   <template>
     <style include="paper-material">
@@ -80,16 +86,6 @@
       @apply(--paper-font-body2);
     }
 
-    .source-message {
-      margin: 16px;
-      overflow: auto;
-    }
-
-    .source-message pre {
-      word-break: break-all;
-      @apply(--paper-font-code1);
-    }
-
     .text {
       -webkit-user-select: text;
       cursor: text;
@@ -116,7 +112,7 @@
         <span class="text">Loading time: {{loadingTime}} ms</span>
       </div>
     </div>
-    <paper-tabs selected="{{selectedTab}}">
+    <paper-tabs id="tabs" selected="{{selectedTab}}">
       <paper-tab>
         <span id="rh">Response headers</span>
         <paper-badge for="rh" class$="[[_computeBageClass(responseHeaders.length)]]" label="[[responseHeaders.length]]"></paper-badge>
@@ -139,10 +135,7 @@
       <section>
         <!-- Request headers -->
         <headers-display headers="{{requestHeadersArray}}"></headers-display>
-        <div class="source-message text">
-          <h5>Source message</h5>
-          <pre>[[httpMessage]]</pre>
-        </div>
+        <http-source-message-view message="[[httpMessage]]"></http-source-message-view>
       </section>
       <section>
         <!-- Redirects -->
@@ -156,6 +149,14 @@
         <request-timings-panel redirect-timings="[[redirectTimings]]" request-timings="[[requestTimings]]"></request-timings-panel>
       </section>
     </iron-pages>
+
+    <paper-dialog id="statusCodeInfo">
+      <h2>200: OK</h2>
+      <paper-dialog-scrollable>Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action.</paper-dialog-scrollable>
+      <div class="buttons">
+        <paper-button dialog-confirm autofocus>Close</paper-button>
+      </div>
+    </paper-dialog>
   </template>
   <script src="response-status-view.js"></script>
 </dom-module>

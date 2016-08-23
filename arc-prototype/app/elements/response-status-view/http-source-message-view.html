@@ -1,0 +1,41 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/iron-collapse/iron-collapse.html">
+
+<dom-module id="http-source-message-view">
+  <template>
+    <style>
+    :host {
+      margin: 16px 16px 0 16px;
+      overflow: auto;
+      display: block;
+      @apply(--http-source-message-view);
+    }
+
+    pre {
+      word-break: break-all;
+      @apply(--paper-font-code1);
+      -webkit-user-select: text;
+      cursor: text;
+      @apply(--http-source-message);
+      margin-bottom: 0;
+    }
+
+    h5 {
+      margin: 0;
+      display: inline-block;
+      cursor: pointer;
+    }
+    </style>
+    <h5 on-tap="toggle">
+      Source message
+      <paper-icon-button icon="[[_computeIcon(opened)]]"></paper-icon-button>
+    </h5>
+    <iron-collapse id="collapse" opened="{{opened}}">
+      <pre>[[message]]</pre>
+    </iron-collapse>
+  </template>
+  <script src="http-source-message-view.js"></script>
+</dom-module>

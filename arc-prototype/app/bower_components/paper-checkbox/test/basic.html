@@ -22,12 +22,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       --paper-checkbox-label-spacing: 0;
     }
 
+    paper-checkbox.tiny {
+      --paper-checkbox-size: 5px;
+    }
+
+    paper-checkbox.medium {
+      --paper-checkbox-size: 37px;
+    }
+
     paper-checkbox.giant {
       --paper-checkbox-size: 50px;
     }
 
-    paper-checkbox.tiny {
-      --paper-checkbox-size: 5px;
+    paper-checkbox.enormous {
+      --paper-checkbox-size: 71px;
+    }
+
+    paper-checkbox.custom-ink-size {
+      --paper-checkbox-size: 25px;
+      --paper-checkbox-ink-size: 30px;
     }
 
     paper-checkbox.large-line-height {
@@ -64,6 +77,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <paper-checkbox class="no-label-spacing"></paper-checkbox>
       <paper-checkbox class="no-label-spacing giant"></paper-checkbox>
       <paper-checkbox class="no-label-spacing tiny"></paper-checkbox>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="WithDifferentSizes2">
+    <template>
+      <paper-checkbox class="tiny"></paper-checkbox>
+      <paper-checkbox></paper-checkbox>
+      <paper-checkbox class="medium"></paper-checkbox>
+      <paper-checkbox class="giant"></paper-checkbox>
+      <paper-checkbox class="enormous"></paper-checkbox>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="CustomInkSize">
+    <template>
+      <paper-checkbox class="custom-ink-size"></paper-checkbox>
     </template>
   </test-fixture>
 

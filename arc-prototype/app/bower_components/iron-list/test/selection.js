@@ -377,4 +377,22 @@ suite('selection', function() {
         MockInteractions.tap(node);
         assert.isNull(list.selectedItem);
       });
+
+      test('try to select active element', function() {
+        container.useTabIndex = false;
+        list.items = buildDataSet(1);
+        list.selectionEnabled = true;
+        Polymer.dom.flush();
+
+        var item = list._physicalItems[0];
+
+        if (item.setActive) {
+          item.setActive();
+        } else {
+          item.focus();
+        }
+
+        MockInteractions.tap(item);
+        assert.isNotNull(list.selectedItem);
+      });
     });

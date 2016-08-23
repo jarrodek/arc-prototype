@@ -139,7 +139,21 @@ suite('registration', function() {
       assert.isFalse(f.validate());
       assert.isFalse(input.validity.valid);
     });
-});
+
+    test('nested elements are not validated', function() {
+      var f = fixture('FormValidateNestedElements');
+
+      // <validatable-element-with-nested-elements> returns true.
+      assert.isTrue(f.validate());
+
+      // The form also contains an invalid custom and native element, but those
+      // shouldn't affect the form's validity.
+      assert.equal(f._customElements.length, 2);
+      assert.equal(f.elements.length, 1);
+      assert.isFalse(f.$$('simple-element').validate());
+      assert.isFalse(f.$$('input').checkValidity());
+    });
+  });
 
   suite('serializing', function() {
     var f;

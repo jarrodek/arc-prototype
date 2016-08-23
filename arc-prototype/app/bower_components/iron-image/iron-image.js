@@ -269,6 +269,7 @@ Polymer({
       },
 
       _resolveSrc: function(testSrc) {
-        return Polymer.ResolveUrl.resolveUrl(testSrc, this.ownerDocument.baseURI);
+        var baseURI = /** @type {string} */(this.ownerDocument.baseURI);
+        return (new URL(Polymer.ResolveUrl.resolveUrl(testSrc, baseURI), baseURI)).href;
       }
     });

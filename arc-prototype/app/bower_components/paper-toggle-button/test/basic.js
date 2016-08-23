@@ -5,6 +5,13 @@ suite('defaults', function() {
           b1 = fixture('Basic');
         });
 
+        test('set scroll direction', function(done) {
+          flush(function() {
+            assert.equal(b1.__polymerGesturesTouchAction, 'pan-y');
+            done();
+          });
+        });
+
         test('check button via click', function(done) {
           b1.addEventListener('click', function() {
             assert.isTrue(b1.getAttribute('aria-pressed') == 'true');
