@@ -1,0 +1,34 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<!-- <link rel="import" href="../../bower_components/paper-styles/paper-styles.html"> -->
+<!-- <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html"> -->
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+
+<dom-module id="url-input">
+  <template>
+    <style>
+    :host {
+      display: block;
+      --paper-input-container-color: rgba(255, 255, 255, 0.54);
+      --paper-input-container-focus-color: rgba(255, 255, 255, 0.87);
+      --paper-input-container-input-color: #FFF;
+    }
+
+    paper-input {
+      width: 100%;
+    }
+
+    paper-icon-button {
+      color: rgba(255, 255, 255, 0.54);
+    }
+
+    paper-icon-button:hover {
+      color: rgba(255, 255, 255, 0.87);
+    }
+    </style>
+    <paper-input label="Type URL or query here" no-label-float>
+      <paper-icon-button suffix icon="arc:send"></paper-icon-button>
+    </paper-input>
+  </template>
+  <script src="url-input.js"></script>
+</dom-module>

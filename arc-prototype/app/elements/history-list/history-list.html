@@ -1,0 +1,67 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+
+<dom-module id="history-list">
+  <template>
+    <style>
+    :host {
+      display: block;
+    }
+    h5 {
+      @apply(--paper-font-body1);
+      color: rgba(0, 0, 0, 0.54);
+      padding-left: 16px;
+    }
+
+    .sorting-options {
+      @apply(--layout-horizontal);
+      @apply(--layout-end-justified);
+    }
+    .history-item {
+      @apply(--paper-font-body1);
+      font-size: 15px;
+      color: rgba(0, 0, 0, 0.87);
+    }
+    .time {
+      margin-right: 16px;
+    }
+    .url {
+      @apply(--layout-flex);
+    }
+    .action {
+      color: var(--primary-color);
+    }
+    </style>
+    <div class="sorting-options">
+      <paper-dropdown-menu>
+        <paper-listbox class="dropdown-content" selected="{{sortMethod}}" attr-for-selected="data-sort">
+          <paper-item data-sort="by-time">By time</paper-item>
+          <paper-item data-sort="by-domain">By domain</paper-item>
+        </paper-listbox>
+      </paper-dropdown-menu>
+    </div>
+    <div class="list">
+      <template is="dom-repeat" items="[[entries]]">
+        <section>
+          <h5>[[item.title]]</h5>
+          <div class="entries">
+            <template is="dom-repeat" items="[[item.entries]]" as="entry">
+              <paper-item class="history-item">
+                <span class="time">[[_getTime(entry.time)]]</span>
+                <span class="url">[[entry.method]] [[entry.url]]</span>
+                <paper-button class="action">use</paper-button>
+              </paper-item>
+            </template>
+          </div>
+        </section>
+
+      </template>
+    </div>
+  </template>
+  <script src="history-list.js"></script>
+</dom-module>

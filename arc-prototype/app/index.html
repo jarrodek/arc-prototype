@@ -26,6 +26,7 @@
   <link rel="import" href="elements/request-panel/request-panel.html">
   <link rel="import" href="elements/arc-create-project/arc-create-project.html">
   <link rel="import" href="elements/raml-view-panel/raml-view-panel.html">
+  <link rel="import" href="elements/url-panel/url-panel.html">
 
   <style is="custom-style" include="shared-styles"></style>
 
@@ -51,7 +52,10 @@
       <paper-scroll-header-panel class="flex" main>
         <paper-toolbar>
           <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
-          <div class="title">TODO: url panel</div>
+          <div class="title">
+            <url-panel></url-panel>
+          </div>
+          <div id="progressBar" class="bottom fit"></div>
         </paper-toolbar>
         <div content class="main-content">
           <iron-pages attr-for-selected="data-screen" selected="[[currentScreen]]" selected-attribute="opened">

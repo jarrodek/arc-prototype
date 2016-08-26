@@ -1,11 +1,20 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+
+<link rel="import" href="../url-input/url-input.html">
+<link rel="import" href="../api-listing-panel/api-listing-panel.html">
+
 <dom-module id="url-panel">
   <template>
     <style>
       :host {
         display: block;
+        width: 100%;
       }
     </style>
-
+    <url-input id="rawInput" url="{{url}}"></url-input>
+    <api-listing-panel id="listings"></api-listing-panel>
   </template>
   <script src="url-panel.js"></script>
 </dom-module>

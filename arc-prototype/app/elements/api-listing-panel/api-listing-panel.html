@@ -1,0 +1,50 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tab.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+
+<link rel="import" href="../history-list/history-list.html">
+
+<dom-module id="api-listing-panel">
+  <template>
+    <style>
+      :host {
+        display: none;
+        position: fixed;
+        top: 64px;
+        left: 0px;
+        right: 0px;
+        background-color: white;
+        color: #000;
+        bottom: calc(100% - 64px);
+        transition: all 500ms cubic-bezier(0.4, 0, 1, 1);
+        overflow: hidden;
+        /*z-index: 100;*/
+      }
+      :host([opened]) {
+        display: block;
+      }
+      :host([activated]) {
+        bottom: 0px;
+      }
+
+      .content {
+        margin: 24px;
+      }
+    </style>
+
+    <div class="content">
+      <paper-tabs selected="{{selectedTab}}">
+        <paper-tab>YOUR HISTORY</paper-tab>
+        <paper-tab>PROJECTS</paper-tab>
+        <paper-tab>SAVED REQUESTS</paper-tab>
+      </paper-tabs>
+      <iron-pages selected="[[selectedTab]]">
+        <history-list></history-list>
+        <section>projects</section>
+        <section>saved</section>
+      </iron-pages>
+    </div>
+  </template>
+  <script src="api-listing-panel.js"></script>
+</dom-module>
