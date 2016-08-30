@@ -12,7 +12,8 @@ Polymer({
     opened: {
       type: Boolean,
       value: false,
-      reflectToAttribute: true
+      reflectToAttribute: true,
+      notify: true
     },
     noCancelOnOutsideClick: {
       type: Boolean,

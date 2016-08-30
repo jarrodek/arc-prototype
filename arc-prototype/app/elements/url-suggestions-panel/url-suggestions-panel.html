@@ -1,0 +1,36 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/shadow.html">
+
+
+<link rel="import" href="../url-parser-behavior/url-parser-behavior.html">
+
+<dom-module id="url-suggestions-panel">
+  <template>
+    <style>
+    :host {
+      @apply(--shadow-elevation-4dp);
+
+      display: none;
+      position: fixed;
+      top: 64px;
+      left: 0px;
+      right: 0px;
+      color: #000;
+      /*height: 100%;*/
+      transition: all 500ms cubic-bezier(0.4, 0, 1, 1);
+      overflow: auto;
+      background-color: #fafafa;
+    }
+    :host([opened]) {
+      display: block;
+    }
+    </style>
+
+    <div class="content" hidden$="[[!hasSuggestions]]">
+      <template is="dom-repeat" items="[[domains]]">
+        <paper-item>[[item]]</paper-item>
+      </template>
+    </div>
+  </template>
+  <script src="url-suggestions-panel.js"></script>
+</dom-module>

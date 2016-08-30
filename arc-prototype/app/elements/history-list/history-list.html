@@ -32,9 +32,30 @@
     }
     .url {
       @apply(--layout-flex);
+      @apply(--paper-font-common-nowrap);
     }
     .action {
       color: var(--primary-color);
+    }
+
+    .status {
+      @apply(--paper-font-caption);
+      padding: 0 4px;
+    }
+    .status.api-endpoint {
+      background-color: var(--paper-grey-300);
+    }
+    .status.saved {
+      background-color: var(--paper-blue-grey-300);
+    }
+    .paths,
+    .methods {
+      margin-left: 12px;
+    }
+
+    .method-name {
+      @apply(--layout-flex);
+      @apply(--paper-font-common-nowrap);
     }
     </style>
     <div class="sorting-options">
@@ -46,20 +67,45 @@
       </paper-dropdown-menu>
     </div>
     <div class="list">
-      <template is="dom-repeat" items="[[entries]]">
-        <section>
-          <h5>[[item.title]]</h5>
-          <div class="entries">
-            <template is="dom-repeat" items="[[item.entries]]" as="entry">
-              <paper-item class="history-item">
-                <span class="time">[[_getTime(entry.time)]]</span>
-                <span class="url">[[entry.method]] [[entry.url]]</span>
-                <paper-button class="action">use</paper-button>
-              </paper-item>
-            </template>
-          </div>
-        </section>
+      <template is="dom-if" if="[[_selectedSortMethod(sortMethod, 'by-time')]]" restamp="true">
+        <template is="dom-repeat" items="[[entries]]">
+          <section>
+            <h5>[[item.title]]</h5>
+            <div class="entries">
+              <template is="dom-repeat" items="[[item.entries]]" as="entry">
+                <paper-item class="history-item">
+                  <span class="time">[[_getTime(entry.time)]]</span>
+                  <span class="url" title$="[[entry.url]]">[[entry.method]] [[entry.url]]</span>
+                  <span class="api-endpoint status" hidden$="[[!entry.endpoint]]">API endpoint</span>
+                  <span class="saved status" hidden$="[[!entry.saved]]">Saved</span>
+                  <paper-button class="action">use</paper-button>
+                </paper-item>
+              </template>
+            </div>
+          </section>
+        </template>
+      </template>
+      <template is="dom-if" if="[[_selectedSortMethod(sortMethod, 'by-domain')]]" restamp="true">
+        <template is="dom-repeat" items="[[domainEntries]]" class="domain-repeater">
+          <paper-item on-tap="_togglePaths">[[item.domain]]</paper-item>
+          <iron-collapse class="paths" opened="[[item.opened]]">
 
+            <template is="dom-repeat" items="[[item.paths]]" as="path" class="path-repeater">
+              <paper-item on-tap="_toggleMethods">[[path.path]]</paper-item>
+              <iron-collapse class="methods" opened="[[path.opened]]">
+                <template is="dom-repeat" items="[[path.methods]]" as="method">
+                  <paper-item class="history-item">
+                    <span class="method-name">[[method.name]]</span>
+                    <span class="api-endpoint status" hidden$="[[!method.endpoint]]">API endpoint</span>
+                    <span class="saved status" hidden$="[[!method.saved]]">Saved</span>
+                    <paper-button class="action">use</paper-button>
+                  </paper-item>
+                </template>
+              </iron-collapse>
+            </template>
+
+          </iron-collapse>
+        </template>
       </template>
     </div>
   </template>

@@ -430,7 +430,7 @@
     }
   }
 
-  window.ArcBehaviors.UrlParserBehavior = {
+  ArcBehaviors.UrlParserBehavior = {
     parseUrl: function(url) {
       return new URLParser(url);
     },

@@ -4,17 +4,20 @@
 
 <link rel="import" href="../url-input/url-input.html">
 <link rel="import" href="../api-listing-panel/api-listing-panel.html">
+<link rel="import" href="../url-suggestions-panel/url-suggestions-panel.html">
+
 
 <dom-module id="url-panel">
   <template>
     <style>
-      :host {
-        display: block;
-        width: 100%;
-      }
+    :host {
+      display: block;
+      width: 100%;
+    }
     </style>
     <url-input id="rawInput" url="{{url}}"></url-input>
-    <api-listing-panel id="listings"></api-listing-panel>
+    <api-listing-panel hidden$="[[suggestionsOpened]]" id="listings" opened="{{opened}}"></api-listing-panel>
+    <url-suggestions-panel url="[[url]]" opened="[[suggestionsOpened]]" suggestions="[[urlSuggestions]]"></url-suggestions-panel>
   </template>
   <script src="url-panel.js"></script>
 </dom-module>

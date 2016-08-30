@@ -4,6 +4,8 @@
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 
 <link rel="import" href="../history-list/history-list.html">
+<link rel="import" href="../raml-projects-list/raml-projects-list.html">
+
 
 <dom-module id="api-listing-panel">
   <template>
@@ -14,12 +16,11 @@
         top: 64px;
         left: 0px;
         right: 0px;
-        background-color: white;
+        background-color: #fafafa;
         color: #000;
         bottom: calc(100% - 64px);
         transition: all 500ms cubic-bezier(0.4, 0, 1, 1);
-        overflow: hidden;
-        /*z-index: 100;*/
+        overflow: auto;
       }
       :host([opened]) {
         display: block;
@@ -37,12 +38,12 @@
       <paper-tabs selected="{{selectedTab}}">
         <paper-tab>YOUR HISTORY</paper-tab>
         <paper-tab>PROJECTS</paper-tab>
-        <paper-tab>SAVED REQUESTS</paper-tab>
+        <!-- <paper-tab>SAVED REQUESTS</paper-tab> -->
       </paper-tabs>
       <iron-pages selected="[[selectedTab]]">
         <history-list></history-list>
-        <section>projects</section>
-        <section>saved</section>
+        <raml-projects-list></raml-projects-list>
+        <!-- <section>saved</section> -->
       </iron-pages>
     </div>
   </template>

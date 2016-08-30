@@ -34,7 +34,7 @@
 <body class="fullbleed layout vertical">
   <template is="dom-bind" id="app">
     <prism-highlighter></prism-highlighter>
-    <paper-drawer-panel force-narrow>
+    <paper-drawer-panel id="drawer" force-narrow>
       <paper-header-panel drawer>
         <paper-toolbar class="tall">
           <paper-icon-button icon="arrow-back"></paper-icon-button>
@@ -51,9 +51,9 @@
 
       <paper-scroll-header-panel class="flex" main>
         <paper-toolbar>
-          <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+          <paper-icon-button icon="[[_computeToolbarIcon(urlPanelOpened)]]" on-tap="mainToolbarTriggerClick"></paper-icon-button>
           <div class="title">
-            <url-panel></url-panel>
+            <url-panel opened="{{urlPanelOpened}}"></url-panel>
           </div>
           <div id="progressBar" class="bottom fit"></div>
         </paper-toolbar>

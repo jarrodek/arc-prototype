@@ -1,0 +1,85 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-fab-menu/paper-fab-menu.html">
+<link rel="import" href="../../bower_components/paper-fab-menu/paper-fab-menu-item.html">
+
+<dom-module id="raml-projects-list">
+  <template>
+    <style>
+      :host {
+        display: block;
+
+        --paper-card-header-text: {
+          font-size: 16px;
+          font-weight: 500;
+        }
+
+        --paper-card-actions: {
+          font-size: 14px;
+        }
+      }
+      .content {
+        @apply(--layout-horizontal);
+        @apply(--layout-wrap);
+      }
+      .content paper-card {
+        margin: 24px;
+      }
+
+      .card-content {
+        @apply(--paper-font-subhead);
+      }
+      .card-content p {
+        margin: 0;
+      }
+
+      .label {
+        margin-right: 8px;
+      }
+
+      paper-fab-menu {
+      	position: fixed;
+      	right: 20px;
+      	bottom: 20px;
+      }
+
+    </style>
+    <div class="content">
+
+      <template is="dom-repeat" items="[[projects]]">
+        <paper-card heading="[[item.name]]">
+          <div class="card-content">
+            <p><span class="label">Version:</span><span class="value">[[item.version]]</span></p>
+            <p><span class="label block">Base url:</span><span class="value">[[item.baseUrl]]</span></p>
+          </div>
+          <div class="card-actions">
+            <paper-button on-tap="_openProject">Open</paper-button>
+
+            <paper-menu-button>
+              <paper-icon-button icon="arc:more-vert" class="dropdown-trigger"></paper-icon-button>
+              <paper-menu class="dropdown-content">
+                <paper-item>Delete</paper-item>
+                <paper-item>Edit</paper-item>
+                <paper-item>Open</paper-item>
+              </paper-menu>
+            </paper-menu-button>
+
+          </div>
+        </paper-card>
+      </template>
+
+    </div>
+
+    <paper-fab-menu icon="add" position="vertical" color="#48942A">
+      <paper-fab-menu-item icon="add" tooltip="Add new project" color="#E91E63" on-tap="_createProject"></paper-fab-menu-item>
+    </paper-fab-menu>
+  </template>
+  <script src="raml-projects-list.js"></script>
+</dom-module>
