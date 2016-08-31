@@ -24,13 +24,19 @@
       font-weight: 400;
       color: rgba(0, 0, 0, 0.54);
     }
+
+    .action {
+      color: var(--primary-color);
+      font-size: 14px;
+    }
     </style>
     <template is="dom-repeat" items="[[methods]]" id="repeater">
       <paper-item>
-        <paper-item-body class="api-def">
+        <!-- <paper-item-body class="api-def"> -->
           <div class="method-name">{{_computeMethodDisplayName(item)}}</div>
           <div class="method-type">[[item.description]]</div>
-        </paper-item-body>
+          <paper-button class="action">try it</paper-button>
+        <!-- </paper-item-body> -->
       </paper-item>
     </template>
   </template>

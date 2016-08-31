@@ -4,6 +4,7 @@
 | - url-panel
 |   - url-input
 |   - url-parameters-editor
+|   - api-search-panel
 |   - api-listing-panel
 |     - history-list
 |     - saved-list

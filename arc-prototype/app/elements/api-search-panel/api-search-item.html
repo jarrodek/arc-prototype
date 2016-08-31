@@ -1,0 +1,38 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<dom-module id="api-search-item">
+  <template>
+    <style>
+    :host {
+      display: block;
+      @apply(--layout-horizontal);
+      @apply(--layout-flex);
+      @apply(--paper-font-body1);
+    }
+
+    #name,
+    #method {
+      margin-right: 8px;
+    }
+
+    #name {
+      text-transform: capitalize;
+    }
+
+    #url {
+      @apply(--layout-flex);
+      @apply(--paper-font-common-nowrap);
+    }
+
+    mark {
+      background-color: transparent;
+      font-weight: 700;
+    }
+    </style>
+    <div id="name" hidden$="[[hideName]]">[[name]]</div>
+    <div id="method">[[method]]</div>
+    <div id="url">[[url]]</div>
+  </template>
+  <script src="api-search-item.js"></script>
+</dom-module>

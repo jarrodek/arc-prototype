@@ -1,5 +1,8 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-styles/shadow.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
 
 
 <link rel="import" href="../url-parser-behavior/url-parser-behavior.html">
@@ -20,17 +23,51 @@
       transition: all 500ms cubic-bezier(0.4, 0, 1, 1);
       overflow: auto;
       background-color: #fafafa;
+      overflow: auto;
+      max-height: calc(100% - 64px);
     }
     :host([opened]) {
       display: block;
     }
+
+    .content {
+      @apply(--paper-font-body1);
+    }
+
+    .content.domain .domain,
+    .content.path .path {
+      color: rgba(0, 0, 0, 0.54);
+    }
     </style>
 
-    <div class="content" hidden$="[[!hasSuggestions]]">
-      <template is="dom-repeat" items="[[domains]]">
-        <paper-item>[[item]]</paper-item>
+    <div hidden$="[[!hasSuggestions]]" class$="[[_computeClass(hasDomainSelected, hasPathSelected)]]">
+
+      <template is="dom-if" if="[[!hasDomainSelected]]" restamp="true">
+        <iron-selector id="domainList" selected="{{selectedDomain}}">
+          <template is="dom-repeat" items="[[domains]]">
+            <paper-item><span class="domain">[[item]]</span></paper-item>
+          </template>
+        </iron-selector>
       </template>
+
+      <template is="dom-if" if="[[_computeDisplayPaths(hasDomainSelected, hasPathSelected)]]" restamp="true">
+        <iron-selector id="pathList" selected="{{selectedPath}}">
+          <template is="dom-repeat" items="[[paths]]">
+            <paper-item><span class="domain">[[domain]]</span><span class="path">[[item]]</span></paper-item>
+          </template>
+        </iron-selector>
+      </template>
+
+      <template is="dom-if" if="[[_computeDisplayQueries(hasDomainSelected, hasPathSelected)]]" restamp="true">
+        <iron-selector id="queriesList" selected="{{selectedQuery}}">
+          <template is="dom-repeat" items="[[queries]]">
+            <paper-item><span class="domain">[[domain]]</span><span class="path">[[path]]</span><span class="query">?[[item]]</span></paper-item>
+          </template>
+        </iron-selector>
+      </template>
+
     </div>
+
   </template>
   <script src="url-suggestions-panel.js"></script>
 </dom-module>

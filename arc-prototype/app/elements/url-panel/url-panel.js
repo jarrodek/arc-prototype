@@ -22,15 +22,28 @@ Polymer({
       notify: true
     },
 
-    urlSuggestions: Array
+    urlSuggestions: Array,
+    suggestionsOpened: Boolean,
+    searchOpened: Boolean,
+
+    stopSuggestions: {
+      type: Boolean,
+      value: false
+    },
+
+    currentSuggestion: String
   },
 
   observers: [
-    'urlChanged(url)'
+    'urlChanged(url)',
+    '_openedChanged(opened)'
   ],
 
   listeners: {
-    'rawInput.focus': '_inputFocus'
+    'rawInput.focus': '_inputFocus',
+    'rawInput.keydown': '_inputKey',
+    'suggestion': '_onSuggestion',
+    'search': '_searchForced'
   },
 
   /**
@@ -40,21 +53,57 @@ Polymer({
    * @param {String} url New URL value.
    */
   urlChanged: function(url) {
-    console.log('_urlChanged(url)', url);
-    if (url && url.startsWith('http')) {
-      // search history and display url suggestions
-      this.generateSuggestions();
-    } else if (url && url.length > 2 && url[0] !== 'h' && url[1] !== 't') {
-      // display search results.
-      console.log('search!');
+    // console.log('_urlChanged(url)', url);
+    if (url) {
+      if (!this.stopSuggestions) {
+        this.debounce('query', () => this.generateSuggestions(), 500);
+      }
     } else {
       // close suggestions and search result panel
       console.log('close all');
+      this.closePanel();
     }
   },
 
   _inputFocus: function() {
     this.openPanel();
+  },
+
+  _inputKey: function(e) {
+    switch (e.keyCode) {
+      case 40: // down
+        if (this.suggestionsOpened) {
+          this.$.suggestions.moveDown();
+          e.preventDefault();
+        }
+      break;
+      case 38: // up
+        if (this.suggestionsOpened) {
+          this.$.suggestions.moveUp();
+          e.preventDefault();
+        }
+      break;
+      case 13: // enter
+        if (this.suggestionsOpened) {
+          this.$.suggestions.select();
+          e.preventDefault();
+        } else if (this.url) {
+          try {
+            new URL(this.url);
+            console.warn('Fire request start');
+          } catch (e) {
+            // perform a search.
+            this.search(this.url);
+          }
+        }
+      break;
+    }
+  },
+
+  _openedChanged: function(opened) {
+    if (!opened) {
+      this.closePanel();
+    }
   },
 
   openPanel: function() {
@@ -67,23 +116,66 @@ Polymer({
     }
   },
 
+  closePanel: function() {
+    this.$.listings.close();
+    this.suggestionsOpened = false;
+    this.searchOpened = false;
+    this.$.suggestions.reset();
+  },
+
   generateSuggestions: function() {
-    var a = [
-      'http://api.domain.com/',
-      'http://api.domain.com/path',
-      'http://api.domain.com/other/path',
-      'http://api.domain.com/item',
-      'http://api.domain.com/media/file',
-      'http://api.domain.com/media/upload',
-      'http://api.domain.com/people',
-      'http://api.domain.com/people/{personId}',
-      'http://api.domain.com/people/list',
-      'https://api.my-server.com',
-      'https://api.localhost',
-      'https://api.some.origin.com',
-      'http://api.x-domain.com'
-    ];
-    this.urlSuggestions = a;
-    this.suggestionsOpened = true;
+    var p;
+    if (this._cache) {
+      p = Promise.resolve(this._cache);
+    } else {
+      p = fetch('./scripts/mock-history.json').then((response) => {
+        return response.json();
+      }).then((json) => this._cache = json);
+    }
+
+    p.then((json) => this.filter(this.url, json))
+    .then((list) => {
+      this.urlSuggestions = list;
+      this.suggestionsOpened = list.length > 0;
+    });
+  },
+
+  filter: function(query, list) {
+    if (!query) {
+      return [];
+    }
+    if (!list) {
+      return [];
+    }
+    query = query.toLowerCase();
+    return list.filter((i) => {
+      var url = i.url.toLowerCase();
+      return url.indexOf(query) !== -1;
+    });
+  },
+
+  _onSuggestion: function(e) {
+    var d = e.detail;
+    // console.log('_onSuggestion', d);
+    if (d.final) {
+      this.stopSuggestions = true;
+      this.url = d.url;
+      this.stopSuggestions = false;
+      this.$.listings.close();
+    } else {
+      this.currentSuggestion = d.url;
+    }
+  },
+
+  search: function() {
+    this.searchOpened = true;
+  },
+
+  _searchForced: function() {
+    if (this.suggestionsOpened) {
+      this.suggestionsOpened = false;
+      this.$.suggestions.reset();
+    }
+    this.search();
   }
 });

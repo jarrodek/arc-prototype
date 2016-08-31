@@ -1,0 +1,131 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../bower_components/paper-item/paper-icon-item.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item-body.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+
+<link rel="import" href="../arc-icons/arc-icons.html">
+<link rel="import" href="api-search-item.html">
+
+<script src="../../bower_components/chance/chance.js"></script>
+
+<dom-module id="api-search-panel">
+  <template>
+    <style>
+    :host {
+      display: none;
+      position: fixed;
+      top: 64px;
+      left: 0px;
+      right: 0px;
+      color: #000;
+      height: calc(100% - 64px);
+      overflow: auto;
+      transition: all 500ms cubic-bezier(0.4, 0, 1, 1);
+      background-color: var(--paper-grey-100);
+      @apply(--paper-font-body-1);
+      padding-bottom: 12px;
+    }
+    :host([opened]) {
+      display: block;
+    }
+    h5 {
+      @apply(--paper-font-caption);
+      color: rgba(0, 0, 0, 0.54);
+      margin: 16px 0;
+    }
+    paper-material {
+      background-color: #fff;
+    }
+    iron-icon {
+      color: rgba(0, 0, 0, 0.24);
+    }
+    paper-icon-button {
+      color: rgba(0, 0, 0, 0.24);
+    }
+    .content {
+      max-width: 70%;
+      margin: 0 auto;
+      padding-bottom: 24px;
+    }
+
+
+    paper-dialog-scrollable p {
+      white-space: normal;
+    }
+
+    .action {
+      color: var(--primary-color);
+      font-size: 14px;
+    }
+
+    </style>
+
+    <div class="content">
+      <h5>Local data</h5>
+      <paper-material elevation="1" role="listbox">
+        <template is="dom-repeat" items="[[local]]" initial-count="15">
+          <paper-icon-item>
+            <iron-icon title="[[_computeIconTitle(item.source)]]" icon="[[_computeLocalIcon(item.source)]]" item-icon></iron-icon>
+            <api-search-item query="[[query]]" name="[[item.name]]" method="[[item.method]]" url="[[item.url]]" hide-name="[[_shouldHideName(item.source)]]"></api-search-item>
+            <paper-button class="action">use</paper-button>
+          </paper-icon-item>
+        </template>
+      </paper-material>
+
+      <h5>Anypoint exchange <paper-icon-button icon="arc:help-outline" title="About Anypoint Exchange" data-target="exchange" on-tap="_openHelp"></paper-icon-button></h5>
+      <paper-material elevation="1" role="listbox">
+        <template is="dom-repeat" items="[[exchange]]">
+          <paper-item>
+            <api-search-item query="[[query]]" name="[[item.name]]" method="[[item.method]]" url="[[item.url]]"></api-search-item>
+            <paper-button class="action">use</paper-button>
+          </paper-item>
+        </template>
+      </paper-material>
+
+      <h5>Discovery service <paper-icon-button icon="arc:help-outline" title="About Discovery Service" data-target="discovery" on-tap="_openHelp"></paper-icon-button></h5>
+      <paper-material elevation="1" role="listbox">
+        <template is="dom-repeat" items="[[discovery]]">
+          <paper-item>
+            <api-search-item query="[[query]]" name="[[item.name]]" method="[[item.method]]" url="[[item.url]]"></api-search-item>
+            <paper-button class="action">use</paper-button>
+          </paper-item>
+        </template>
+      </paper-material>
+    </div>
+
+    <paper-dialog id="exchangeHelp">
+      <h2>Anypoint Exchange</h2>
+      <paper-dialog-scrollable>
+        <p>
+          Search results in this area are from the Anypoint Exchange service offered by Mulesoft. It contains a publically accessible APIs definitions matching your query.
+        </p>
+        <p>
+          You can use this API definition to made a request to an endpoint with full documentation of the parameters and resources.
+        </p>
+        <paper-button raised>Learn more</paper-button>
+      </paper-dialog-scrollable>
+      <div class="buttons">
+        <paper-button dialog-dismiss autofocus>dismiss</paper-button>
+      </div>
+    </paper-dialog>
+    <paper-dialog id="discoveryHelp">
+      <h2>API discovery service</h2>
+      <paper-dialog-scrollable>
+        <p>
+          Search results in this area are from the ARC's API discovery service. It contains a definitions of the APIs that other users shared with the app.
+        </p>
+        <p>
+          Every time when you are searching in the app it also searches an app's database of publically accessible APIs to provide you with the documentation of the endpoint, it parameters and resources definition.
+        </p>
+        <paper-button raised>Learn more</paper-button>
+      </paper-dialog-scrollable>
+      <div class="buttons">
+        <paper-button dialog-dismiss autofocus>dismiss</paper-button>
+      </div>
+    </paper-dialog>
+
+  </template>
+  <script src="api-search-panel.js"></script>
+</dom-module>
