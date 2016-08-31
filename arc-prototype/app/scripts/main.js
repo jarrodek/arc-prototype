@@ -3,6 +3,7 @@
   // scope.currentScreen = 'request';
   scope.currentScreen = 'projectview';
   scope.raml = {};
+  scope.selectedTab = 0;
   /**
    * Navigation support.
    * The detail of the event must contain a 'screen' property with the screen name to display.

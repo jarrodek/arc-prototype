@@ -16,7 +16,10 @@ Polymer({
       value: false
     },
 
-    selectedDocs: Number,
+    selectedDocs: {
+      type: Number,
+      value: -1
+    },
 
     selected: {
       type: Object,
@@ -39,6 +42,7 @@ Polymer({
     var d = this.documentation;
     var has = d && d.length > 0;
     this._setShowDocs(has);
+    this.selectedDocs = 0;
   },
 
   _computeEndpoints: function() {
@@ -48,6 +52,9 @@ Polymer({
   },
 
   _selectedDocsChanged: function(index) {
+    if (!this.documentation || !(index in this.documentation)) {
+      return;
+    }
     this.set('selected', {
       type: 'docs',
       path: '' + index,

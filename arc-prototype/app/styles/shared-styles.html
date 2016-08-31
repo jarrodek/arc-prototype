@@ -3,6 +3,13 @@
 <dom-module id="shared-styles">
   <template>
     <style>
+    :root {
+      --paper-tab: {
+        flex: initial;
+        text-transform: uppercase;
+        padding: 0px 28px;
+      }
+    }
     html,
     body {
       margin: 0;
@@ -43,7 +50,23 @@
     }
 
     .content {
-      margin: 0 40px 24px 40px;
+    }
+
+    raml-documentation-panel {
+      margin: 0 24px;
+    }
+
+    iron-pages.docs-tabs {
+      border: 1px rgba(0, 0, 0, 0.12) solid;
+      padding: 0;
+    }
+
+    .not-ready {
+      padding: 24px;
+      @apply(--paper-font-body2);
+    }
+    .api-data {
+      /*margin: 0 24px;*/
     }
     </style>
   </template>

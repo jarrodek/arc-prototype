@@ -15,10 +15,13 @@
 
   <link rel="import" href="styles/theme.html">
   <link rel="import" href="styles/shared-styles.html">
+  <link rel="import" href="styles/markdown-styles.html">
 
   <!-- <link rel="import" href="elements/request-panel/request-panel.html">
   <link rel="import" href="elements/arc-create-project/arc-create-project.html"> -->
-  <link rel="import" href="elements/raml-view-panel/raml-view-panel.html">
+  <!-- <link rel="import" href="elements/raml-view-panel/raml-view-panel.html"> -->
+  <link rel="import" href="elements/raml-summary-view/raml-summary-view.html">
+  <link rel="import" href="elements/raml-detailed-view/raml-detailed-view.html">
 
   <style is="custom-style" include="shared-styles"></style>
 
@@ -29,7 +32,18 @@
 
     <div class="content">
       <raml-summary-view name="[[raml.name]]" base-url="[[raml.baseUrl]]" version="[[raml.version]]" description="[[raml.description]]"></raml-summary-view>
-      <raml-documentation-panel data="[[raml]]" no-tryit></raml-documentation-panel>
+      <div class="api-data">
+        <paper-tabs selected="{{selectedTab}}">
+          <paper-tab>Documentation</paper-tab>
+          <paper-tab>Try it</paper-tab>
+        </paper-tabs>
+        <iron-pages selected="[[selectedTab]]" class="docs-tabs">
+          <raml-documentation-panel data="[[raml]]" no-tryit></raml-documentation-panel>
+          <section class="not-ready">
+            This section is not yet ready.
+          </section>
+        </iron-pages>
+      </div>
     </div>
 
   </template>

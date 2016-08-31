@@ -1,11 +1,16 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
 
 <dom-module id="raml-summary-view">
   <template>
     <style>
       :host {
+
         display: block;
+        --paper-toolbar-title: {
+          margin-left: 8px;
+        }
       }
       h1 {
         @apply(--paper-font-title);
@@ -14,15 +19,24 @@
 
       p.simple-desc {
         @apply(--paper-font-subhead);
-        margin: 4px 0;
+        margin: 4px 24px;
       }
 
       .api-description {
         @apply(--paper-font-body2);
         color: rgba(0, 0, 0, 0.54);
+        margin: 16px 24px;
+      }
+
+      paper-toolbar ~ p.simple-desc:first-of-type {
+        margin-top: 40px;
       }
     </style>
-    <h1>[[name]]</h1>
+
+    <paper-toolbar>
+      <div class="title">[[name]]</div>
+    </paper-toolbar>
+    <!-- <h1>[[name]]</h1> -->
     <p class="simple-desc">
       <label>Base URL</label>
       <span>[[baseUrl]]</span>

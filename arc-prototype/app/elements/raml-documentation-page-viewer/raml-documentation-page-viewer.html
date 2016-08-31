@@ -4,10 +4,11 @@
 
 <dom-module id="raml-documentation-page-viewer">
   <template>
-    <style>
-      :host {
-        display: block;
-      }
+    <style include="markdown-styles">
+    :host {
+      display: block;
+      margin: 24px 0;
+    }
     </style>
     <div id="preview">
       <marked-element markdown="[[documentation.markdown]]">

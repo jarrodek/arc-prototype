@@ -1,0 +1,55 @@
+{
+  "name": "chrome-image",
+  "version": "1.0.0",
+  "license": "LICENSE.txt",
+  "description": "Displays images in Chrome app.",
+  "authors": [
+    "Pawel Psztyc"
+  ],
+  "homepage": "https://github.com/jarrodek/chrome-image",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jarrodek/chrome-image.git"
+  },
+  "keywords": [
+    "webcomponents",
+    "polymer",
+    "chrome-apps",
+    "chrome",
+    "image",
+    "iron-image"
+  ],
+  "private": false,
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.2.0",
+    "iron-image": "PolymerElements/iron-image#^1.2.2",
+    "iron-ajax": "PolymerElements/iron-ajax#^1.1.1"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.5",
+    "web-component-tester": "Polymer/web-component-tester#^3.3.6",
+    "paper-styles": "PolymerElements/paper-styles#^1.0.2",
+    "paper-button": "PolymerElements/paper-button#latest",
+    "chrome-app-livereload": "bestander/chrome-app-livereload#~0.0.5",
+    "test-fixture": "PolymerElements/test-fixture#^1.0.0"
+  },
+  "ignore": [
+    "/.*",
+    "package.json",
+    "gulpfile.js",
+    "/test/",
+    "/demo/",
+    "/chrome-app/",
+    ".gitignore"
+  ],
+  "main": "chrome-image.html",
+  "_release": "1.0.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "1.0.0",
+    "commit": "821194e6b9f9f424432e304aa0ef8bfb8a80bf7d"
+  },
+  "_source": "git://github.com/jarrodek/chrome-image.git",
+  "_target": "1.0.0",
+  "_originalSource": "jarrodek/chrome-image"
+}
