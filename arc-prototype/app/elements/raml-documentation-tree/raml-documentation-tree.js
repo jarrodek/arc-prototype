@@ -39,6 +39,7 @@ Polymer({
     var d = this.documentation;
     var has = d && d.length > 0;
     this._setShowDocs(has);
+    this.selectedDocs = 0;
   },
 
   _computeEndpoints: function() {
@@ -48,6 +49,9 @@ Polymer({
   },
 
   _selectedDocsChanged: function(index) {
+    if (!this.documentation || !(index in this.documentation)) {
+      return;
+    }
     this.set('selected', {
       type: 'docs',
       path: '' + index,

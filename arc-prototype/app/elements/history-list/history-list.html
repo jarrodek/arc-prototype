@@ -78,7 +78,8 @@
                   <span class="url" title$="[[entry.url]]">[[entry.method]] [[entry.url]]</span>
                   <span class="api-endpoint status" hidden$="[[!entry.endpoint]]">API endpoint</span>
                   <span class="saved status" hidden$="[[!entry.saved]]">Saved</span>
-                  <paper-button class="action">use</paper-button>
+                  <paper-button class="action" hidden$="[[!entry.endpoint]]" on-tap="_useRaml">use</paper-button>
+                  <paper-button class="action" hidden$="[[entry.endpoint]]" on-tap="_useRequest">use</paper-button>
                 </paper-item>
               </template>
             </div>
@@ -98,7 +99,8 @@
                     <span class="method-name">[[method.name]]</span>
                     <span class="api-endpoint status" hidden$="[[!method.endpoint]]">API endpoint</span>
                     <span class="saved status" hidden$="[[!method.saved]]">Saved</span>
-                    <paper-button class="action">use</paper-button>
+                    <paper-button class="action" hidden$="[[!entry.endpoint]]" on-tap="_useRaml">use</paper-button>
+                    <paper-button class="action" hidden$="[[entry.endpoint]]" on-tap="_useRequest">use</paper-button>
                   </paper-item>
                 </template>
               </iron-collapse>

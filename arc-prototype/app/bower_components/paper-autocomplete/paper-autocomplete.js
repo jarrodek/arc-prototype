@@ -95,7 +95,6 @@ Polymer({
        * Set this to true if you use async operation in response for query event.
        * This will display a loader when querying for more suggestions.
        * Do not use it it you do not handle suggestions asynchronously.
-       *
        */
       loader: {
         type: Boolean,
@@ -105,7 +104,9 @@ Polymer({
       _showLoader: {
         type: Boolean,
         computed: '_computeShowLoader(loader, loading)'
-      }
+      },
+
+      isAttached: Boolean
     },
 
     observers: [
@@ -117,11 +118,13 @@ Polymer({
       'tap': 'acceptSelection'
     },
 
-    attached: function() {
-      // this.sizingTarget = this.$.container;
-    },
+    // attached: function() {
+    // this.sizingTarget = this.$.container;
+    // },
+
     /* Handler for target property change. */
     _targetChanged: function(target, isAttached) {
+      // console.log('_targetChanged');
       if (!isAttached) {
         return;
       }
@@ -149,6 +152,7 @@ Polymer({
      * @param {Event} e Fired event.
      */
     _valueChanged: function(e) {
+      // console.log('_valueChanged');
       e = Polymer.dom(e);
       var value = e.rootTarget.value;
       if (this._previousQuery) {

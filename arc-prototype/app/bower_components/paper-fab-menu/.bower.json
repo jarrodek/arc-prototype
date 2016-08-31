@@ -1,10 +1,21 @@
 {
   "name": "paper-fab-menu",
+  "version": "2.0.3",
+  "license": "Apache-2.0",
   "authors": [
-    "Arshak Khachatrian <akhxtern@gmail.com>"
+    "The Advanced REST Client authors",
+    "Pawel Psztyc <jarrodek@gmail.com>"
   ],
-  "description": "Polymer component for fab menu",
-  "main": "paper-fab-menu.html",
+  "homepage": "https://github.com/advanced-rest-client/paper-fab-menu",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/advanced-rest-client/paper-fab-menu.git"
+  },
+  "description": "A material design floating action button with menu items for Polymer 1.0",
+  "main": [
+    "paper-fab-menu.html",
+    "paper-fab-menu-item.html"
+  ],
   "keywords": [
     "paper",
     "fab",
@@ -12,28 +23,34 @@
     "polymer",
     "web-components"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/AKHXtern/paper-fab-menu.git"
-  },
-  "license": "MIT",
-  "homepage": "https://github.com/jarrodek/paper-fab-menu",
   "dependencies": {
     "polymer": "Polymer/polymer#^1.4.0",
     "paper-fab": "PolymerElements/paper-fab#^1.2.0",
     "iron-flex-layout": "PolymerElements/iron-flex-layout#^1.3.1",
-    "iron-icons": "PolymerElements/iron-icons#^1.1.3",
     "paper-tooltip": "PolymerElements/paper-tooltip#^1.1.2"
   },
   "devDependencies": {
-    "iron-component-page": "PolymerElements/iron-component-page#^1.1.7"
+    "iron-icons": "PolymerElements/iron-icons#^1.1.3",
+    "iron-component-page": "PolymerElements/iron-component-page#^1.1.7",
+    "web-component-tester": "Polymer/web-component-tester#^3.3.6",
+    "test-fixture": "PolymerElements/test-fixture#^1.0.0",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
+    "iron-test-helpers": "PolymerElements/iron-test-helpers#^1.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
   },
-  "version": "2.0.1",
-  "_release": "2.0.1",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "tasks"
+  ],
+  "_release": "2.0.3",
   "_resolution": {
     "type": "version",
-    "tag": "2.0.1",
-    "commit": "8ac079f24555cf04336f1313e39dc98c7d8406fa"
+    "tag": "2.0.3",
+    "commit": "b62e8f518cf8457d470441bca22f2d35f9e45a86"
   },
   "_source": "git://github.com/jarrodek/paper-fab-menu.git",
   "_target": "^2.0.0",

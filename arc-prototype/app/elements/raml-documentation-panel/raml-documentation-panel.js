@@ -8,10 +8,11 @@ Polymer({
       value: function() {
         return {};
       },
-      notify: true,
-      // Reference to the 'noTryit' property for `raml-method-documentation-viewer` element
-      noTryit: Boolean
+      notify: true
     },
+
+    // Reference to the 'noTryit' property for `raml-method-documentation-viewer` element
+    noTryit: Boolean,
 
     selectedObject: Object,
     selectedRenderer: String,

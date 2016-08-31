@@ -2,35 +2,40 @@
 <link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../../bower_components/paper-tabs/paper-tab.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
-<link rel="import" href="../headers-editor/headers-editor.html">
+<!-- <link rel="import" href="../headers-editor/headers-editor.html"> -->
 <link rel="import" href="../authorization-panel/authorization-panel.html">
 <link rel="import" href="../variables-editor/variables-editor.html">
-
-<dom-module id="request-config-panel">
+<link rel="import" href="../raml-method-documentation-viewer/raml-method-documentation-viewer.html">
+<dom-module id="raml-request-config-panel">
   <template>
     <style>
     :host {
       display: block;
-      --paper-tab: {
-        flex: inherit;
-      }
     }
-    iron-pages > * {
+
+    iron-pages> * {
       border: 1px rgba(0, 0, 0, 0.24) solid;
     }
     </style>
     <paper-tabs selected="{{selectedPage}}">
+      <paper-tab>Body</paper-tab>
       <paper-tab>Headers</paper-tab>
       <paper-tab>Authorization</paper-tab>
       <paper-tab>Variables</paper-tab>
-      <!-- <paper-tab>Tests</paper-tab> -->
+      <paper-tab>Responses</paper-tab>
+      <paper-tab>Documentation</paper-tab>
     </paper-tabs>
     <iron-pages selected="[[selectedPage]]">
-      <headers-editor is-payload="[[isPayload]]" content-type="{{contentType}}" headers="{{headers}}"></headers-editor>
+      <section>RAML body editor</section>
+      <section>RAML headers editor</section>
       <authorization-panel></authorization-panel>
       <variables-editor></variables-editor>
-      <!-- <section>Tests panel</section> -->
+      <section>RAML responses viewer</section>
+      <raml-method-documentation-viewer
+        data="[[data]]"
+        base-url="[[data.baseUrl]]" no-tryit></raml-method-documentation-viewer>
+      <!-- <headers-editor is-payload="[[isPayload]]" content-type="{{contentType}}" headers="{{headers}}"></headers-editor> -->
     </iron-pages>
   </template>
+  <script src="raml-request-config-panel.js"></script>
 </dom-module>
-<script src="request-config-panel.js"></script>

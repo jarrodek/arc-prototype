@@ -120,5 +120,12 @@ Polymer({
     var r = this.responses;
     var has = r && !!r.length;
     this.hasResponses = has;
+  },
+
+  _tryIt: function() {
+    this.fire('navigate', {
+      'section': 'raml',
+      'action': 'run'
+    });
   }
 });

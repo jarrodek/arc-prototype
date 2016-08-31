@@ -2,6 +2,10 @@ Polymer({
   is: 'request-panel',
 
   properties: {
+    request: {
+      type: Object,
+      notify: true
+    },
     contentType: {
       type: Object,
       notify: true

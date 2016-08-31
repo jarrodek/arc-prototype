@@ -1,16 +1,20 @@
 {
   "name": "code-mirror",
-  "version": "1.0.14",
+  "description": "Web component wrapper for CodeMirror library.",
+  "version": "1.0.17",
   "license": "LICENSE.txt",
-  "description": "CodeMirror web component made with Polymer",
-  "main": "code-mirror.html",
   "authors": [
-    "Pawel Psztyc <jarrodek@gmail.com>"
+    "Pawel Psztyc <jarrodek@gmail.com>",
+    "The Advanced REST Client authors"
   ],
-  "homepage": "https://github.com/jarrodek/code-mirror",
+  "private": true,
+  "main": [
+    "code-mirror.html"
+  ],
+  "homepage": "https://github.com/advanced-rest-client/code-mirror",
   "repository": {
     "type": "git",
-    "url": "git://github.com/jarrodek/code-mirror.git"
+    "url": "git://github.com/advanced-rest-client/code-mirror.git"
   },
   "keywords": [
     "web-component",
@@ -26,7 +30,6 @@
     "package.json",
     "gulpfile.js",
     "/test/",
-    "/demo/",
     "/chrome-app/",
     ".gitignore"
   ],
@@ -43,6 +46,10 @@
     "paper-input": "PolymerElements/paper-input#^1.1.5",
     "iron-list": "PolymerElements/iron-list#^1.2.2",
     "chrome-app-livereload": "bestander/chrome-app-livereload#~0.0.5",
-    "test-fixture": "PolymerElements/test-fixture#^1.0.0"
+    "test-fixture": "PolymerElements/test-fixture#^1.0.0",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
+    "iron-test-helpers": "PolymerElements/iron-test-helpers#^1.0.0",
+    "iron-validator-behavior": "PolymerElements/iron-validator-behavior#^1.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
   }
 }

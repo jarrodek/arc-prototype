@@ -114,5 +114,19 @@ Polymer({
         this.$.discoveryHelp.open();
         break;
     }
+  },
+
+  _useRequest: function() {
+    this.fire('navigate', {
+      'section': 'request',
+      'action': 'run'
+    });
+  },
+
+  _useRaml: function() {
+    this.fire('navigate', {
+      'section': 'raml',
+      'action': 'run'
+    });
   }
 });

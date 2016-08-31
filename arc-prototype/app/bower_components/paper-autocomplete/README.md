@@ -1,3 +1,5 @@
+# `paper-autocomplete`
+
 Use `paper-autocomplete` to add autocomplete functionality to the input elements.
 It also works wilt polymer inputs.
 
@@ -17,7 +19,7 @@ an element reference to the `target` property.
     <paper-autocomplete
       id="fruitsSuggestions"
       target="[[fruits]]"
-      on-selected="_fruitSelected"></paper-autocomplete>
+      on-selected="_fruitSelected></paper-input-autocomplete>
 
     <script>
       document.querySelector('#fruitsSuggestions').source = ['Apple', 'Orange', 'Bananas'];

@@ -69,16 +69,62 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 <!--
 The `code-mirror` element adds CodeMirror to the website / chrome app.
 
-Example:
-        <code-mirror mode="javascript" theme="ambiance" line-numbers on-change="valueChanged">
-            function myScript() {
-            return 100;
-            }
-        </code-mirror>
+### Example:
 
+```html
+...
+<head>
+    <link rel="import" href="bower_components/code-mirror/code-mirror.html"/>
+</head>
+<body>
+  <code-mirror mode="javascript" theme="ambiance" line-numbers on-change="valueChanged">
+      function myScript() {
+        return 100;
+      }
+  </code-mirror>
+</body>
+
+The `<code-mirror>` element must be initialized with the `mode` property set. Otherwise it will initialize itself without any syntaxt highlighting, indent and autofill support.
+
+### Accessing options
+The element exposes the `setOption()` function that should be used to set editor options.
+
+```
+this.$.cm.setOption('extraKeys', {
+  'Ctrl-Space': (cm) => {
+    CodeMirror.showHint(cm, CodeMirror.hint['http-headers'], {
+      container: Polymer.dom(this.root)
+    });
+  }
+});
+```
+
+Additionaly the element has the `editor` property which is a refferene to CodeMirror instance.
+
+### Rendering hidden element
+CodeMirror has issues with rendering while the element is hidden. If the element is active
+but not visible (e.g. in `<iron-pages>` element) then you may want to call `refresh()`
+function on a CodeMirror instance after showing the element.
+
+### Styling
+`<code-mirror>` provides the following custom properties and mixins for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--code-mirror` | Mixin applied to the element | `{}`
+`--code-mirror-wrapper` | Mixin applied to the wrapper element (where the CM is rendered) | `{}`
+`--code-mirror-editor` | Mixin applied to the editor element  | `{}`
+
+@group UI Elements
+@element code-mirror
+@demo demo/index.html
 -->
 </head><body><dom-module id="code-mirror">
   <style>
+  :host {
+    display: block;
+    @apply(--code-mirror);
+  }
   #content {
     display: none;
   }

@@ -336,4 +336,32 @@ function elementIsVisible(element) {
           });
         });
       });
+
+      suite('sizing target', function() {
+        setup(function() {
+          dropdown = fixture('sizingTarget');
+          content = Polymer.dom(dropdown).querySelector('.dropdown-content');
+        });
+
+        test('sizingTarget is the content element by default', function(done) {
+          runAfterOpen(dropdown, function() {
+            expect(dropdown.sizingTarget).to.be.equal(content);
+            expect(content.style.maxHeight).to.be.not.empty;
+            expect(content.style.maxWidth).to.be.not.empty;
+            done();
+          });
+        });
+
+        test('sizingTarget can be set to a child element', function(done) {
+          var subcontent = Polymer.dom(dropdown).querySelector('.subcontent');
+          dropdown.sizingTarget = subcontent;
+
+          runAfterOpen(dropdown, function() {
+            expect(dropdown.sizingTarget).to.be.equal(subcontent);
+            expect(subcontent.style.maxHeight).to.be.not.empty;
+            expect(subcontent.style.maxWidth).to.be.not.empty;
+            done();
+          });
+        });
+      });
     });

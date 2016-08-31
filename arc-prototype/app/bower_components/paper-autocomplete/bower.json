@@ -1,10 +1,11 @@
 {
   "name": "paper-autocomplete",
-  "version": "1.0.6",
-  "authors": [
-    "Pawel Psztyc <jarrodek@gmail.com>"
-  ],
   "description": "Paper autocomplete element to be used with paper-, iron- and regular inputs.",
+  "version": "1.0.8",
+  "authors": [
+    "Pawel Psztyc <jarrodek@gmail.com>",
+    "The Advanced REST Client authors"
+  ],
   "keywords": [
     "web-component",
     "polymer",
@@ -12,15 +13,24 @@
     "autocomplete",
     "suggestions"
   ],
-  "main": "paper-autocomplete.html",
+  "private": true,
+  "main": [
+    "paper-autocomplete.html"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:advanced-rest-client/paper-autocomplete.git"
+  },
   "license": "Apache-2.0",
-  "homepage": "https://github.com/jarrodek/paper-autocomplete/",
+  "homepage": "https://github.com/advanced-rest-client/paper-autocomplete/",
   "ignore": [
-    "/.*",
-    "/test/",
-    "/demo/",
+    "hero.svg",
+    "**/.*",
+    "node_modules",
     "bower_components",
-    "hero.svg"
+    "test",
+    "tests",
+    "tasks"
   ],
   "dependencies": {
     "polymer": "Polymer/polymer#^1.0.0",
@@ -40,6 +50,8 @@
     "paper-input": "PolymerElements/paper-input#*",
     "chance": "^1.0.0",
     "chrome-app-livereload": "bestander/chrome-app-livereload#~0.0.5",
-    "test-fixture": "PolymerElements/test-fixture#^1.0.0"
+    "test-fixture": "PolymerElements/test-fixture#^1.0.0",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
+    "iron-test-helpers": "PolymerElements/iron-test-helpers#^1.0.0"
   }
 }

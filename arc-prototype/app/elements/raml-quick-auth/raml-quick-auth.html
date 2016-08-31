@@ -1,0 +1,58 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+
+<dom-module id="raml-quick-auth">
+  <template>
+    <style>
+    :host {
+      display: block;
+      @apply(--layout-horizontal);
+    }
+
+    :host([authorized]) {
+      display: none;
+    }
+
+    p {
+      @apply(--paper-font-caption);
+      color: rgba(0, 0, 0, 0.54);
+    }
+
+    paper-button {
+      background-color: var(--accent-color);
+      color: rgba(255, 255, 255, 0.87);
+    }
+
+    paper-icon-button {
+      color: rgba(0, 0, 0, 0.24);
+    }
+
+    paper-dialog-scrollable p {
+      white-space: normal;
+    }
+
+    </style>
+    <p>This endpoint requires authorization.</p>
+    <paper-button disabled="[[authorizing]]" on-tap="authorize">Authorize</paper-button>
+    <paper-spinner active="[[authorizing]]"></paper-spinner>
+    <paper-icon-button icon="arc:help-outline" on-tap="_help"></paper-icon-button>
+
+    <paper-dialog id="help">
+      <h2>API authorization</h2>
+      <paper-dialog-scrollable>
+        <p>According to API definition this method requires OAuth 2.0 authorization.</p>
+        <p>Use provided button to conveniently authorize the endpoint without setting up request headers. Appropriate data will be inserted into the request form.</p>
+      </paper-dialog-scrollable>
+      <div class="buttons">
+        <paper-button dialog-dismiss autofocus>dismiss</paper-button>
+      </div>
+    </paper-dialog>
+  </template>
+  <script src="raml-quick-auth.js"></script>
+</dom-module>

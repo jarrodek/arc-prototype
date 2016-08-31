@@ -2,6 +2,14 @@
 <dom-module id="shared-styles">
   <template>
     <style>
+    :root {
+      --paper-tab: {
+        flex: initial;
+        text-transform: uppercase;
+        padding: 0px 28px;
+      }
+    }
+
     html,
     body {
       margin: 0;
@@ -15,9 +23,9 @@
     app-header-layout {
       height: 100%;
     }
+
     paper-scroll-header-panel {
       height: 100%;
-
     }
 
     paper-toolbar {
@@ -57,15 +65,16 @@
     }
 
     paper-icon-button {
-      color: rgba(0,0,0,0.54);
-      fill: rgba(0,0,0,0.54);
+      color: rgba(0, 0, 0, 0.54);
+      fill: rgba(0, 0, 0, 0.54);
     }
 
     paper-icon-button:hover {
-      color: rgba(0,0,0,0.74);
-      fill: rgba(0,0,0,0.74);
+      color: rgba(0, 0, 0, 0.74);
+      fill: rgba(0, 0, 0, 0.74);
     }
-    .main-content iron-pages > * {
+
+    .main-content iron-pages> * {
       margin: 16px 24px;
     }
     </style>

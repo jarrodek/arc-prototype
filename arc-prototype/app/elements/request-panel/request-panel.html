@@ -40,9 +40,9 @@
     }
     </style>
 
-    <method-selector content-type="{{contentType}}" is-payload="{{isPayload}}"></method-selector>
-    <request-config-panel content-type="{{contentType}}" is-payload="{{isPayload}}"></request-config-panel>
-    <request-payload-panel hidden$="[[!isPayload]]" content-type="{{contentType}}"></request-payload-panel>
+    <method-selector method="{{request.method}}" content-type="{{contentType}}" is-payload="{{isPayload}}"></method-selector>
+    <request-config-panel headers="{{request.headers}}" content-type="{{contentType}}" is-payload="{{isPayload}}"></request-config-panel>
+    <request-payload-panel body="{{request.body}}" hidden$="[[!isPayload]]" content-type="{{contentType}}"></request-payload-panel>
 
     <div class="actions">
       <div class="action-status">

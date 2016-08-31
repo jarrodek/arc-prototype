@@ -9,18 +9,19 @@ Polymer({
    * Fires every time the content of the editor is changed.
    *
    * @event change
-   * @property {Object} change Is a <code>{from, to, text, removed, origin}</code> object
-   * containing information about the changes that occurred
+   * @param {Object} change Is a `{from, to, text, removed, origin}` object
+   *    containing information about the changes that occurred
    */
   /**
-   * This event is fired before a change is applied, and its handler may choose to modify or
+   * Fired before a change is applied, and its handler may choose to modify or
    * cancel the change.
    *
    * @event before-change
-   * @property {Object} change It has from, to, and text properties, as with the "change" event.
-   * It also has a `cancel()` method, which can be called to cancel the change, and, if the change
-   * isn't coming from an undo or redo event, an `update(from, to, text)` method, which may be
-   * used to modify the change.
+   * @param {Object} change It has `from`, `to`, and `text` properties, as with the `change` event.
+   *
+   *    It also has a `cancel()` method, which can be called to cancel the change, and, if the change
+   *    isn't coming from an undo or redo event, an `update(from, to, text)` method, which may be
+   *    used to modify the change.
    */
   properties: {
     /**
@@ -176,15 +177,6 @@ Polymer({
     historyEventDelay: {
       type: Number,
       observer: '_historyEventDelayChanged'
-    },
-    /**
-     * The tab index to assign to the editor. If not given, no tab index will be assigned.
-     *
-     * @type {Number}
-     */
-    tabindex: {
-      type: Number,
-      observer: '_tabindexChanged'
     },
     /**
      * Can be used to make CodeMirror focus itself on initialization. Defaults to off.
@@ -358,31 +350,19 @@ Polymer({
     CodeMirror.autoLoadMode(this.editor, mode);
   },
   /** Auto-called when `theme` property has changed  */
-  _themeChanged: function() {
+  _themeChanged: function(newTheme) {
+    newTheme = newTheme || 'xq-light';
+    var dom = Polymer.dom(this.root);
+    let old = dom.querySelector('[data-theme]');
+    if (old) {
+      dom.removeChild(old);
+    }
     var s = document.createElement('style', 'custom-style');
-    s.include = this.theme;
-    Polymer.dom(this.root).appendChild(s);
-    this.setOption('theme', this.theme);
+    s.include = newTheme;
+    s.dataset.theme = newTheme;
+    dom.appendChild(s);
+    this.setOption('theme', newTheme);
     this.updateStyles();
-    // var src = '';
-    // if (location.pathname.indexOf('/components/tasks/demo') === 0) {
-    //   src += '../';
-    // }
-    // src += 'styles/' + this.theme + '-styles.html';
-    // var link = document.createElement('link');
-    // link.rel = 'import';
-    // link.href = src;
-    // link.onload = () => {
-    //   var s = document.createElement('style', 'custom-style');
-    //   s.include = this.theme;
-    //   Polymer.dom(this.root).appendChild(s);
-    //   this.setOption('theme', this.theme);
-    // };
-    // link.onerror = () => {
-    //   console.warn('Theme %s not found.', this.theme);
-    // };
-    // this.appendChild(link);
-    // Polymer.dom(this).appendChild(link);
   },
 
   _tabSizeChanged: function() {
@@ -428,9 +408,12 @@ Polymer({
     });
   },
   _onBeforeChangeEvent: function(instance, changeObj) {
-    this.fire('before-change', {
+    var e = this.fire('before-change', {
       change: changeObj
     });
+    if (e.detail.change.canceled) {
+      this.set('value', this.editor.getValue());
+    }
   }
 });
 })();

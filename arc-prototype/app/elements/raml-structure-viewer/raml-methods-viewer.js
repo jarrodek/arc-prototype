@@ -11,8 +11,15 @@ Polymer({
     }
 
   },
-  
+
   _computeMethodDisplayName: function(method) {
     return method.displayName || method.method;
+  },
+
+  _openMethod: function() {
+    this.fire('navigate', {
+      'section': 'raml',
+      'action': 'run'
+    });
   }
 });

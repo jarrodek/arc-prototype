@@ -27,6 +27,7 @@
   <link rel="import" href="elements/arc-create-project/arc-create-project.html">
   <link rel="import" href="elements/raml-view-panel/raml-view-panel.html">
   <link rel="import" href="elements/url-panel/url-panel.html">
+  <link rel="import" href="elements/raml-request-panel/raml-request-panel.html">
 
   <style is="custom-style" include="shared-styles"></style>
 
@@ -45,21 +46,23 @@
             <paper-item data-screen="request">Simple HTTP request</paper-item>
             <paper-item data-screen="projectview">RAML summary</paper-item>
             <paper-item data-screen="projectadd">RAML create</paper-item>
+            <paper-item data-screen="ramlrequest">RAML request</paper-item>
           </paper-menu>
         </div>
       </paper-header-panel>
 
       <paper-scroll-header-panel class="flex" main>
         <paper-toolbar>
-          <paper-icon-button icon="[[_computeToolbarIcon(urlPanelOpened)]]" on-tap="mainToolbarTriggerClick"></paper-icon-button>
+          <paper-icon-button icon="[[_computeToolbarIcon(urlPanelOpened, currentScreen)]]" on-tap="mainToolbarTriggerClick"></paper-icon-button>
           <div class="title">
-            <url-panel opened="{{urlPanelOpened}}"></url-panel>
+            <url-panel opened="{{urlPanelOpened}}" url="{{request.url}}"></url-panel>
           </div>
           <div id="progressBar" class="bottom fit"></div>
         </paper-toolbar>
         <div content class="main-content">
           <iron-pages attr-for-selected="data-screen" selected="[[currentScreen]]" selected-attribute="opened">
-            <request-panel data-screen="request"></request-panel>
+            <request-panel data-screen="request" request="{{request}}"></request-panel>
+            <raml-request-panel data-screen="ramlrequest" data="{{raml}}"></raml-request-panel>
             <raml-view-panel data="{{raml}}" data-screen="projectview"></raml-view-panel>
             <arc-create-project data-screen="projectadd"></arc-create-project>
           </iron-pages>

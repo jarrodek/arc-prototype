@@ -1,0 +1,38 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../raml-endpoints-tree/raml-endpoints-tree.html">
+<link rel="import" href="../raml-quick-auth/raml-quick-auth.html">
+<link rel="import" href="../raml-request-config-panel/raml-request-config-panel.html">
+<dom-module id="raml-request-panel">
+  <template>
+    <style>
+    :host {
+      display: block;
+    }
+
+    h2 {
+      @apply(--paper-font-title);
+    }
+
+    #content {
+      @apply(--layout-horizontal);
+    }
+
+    .request {
+      @apply(--layout-flex);
+    }
+    </style>
+    <div id="content">
+      <nav>
+        <h2>[[data.name]]</h2>
+        <raml-endpoints-tree endpoints="[[data.endpoints]]"></raml-endpoints-tree>
+      </nav>
+      <div class="request">
+        <raml-quick-auth></raml-quick-auth>
+        <raml-request-config-panel></raml-request-config-panel>
+      </div>
+    </div>
+  </template>
+  <script src="raml-request-panel.js"></script>
+</dom-module>

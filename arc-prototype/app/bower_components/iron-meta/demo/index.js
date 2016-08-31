@@ -1,9 +1,26 @@
-Polymer({
+document.addEventListener('WebComponentsReady', function() {
+      Polymer({
+        is: 'meta-test',
+        ready: function() {
+          this.textContent = new Polymer.IronMetaQuery({key: 'info'}).value;
+        }
+      });
+    });
 
-      is: 'meta-test',
+    Polymer({
+      is: 'type-one',
 
       ready: function() {
-        this.textContent = new Polymer.IronMetaQuery({key: 'info'}).value;
+        var resultList = new Polymer.IronMetaQuery({type: "type1"}).list;
+        this.textContent = JSON.stringify(resultList);
       }
+    });
 
+    Polymer({
+      is: 'type-two',
+
+      ready: function() {
+        var resultList = new Polymer.IronMetaQuery({type: "type2"}).list;
+        this.textContent = JSON.stringify(resultList);
+      }
     });

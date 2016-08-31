@@ -1,6 +1,6 @@
 {
   "name": "paper-autocomplete",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "license": "Apache-2.0",
   "description": "Paper autocomplete element to be used with paper-, iron- and regular inputs.",
   "scripts": {
@@ -25,7 +25,12 @@
     "jshint-stylish": "^2.0.0",
     "merge-stream": "^0.1.8",
     "run-sequence": "^1.0.2",
-    "tiny-lr": "^0.1.6"
+    "tiny-lr": "^0.1.6",
+    "conventional-github-releaser": "^1.1.1",
+    "gulp-conventional-changelog": "^1.1.0",
+    "gulp-bump": "^2.1.0",
+    "gulp-git": "^1.7.1",
+    "gulp-util": "^3.0.7"
   },
   "engines": {
     "node": ">=0.10.0"

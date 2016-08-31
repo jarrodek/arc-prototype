@@ -1,13 +1,15 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <!-- <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html"> -->
 <link rel="import" href="../../bower_components/marked-element/marked-element.html">
+<link rel="import" href="../markdown-styles/markdown-styles.html">
 
 <dom-module id="raml-documentation-page-viewer">
   <template>
-    <style>
-      :host {
-        display: block;
-      }
+    <style include="markdown-styles">
+    :host {
+      display: block;
+      margin: 24px 0;
+    }
     </style>
     <div id="preview">
       <marked-element markdown="[[documentation.markdown]]">

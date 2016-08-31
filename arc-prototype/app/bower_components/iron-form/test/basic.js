@@ -257,47 +257,68 @@ suite('registration', function() {
       // Initial values.
       var customElement = form.querySelector('simple-element');
       var input = form.querySelector('input[name="foo"]');
+      var inputBlank = form.querySelector('input[name="blank"]');
       var checkbox1 = form.querySelectorAll('input[type="checkbox"]')[0];
       var checkbox2 = form.querySelectorAll('input[type="checkbox"]')[1];
-      var paperInput = form.querySelector('paper-input');
-      var paperTextarea = form.querySelector('paper-textarea');
+      var paperInput = form.querySelector('paper-input[name="zig"]');
+      var paperInputBlank = form.querySelector('paper-input[name="blank"]');
+      var paperTextarea = form.querySelector('paper-textarea[name="zig"]');
+      var paperTextareaBlank = form.querySelector('paper-textarea[name="blank"]');
 
       assert.equal(customElement.value, 'zag');
       assert.equal(input.value, 'bar');
+      assert.equal(inputBlank.value, '');
       assert.isTrue(checkbox1.checked);
       assert.isFalse(checkbox2.checked);
       assert.equal(paperInput.value, 'zug');
       assert.equal(paperInput.inputElement.value, 'zug');
+      assert.equal(paperInputBlank.value, '');
+      assert.equal(paperInputBlank.inputElement.value, '');
       assert.equal(paperTextarea.value, 'zog');
       assert.equal(paperTextarea.inputElement.textarea.value, 'zog');
+      assert.equal(paperTextareaBlank.value, '');
+      assert.equal(paperTextareaBlank.inputElement.textarea.value, '');
 
       // Change the values.
       customElement.value = 'not zag';
       input.value = 'not bar';
+      inputBlank.value = 'not blank';
       checkbox1.checked = false;
       checkbox2.checked = true;
       paperInput.value = 'not zug';
+      paperInputBlank.value = 'not blank';
       paperTextarea.value = 'not zog';
+      paperTextareaBlank.value = 'not blank';
 
       assert.equal(customElement.value, 'not zag');
       assert.equal(input.value, 'not bar');
+      assert.equal(inputBlank.value, 'not blank');
       assert.isFalse(checkbox1.checked);
       assert.isTrue(checkbox2.checked);
       assert.equal(paperInput.value, 'not zug');
       assert.equal(paperInput.inputElement.value, 'not zug');
+      assert.equal(paperInputBlank.value, 'not blank');
+      assert.equal(paperInputBlank.inputElement.value, 'not blank');
       assert.equal(paperTextarea.value, 'not zog');
       assert.equal(paperTextarea.inputElement.textarea.value, 'not zog');
+      assert.equal(paperTextareaBlank.value, 'not blank');
+      assert.equal(paperTextareaBlank.inputElement.textarea.value, 'not blank');
 
       form.addEventListener('iron-form-reset', function(event) {
         // Restored initial values.
         assert.equal(customElement.value, 'zag');
         assert.equal(input.value, 'bar');
+        assert.equal(inputBlank.value, '');
         assert.isTrue(checkbox1.checked);
         assert.isFalse(checkbox2.checked);
         assert.equal(paperInput.value, 'zug');
         assert.equal(paperInput.inputElement.value, 'zug');
+        assert.equal(paperInputBlank.value, '');
+        assert.equal(paperInputBlank.inputElement.value, '');
         assert.equal(paperTextarea.value, 'zog');
         assert.equal(paperTextarea.inputElement.textarea.value, 'zog');
+        assert.equal(paperTextareaBlank.value, '');
+        assert.equal(paperTextareaBlank.inputElement.textarea.value, '');
         done();
       });
 
@@ -310,42 +331,58 @@ suite('registration', function() {
       // Initial values.
       var customElement = form.querySelector('simple-element');
       var input = form.querySelector('input[name="foo"]');
+      var inputBlank = form.querySelector('input[name="blank"]');
       var checkbox1 = form.querySelectorAll('input[type="checkbox"]')[0];
       var checkbox2 = form.querySelectorAll('input[type="checkbox"]')[1];
-      var paperInput = form.querySelector('paper-input');
+      var paperInput = form.querySelector('paper-input[name="zig"]');
+      var paperInputBlank = form.querySelector('paper-input[name="blank"]');
       var paperTextarea = form.querySelector('paper-textarea[name="zig"]');
+      var paperTextareaBlank = form.querySelector('paper-textarea[name="blank"]');
 
       assert.equal(customElement.value, 'zag');
       assert.equal(input.value, 'bar');
+      assert.equal(inputBlank.value, '');
       assert.isTrue(checkbox1.checked);
       assert.isFalse(checkbox2.checked);
       assert.equal(paperInput.value, 'zug');
       assert.equal(paperInput.inputElement.value, 'zug');
+      assert.equal(paperInputBlank.value, '');
+      assert.equal(paperInputBlank.inputElement.value, '');
       assert.equal(paperTextarea.value, 'zog');
       assert.equal(paperTextarea.inputElement.textarea.value, 'zog');
+      assert.equal(paperTextareaBlank.value, '');
+      assert.equal(paperTextareaBlank.inputElement.textarea.value, '');
 
       form.addEventListener('iron-form-reset', function(event) {
         // Restored initial values.
         assert.equal(customElement.value, 'zag');
         assert.equal(input.value, 'bar');
+        assert.equal(inputBlank.value, '');
         assert.isTrue(checkbox1.checked);
         assert.isFalse(checkbox2.checked);
         assert.equal(paperInput.value, 'zug');
         assert.equal(paperInput.inputElement.value, 'zug');
+        assert.equal(paperInputBlank.value, '');
+        assert.equal(paperInputBlank.inputElement.value, '');
         assert.equal(paperTextarea.value, 'zog');
         assert.equal(paperTextarea.inputElement.textarea.value, 'zog');
+        assert.equal(paperTextareaBlank.value, '');
+        assert.equal(paperTextareaBlank.inputElement.textarea.value, '');
         done();
       });
 
       form.reset();
     });
 
-    test('form restores empty paper-textarea if no changes were made', function(done) {
+    test('form restores null-value paper-textarea if initially undefined', function(done) {
       var form = fixture('FormForResetting');
-      var paperTextarea = form.querySelector('paper-textarea[name="empty"]');
+      var paperTextarea = form.querySelector('paper-textarea[name="undef"]');
 
       form.addEventListener('iron-form-reset', function(event) {
-        // Restored initial values.
+        // Setting the native textarea's value to undefined causes it to
+        // display literal "undefined", and paper-textarea.value is indirectly
+        // bound to the textarea's value, so iron-form resets any undefined
+        // initial values to null in order to avoid this problem.
         assert.equal(paperTextarea.value, null);
         assert.equal(paperTextarea.inputElement.textarea.value, '');
         done();

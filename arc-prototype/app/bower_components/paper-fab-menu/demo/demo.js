@@ -1,3 +1,0 @@
-window.Polymer = {
-            dom: 'shadow'
-        };
