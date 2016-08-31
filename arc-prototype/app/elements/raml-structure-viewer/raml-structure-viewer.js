@@ -4,6 +4,18 @@ Polymer({
     endpoints: Array
   },
 
+  observers: [
+    '_endpointsChanged(endpoints.*)'
+  ],
+
+  _endpointsChanged: function() {
+    var e = this.endpoints;
+    if (!e || !e.length) {
+      return;
+    }
+    e[0].opened = true;
+  },
+
   _computeEndpointDisplayName: function(endpoint) {
     return endpoint.displayName || endpoint.url;
   },

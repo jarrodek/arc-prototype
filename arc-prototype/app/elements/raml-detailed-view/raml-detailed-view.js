@@ -13,7 +13,7 @@ Polymer({
 
     selectedTab: {
       type: Number,
-      value: 1
+      value: 0
     }
   }
 });
