@@ -87,23 +87,26 @@ Polymer({
     },
     keySuggestionsList: {
       type: Array,
-      value: function() {
-        return [
-          'id',
-          'kind',
-          'name',
-          'age',
-          'phone-number',
-          'address'
-        ];
-      }
-    }
+      // value: function() {
+      //   return [
+      //     'id',
+      //     'kind',
+      //     'name',
+      //     'age',
+      //     'phone-number',
+      //     'address'
+      //   ];
+      // }
+    },
+
+    schema: Object
   },
 
   observers: [
     '_valueChanged(value.*)',
     '_countChildren(value.children.length)',
-    '_countChildren(value.value.children.length)'
+    '_countChildren(value.value.children.length)',
+    '_schemaChanged(schema.*)'
   ],
 
   _valueChanged: function() {
@@ -232,5 +235,33 @@ Polymer({
     if (elm) {
       elm.render();
     }
+  },
+
+  _schemaChanged: function() {
+    var s = this.schema;
+    if (!s || !s.properties) {
+      this.keySuggestionsList = [];
+      return;
+    }
+    var suggestions = Object.getOwnPropertyNames(s.properties);
+    if (!suggestions.length) {
+      return;
+    }
+    // console.log('setting keySuggestionsList', suggestions);
+    this.set('keySuggestionsList', suggestions);
+  },
+
+  _onSuggestion: function(e) {
+    var key = e.detail.value;
+    var p = this.schema.properties;
+    if (!(key in p)) {
+      return;
+    }
+    var prop = p[key];
+    var type = prop.type;
+    if (type) {
+      this.set('value.value.type', type);
+    }
+    console.log('_onSuggestion', p, p[key]);
   }
 });

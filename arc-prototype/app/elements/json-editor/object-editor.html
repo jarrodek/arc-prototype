@@ -110,7 +110,7 @@
           </paper-menu-button>
           <paper-icon-button icon="arc:remove-circle-outline" on-tap="_remove"></paper-icon-button>
         </template>
-        <paper-autocomplete id="keySuggestions" target="[[keyInput]]" source="[[keySuggestionsList]]"></paper-input-autocomplete>
+        <paper-autocomplete id="keySuggestions" target="[[keyInput]]" source="[[keySuggestionsList]]" on-selected="_onSuggestion" open-on-focus></paper-autocomplete>
       </div>
 
       <div class="value-part" hidden$="[[changingType]]">
@@ -119,7 +119,7 @@
           <div class="indention">
             <div hidden$="[[!noKey]]" class="punctuation">{</div>
             <template is="dom-repeat" items="[[childrenObjects]]" object-repeater>
-              <object-editor value="{{item}}" on-remove-value="_deepRemove"></object-editor>
+              <object-editor schema="[[schema]]" value="{{item}}" on-remove-value="_deepRemove"></object-editor>
             </template>
             <div class="add-action">
               <paper-button class="action-button" on-tap="_insertObject">add</paper-button>

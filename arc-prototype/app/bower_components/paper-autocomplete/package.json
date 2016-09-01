@@ -1,6 +1,6 @@
 {
   "name": "paper-autocomplete",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "license": "Apache-2.0",
   "description": "Paper autocomplete element to be used with paper-, iron- and regular inputs.",
   "scripts": {

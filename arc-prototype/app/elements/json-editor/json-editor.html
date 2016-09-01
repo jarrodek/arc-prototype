@@ -9,9 +9,10 @@
       }
     </style>
     <template is="dom-if" if="[[_isObject(model.type)]]">
-      <object-editor no-key value="{{model}}"></object-editor>
+      <object-editor no-key value="{{model}}" schema="[[schema]]"></object-editor>
     </template>
     <template is="dom-if" if="[[_isArray(model.type)]]">
+      <p>TODO</p>
     </template>
   </template>
 </dom-module>

@@ -106,7 +106,13 @@ Polymer({
         computed: '_computeShowLoader(loader, loading)'
       },
 
-      isAttached: Boolean
+      isAttached: Boolean,
+
+      // If true it will opend suggestions on input field focus.
+      openOnFocus: {
+        type: Boolean,
+        value: false
+      }
     },
 
     observers: [
@@ -131,6 +137,8 @@ Polymer({
       this.resetFit();
       if (this._oldTarget) {
         this.unlisten(this._oldTarget, 'input', '_valueChanged');
+        this.unlisten(this._oldTarget, 'focus', '_targetFocus');
+        console.log('unlisten focus', this._oldTarget);
         this._oldTarget = null;
       }
       if (!target) {
@@ -143,18 +151,23 @@ Polymer({
         //this will call the function again with the element attached.
       } else if (target) {
         this.listen(target, 'input', '_valueChanged');
+        this.listen(target, 'focus', '_targetFocus');
         this._oldTarget = target;
+        if (target === document.activeElement) {
+          this._targetFocus();
+        }
         // this.fitInto = window;
       }
     },
     /**
      * Handler to be called when input of the text field changes.
-     * @param {Event} e Fired event.
      */
-    _valueChanged: function(e) {
+    _valueChanged: function() {
       // console.log('_valueChanged');
-      e = Polymer.dom(e);
-      var value = e.rootTarget.value;
+      if (!this.isAttached || !this._oldTarget) {
+        return;
+      }
+      var value = this._oldTarget.value;
       if (this._previousQuery) {
         if (value.indexOf(this._previousQuery) === 0) {
           this._previousQuery = value;
@@ -173,6 +186,9 @@ Polymer({
           this._previousQuery = null;
           this._setSuggestions([]);
         }
+      } else if (!value && this._previousQuery === undefined) {
+        // First query without the value means initialization.
+        return;
       }
       this.fire('query', {
         value: value
@@ -189,17 +205,24 @@ Polymer({
      * @return {[type]} [description]
      */
     _filterSuggestions: function() {
+      if (!this.isAttached || !this._oldTarget) {
+        return;
+      }
+      if (this._previousQuery === undefined) {
+        return;
+      }
       this._setLoading(false);
       var source = this.source;
-      if (!source || !this._previousQuery) {
+      if (!source /*|| !this._previousQuery*/) {
         this._setSuggestions([]);
         return;
       }
-      var query = this._previousQuery.toLowerCase();
-      var filtered = source.filter(function(item) {
+      var query = this._previousQuery ? this._previousQuery.toLowerCase() : '';
+      var filter = (item) => {
         var value = (typeof item === 'string') ? item : item.value;
         return value.toLowerCase().indexOf(query) !== -1;
-      });
+      };
+      var filtered = query ? source.filter(filter) : source;
       if (filtered.length === 0) {
         this.close();
         return;
@@ -310,5 +333,14 @@ Polymer({
 
     _computeShowLoader: function(loader, loading) {
       return !!loader && !!loading;
+    },
+
+    _targetFocus: function() {
+      if (!this.openOnFocus || this.opened) {
+        return;
+      }
+      this._previousQuery = this._previousQuery || '';
+      this.async(this._valueChanged, 200);
+      // this._valueChanged();
     }
   });

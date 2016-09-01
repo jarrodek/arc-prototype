@@ -52,7 +52,7 @@
     </style>
     <div class="content">
       <iron-pages selected="{{tabSelected}}">
-        <json-editor json="{{jsonPayload}}"></json-editor>
+        <json-editor json="{{jsonPayload}}" schema="[[activeSchema]]"></json-editor>
         <!-- <section></section> -->
         <section>
           <code-mirror mode="application/json" theme="cm-arc" value="{{value}}" id="cm"></code-mirror>

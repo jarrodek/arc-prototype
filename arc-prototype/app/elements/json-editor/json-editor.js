@@ -18,7 +18,9 @@ Polymer({
     noKey: {
       type: Boolean,
       value: false
-    }
+    },
+
+    schema: Object
   },
 
   observers: [
@@ -27,7 +29,7 @@ Polymer({
 
   _jsonChanged: function(json) {
     var model = this._translate(json);
-    console.log(model);
+    // console.log('_jsonChanged::model', model);
     this.model = model;
   },
 

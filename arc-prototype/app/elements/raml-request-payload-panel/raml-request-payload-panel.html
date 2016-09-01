@@ -1,0 +1,13 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../payload-editor/payload-editor.html">
+<dom-module id="raml-request-payload-panel">
+  <template>
+    <style>
+     :host {
+      display: block;
+    }
+    </style>
+    <payload-editor schemas="[[schemas]]" value="{{value}}" content-type="[[contentType]]"></payload-editor>
+  </template>
+  <script src="raml-request-payload-panel.js"></script>
+</dom-module>

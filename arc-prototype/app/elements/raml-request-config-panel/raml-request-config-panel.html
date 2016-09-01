@@ -6,6 +6,8 @@
 <link rel="import" href="../authorization-panel/authorization-panel.html">
 <link rel="import" href="../variables-editor/variables-editor.html">
 <link rel="import" href="../raml-method-documentation-viewer/raml-method-documentation-viewer.html">
+<link rel="import" href="../raml-request-payload-panel/raml-request-payload-panel.html">
+
 <dom-module id="raml-request-config-panel">
   <template>
     <style>
@@ -26,14 +28,23 @@
       <paper-tab>Documentation</paper-tab>
     </paper-tabs>
     <iron-pages selected="[[selectedPage]]">
-      <section>RAML body editor</section>
+      <raml-request-payload-panel bodies="[[bodies]]" content-type="{{contentType}}"></raml-request-payload-panel>
       <section>RAML headers editor</section>
       <authorization-panel></authorization-panel>
       <variables-editor></variables-editor>
-      <section>RAML responses viewer</section>
+      <raml-responses-panel-view responses="[[responses]]"></raml-responses-panel-view>
       <raml-method-documentation-viewer
         data="[[data]]"
-        base-url="[[data.baseUrl]]" no-tryit></raml-method-documentation-viewer>
+        base-url="[[data.baseUrl]]"
+        method="[[method]]"
+        parent-endpoint="[[parentEndpoint]]"
+        traits="[[traits]]"
+        security-schemas="[[securitySchemas]]"
+        uri-parameters="[[uriParameters]]"
+        query-parameters="[[queryParams]]"
+        headers="[[headers]]"
+        bodies="[[bodies]]"
+        responses="[[responses]]" no-tryit></raml-method-documentation-viewer>
       <!-- <headers-editor is-payload="[[isPayload]]" content-type="{{contentType}}" headers="{{headers}}"></headers-editor> -->
     </iron-pages>
   </template>

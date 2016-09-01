@@ -4,6 +4,8 @@
 <link rel="import" href="../raml-endpoints-tree/raml-endpoints-tree.html">
 <link rel="import" href="../raml-quick-auth/raml-quick-auth.html">
 <link rel="import" href="../raml-request-config-panel/raml-request-config-panel.html">
+<link rel="import" href="../raml-datamodel-translator/raml-datamodel-translator.html">
+
 <dom-module id="raml-request-panel">
   <template>
     <style>
@@ -26,13 +28,25 @@
     <div id="content">
       <nav>
         <h2>[[data.name]]</h2>
-        <raml-endpoints-tree endpoints="[[data.endpoints]]"></raml-endpoints-tree>
+        <raml-endpoints-tree on-method-selected="_apiMethodChanged" endpoints="[[data.endpoints]]"></raml-endpoints-tree>
       </nav>
       <div class="request">
         <raml-quick-auth></raml-quick-auth>
-        <raml-request-config-panel></raml-request-config-panel>
+        <raml-request-config-panel
+          data="{{data}}"
+          method="[[selectedApiMethod]]"
+          parent-endpoint="[[parentEndpoint]]"
+          traits="[[traits]]"
+          security-schemas="[[securitySchemas]]"
+          uri-parameters="[[uriParameters]]"
+          query-parameters="[[queryParams]]"
+          headers="[[headers]]"
+          bodies="[[bodies]]"
+          responses="[[responses]]"
+          content-type="{{contentType}}"></raml-request-config-panel>
       </div>
     </div>
+    <raml-datamodel-translator data="[[data]]" path="[[selectedApiPath]]" url="{{request.url}}" parent-endpoint="{{parentEndpoint}}" traits="{{traits}}" security-schemas="{{securitySchemas}}" uri-parameters="{{uriParameters}}" query-parameters="{{queryParams}}" headers="{{headers}}" bodies="{{bodies}}" responses="{{responses}}"></raml-datamodel-translator>
   </template>
   <script src="raml-request-panel.js"></script>
 </dom-module>

@@ -61,8 +61,8 @@
         </paper-toolbar>
         <div content class="main-content">
           <iron-pages attr-for-selected="data-screen" selected="[[currentScreen]]" selected-attribute="opened">
-            <request-panel data-screen="request" request="{{request}}"></request-panel>
-            <raml-request-panel data-screen="ramlrequest" data="{{raml}}"></raml-request-panel>
+            <request-panel data-screen="request" request="{{request}}" content-type="{{contentType}}"></request-panel>
+            <raml-request-panel data-screen="ramlrequest" data="{{raml}}" request="{{request}}" content-type="{{contentType}}"></raml-request-panel>
             <raml-view-panel data="{{raml}}" data-screen="projectview"></raml-view-panel>
             <arc-create-project data-screen="projectadd"></arc-create-project>
           </iron-pages>

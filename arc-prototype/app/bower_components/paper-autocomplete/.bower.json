@@ -1,7 +1,7 @@
 {
   "name": "paper-autocomplete",
   "description": "Paper autocomplete element to be used with paper-, iron- and regular inputs.",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "authors": [
     "Pawel Psztyc <jarrodek@gmail.com>",
     "The Advanced REST Client authors"
@@ -54,13 +54,13 @@
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
     "iron-test-helpers": "PolymerElements/iron-test-helpers#^1.0.0"
   },
-  "_release": "1.0.8",
+  "_release": "1.0.9",
   "_resolution": {
     "type": "version",
-    "tag": "1.0.8",
-    "commit": "409faefe0303b982e1f43c77b72d89498f6228bb"
+    "tag": "1.0.9",
+    "commit": "f42ff02a916ade6e1eff158488873897f8732f6d"
   },
-  "_source": "git://github.com/jarrodek/paper-autocomplete.git",
-  "_target": "^1.0.1",
-  "_originalSource": "jarrodek/paper-autocomplete"
+  "_source": "git://github.com/advanced-rest-client/paper-autocomplete.git",
+  "_target": "^1.0.9",
+  "_originalSource": "advanced-rest-client/paper-autocomplete"
 }

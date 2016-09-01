@@ -1,7 +1,7 @@
 {
   "name": "paper-autocomplete",
   "description": "Paper autocomplete element to be used with paper-, iron- and regular inputs.",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "authors": [
     "Pawel Psztyc <jarrodek@gmail.com>",
     "The Advanced REST Client authors"

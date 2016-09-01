@@ -7,6 +7,19 @@ Polymer({
       value: 0
     },
 
-    data: Object
+    data: Object,
+    method: Object,
+    parentEndpoint: Object,
+    traits: Array,
+    securitySchemas: Array,
+    uriParameters: Array,
+    queryParams: Array,
+    headers: Array,
+    bodies: Array,
+    responses: Array,
+    contentType: {
+      type: String,
+      notify: true
+    }
   }
 });
