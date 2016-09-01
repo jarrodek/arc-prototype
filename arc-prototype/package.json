@@ -10,6 +10,8 @@
     "bower": "*",
     "crisper": "^2.0.1",
     "gulp-crisper": "^1.0.0",
+    "hydrolysis": "^1.24.1",
+    "polymer-analyzer": "^2.0.0-alpha.2",
     "run-sequence": "^1.0.2"
   },
   "engines": {
