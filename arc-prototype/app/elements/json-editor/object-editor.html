@@ -1,5 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
 <link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
@@ -91,10 +92,16 @@
     paper-menu-button {
       padding: 0;
     }
-
+    .description {
+      @apply(--paper-font-caption);
+      color: rgba(0, 0, 0, 0.54);
+    }
+    .prop-key {
+      @apply(--layout-horizontal);
+    }
     </style>
     <div class$="[[_computeKeyLineClass(isObject, changingType)]]">
-      <div hidden$="[[noKey]]">
+      <div hidden$="[[noKey]]" class="prop-key">
         <span class="punctuation">&quot;</span>
         <paper-input id="keyInput" label="key name" class="key-input" no-label-float value="{{value.name}}"></paper-input>
         <span class="punctuation">&quot;</span>
@@ -166,6 +173,7 @@
           </paper-menu-button>
           <paper-icon-button icon="arc:remove-circle-outline" on-tap="_remove"></paper-icon-button>
         </template>
+        <div class="description">[[description]]</div>
       </div>
       <div class="value-part" hidden$="[[!changingType]]">
         <span class="gap-fill"></span>

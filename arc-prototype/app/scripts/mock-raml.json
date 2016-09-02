@@ -45,9 +45,9 @@
         "queryParams": [],
         "is": [],
         "headers": [{
-          "name": "Authorization",
-          "example": "ya.uays73HnswHraKG877-Gasd/aIKuVar",
-          "description": "The autjorization token.",
+          "name": "x-client-id",
+          "example": "123456-acme.client.com",
+          "description": "The application id used to make a request. It can be obtained in the developer console.",
           "type": "string",
           "required": true
         }],
@@ -121,6 +121,25 @@
       "queryParams": [],
       "is": ["Paginated"],
       "headers": []
+    },{
+      "method": "POST",
+      "queryParams": [],
+      "headers": [],
+      "displayName": "Create product",
+      "description": "Creates a product in the store. While creating a product the `id` and `etag` properties will be ignored.\nThe endpoint reject the request if exactly the same product is already defined in the datastore (all their properties equals). Newly created product is available for listing but it won't be available for ordering API until it's availability is not set.",
+      "body": [{
+        "contentType": "application/json",
+        "baseType": "product"
+      }],
+      "responses": [{
+        "statusCode": 200,
+        "contentType": "application/json",
+        "description": "A new product has ben created in the datastore. The response will contain the product `id` and `etag` properties.",
+        "body": "product"
+      },{
+        "statusCode": 400,
+        "description": "The request has been rejected. Probably the product already exists in the datastore."
+      }]
     }]
   }],
   "documentation": [{
@@ -219,7 +238,7 @@
       "description": "The user's preferred language for rendering."
     }],
     "baseType": "object"
-  }, {
+  },{
     "typeId": "OtherType",
     "displayName": "",
     "description": "Use this type for whatever you want",
@@ -232,9 +251,58 @@
       "type": "array",
       "name": "type",
       "items": ["string"],
-      "uniqueItems": true
+      "uniqueItems": true,
+      "description": "Contains a list of objects of a type given for this method and endpoint."
     }],
     "baseType": "object"
+  },{
+    "typeId": "product",
+    "displayName": "Product",
+    "description": "A product resource. It is used everywhere where product information is used by the API.",
+    "typeProperties": [{
+      "type": "string",
+      "name": "id",
+      "required": true,
+      "pattern": "[A-Za-Z0-9]*",
+      "description": "Product id. It is a UUID of the database record. __ This property will be ignored when creating an object. __"
+    },{
+      "name": "etag",
+      "type": "string",
+      "description": "ETag of this response for caching purposes. __ This property will be ignored when creating an object. __"
+    },{
+      "name": "name",
+      "type": "string",
+      "description": "Product name",
+      "example": "Acme product - mentol flavor, 500 ml.",
+      "required": true
+    },{
+      "name": "quantity",
+      "type": "float",
+      "description": "The quantity of the product in the one unit of measurement. See `unit` property for unit information.",
+      "example": "500",
+      "pattern": "[0-9]*",
+      "required": true
+    },{
+      "name": "unit",
+      "type": "string",
+      "description": "The unit of measuremet for the quantity property.",
+      "example": "ml",
+      "required": true
+    },{
+      "name": "upc",
+      "type": "string",
+      "description": "The Universal Produc Code. It consists of 12 numerical digits. However, because of the integer precision limitation  in JavaScript it is transfered as a string.",
+      "example": "042100005264",
+      "pattern": "[0-9]{,12}",
+      "required": true
+    },{
+      "name": "available",
+      "type": "boolean",
+      "required": true,
+      "description": "Product current availability in the store. Product may be not available but the users still can order it with later delivery date.",
+      "example": "true",
+      "pattern": "^[true|false]$"
+    }]
   }],
   "traits": [{
     "name": "Paginated",
@@ -252,31 +320,61 @@
       "example": "25",
       "description": "Limit in the response list",
       "type": "number",
-      "pattern": "[0-9]{,3}"
+      "pattern": "[0-9]{,3}",
+      "max": 1000,
+      "min": 1
     }, {
       "name": "start",
       "example": "0",
       "description": "The start entry of the list",
       "type": "number",
       "pattern": "[0-9]{,3}"
+    },{
+      "name": "nextPageToken",
+      "example": "asdas87axJNASoHm9Hs",
+      "description": "The `nextPageToken` is a web safe encoded cursor to the next entry in the database. It can be obtained by requesting paginated resource and used in next request to get next results page.",
+      "type": "string",
+      "pattern": "[a-zA-Z0-9]"
     }],
     "responses": [{
       "statusCode": 200,
       "contentType": "application/json",
       "headers": [],
-      "description": "Paginated response",
+      "description": "Paginated response containing a single page of the result. By default one page og the results contains 25 items. You can extend it by setting a `limit` query parameter in your request.\nWhen changing parameters while using the `nextPageToken` the `nextPageToken` will be ignored and new query will be performed. Queries with `nextPageToken` should contain the same set of parameters as the first request.",
       "body": {
         "baseType": "object",
         "typeProperties": [{
           "type": "array",
           "name": "items",
           "required": true,
-          "items": ["object"]
+          "items": ["object"],
+          "description": "Contains a list of objects of a type given for this method and endpoint."
         }, {
           "type": "string",
           "name": "nextPageToken",
           "required": true,
-          "example": "asdas87axJNASoHm9Hs"
+          "example": "asdas87axJNASoHm9Hs",
+          "description": "The next page token is web safe encoded cursor to the next entry in the database. Use it in the next request to obtain next page of the results."
+        }]
+      }
+    },{
+      "statusCode": 400,
+      "contentType": "application/json",
+      "description": "The error response when one of the parameters is invalid and can't be parsed. Nothing can be done at the time except correcting the request to send valid data.",
+      "body": {
+        "baseType": "object",
+        "typeProperties": [{
+          "type": "string",
+          "name": "message",
+          "required": true,
+          "description": "The error message associated with the error.",
+          "example": "The `limit` parameter is invalid. Please, provide a number between 1 and 1000."
+        },{
+          "type": "boolean",
+          "name": "error",
+          "required": true,
+          "example": "true",
+          "description": "Indicate that the response is errored."
         }]
       }
     }],

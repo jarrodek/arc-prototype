@@ -144,9 +144,21 @@ Polymer({
 
       let rb = this.__getResponses(current);
       if (rb && rb.length) {
-        responses = bodies.concat(rb);
+        responses = responses.concat(rb);
       }
     }
+
+    responses.sort((a, b) => {
+      let as = a.statusCode;
+      let bs = b.statusCode;
+      if (as < bs) {
+        return -1;
+      }
+      if (as > bs) {
+        return 1;
+      }
+      return 0;
+    });
 
     this.traits = traits;
     this.securitySchemas = securitySchemas;
@@ -281,6 +293,7 @@ Polymer({
         params = params.concat(t.responses);
       }
     }
+
     if (current.securedBy && current.securedBy.length) {
       for (let i = 0, len = current.securedBy.length; i < len; i++) {
         let s = this._findSecurityScheme(current.securedBy[i]);

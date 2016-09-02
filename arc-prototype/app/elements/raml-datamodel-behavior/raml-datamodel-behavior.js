@@ -218,7 +218,7 @@ RamlBehaviors.RamlDataModelBehavior = {
 
       let rb = this.__getResponses(current);
       if (rb && rb.length) {
-        responses = bodies.concat(rb);
+        responses = responses.concat(rb);
       }
     }
 

@@ -4,20 +4,25 @@
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../raml-responses-panel-view/raml-responses-panel-view.html">
 <link rel="import" href="../raml-resource-body-viewer/raml-resource-body-viewer.html">
-
+<link rel="import" href="../../bower_components/prism-element/prism-import.html">
+<link rel="import" href="../../bower_components/prism-element/prism-theme-default.html">
 <dom-module id="raml-method-documentation-viewer">
   <template>
+    <style include="prism-theme-default"></style>
     <style>
-    :host{
+    :host {
       display: block;
       padding-bottom: 40px;
     }
+
     h1 {
       @apply(--paper-font-headline);
     }
+
     h2 {
       @apply(--paper-font-title);
     }
+
     h3 {
       @apply(--paper-font-subhead);
       padding: 8px 12px;
@@ -26,20 +31,25 @@
     .methodName {
       font-weight: 500;
     }
+
     .title-area {
       @apply(--layout-horizontal);
       @apply(--layout-center);
     }
+
     .title {
       @apply(--layout-flex);
     }
+
     .primaryButton {
       background-color: var(--accent-color);
       color: #fff;
     }
+
     .method-desc {
       @apply(--paper-font-body1);
     }
+
     .params-table {
       border-collapse: collapse;
       text-align: left;
@@ -49,20 +59,24 @@
       font-size: 15px;
       @apply(--raml-docs-params-table);
     }
+
     .params-table-header {
       vertical-align: middle;
       background-color: var(--primary-color);
       color: rgba(255, 255, 255, 0.87);
       @apply(--raml-docs-params-table-header);
     }
+
     .params-table-header.subheader {
       background-color: rgba(0, 161, 223, 0.24);
       color: rgba(0, 0, 0, 0.87);
       @apply(--raml-docs-params-table-subheader);
     }
+
     .params-table-heade th {
       height: 36px;
     }
+
     .params-table th,
     .params-table td {
       padding: 8px 12px;
@@ -75,9 +89,11 @@
       margin-bottom: 40px;
       color: var(--accent-color);
     }
+
     .method-value {
       font-weight: 500;
     }
+
     .url-value {
       font-style: italic;
       margin-left: 12px;
@@ -87,18 +103,32 @@
     td.param-type {
       font-weight: 500;
     }
+
     .no-body-info {
       @apply(--paper-font-body1);
       font-size: 16px;
       margin-bottom: 40px;
       padding: 8px 12px;
     }
+
     .action-row {
       @apply(--layout-horizontal);
     }
+
     .fill-space {
       @apply(--layout-flex);
     }
+
+    .param-desc .pattern,
+    .param-desc .example {
+      color: rgba(0, 0, 0, 0.54);
+      margin: 8px 0;
+    }
+
+    *[data-property-doc-markdown] {
+      white-space: pre-line;
+    }
+
     </style>
     <div class="title-area">
       <h1 class="title">
@@ -111,14 +141,12 @@
       </div>
     </div>
     <div hidden$="[[_computeHideMethodDesc(method.description)]]" class="method-desc">[[method.description]]</div>
-
     <section>
       <h2>Request</h2>
       <div class="url-area">
         <div class="method-value">[[method.method]]</div>
         <div class="url-value">[[_computeUrl(baseUrl, parentEndpoint.fullUrl)]]</div>
       </div>
-
       <template is="dom-if" if="[[hasParameters]]">
         <h3>Parameters</h3>
         <table class="params-table">
@@ -147,10 +175,16 @@
                 <td colspan="3">Query parameters</td>
               </tr>
               <template is="dom-repeat" items="[[queryParameters]]">
-                <tr>
+                <tr class="query-param">
                   <td class="param-name">[[item.name]]<span hidden$="[[!item.required]]">*</span></td>
                   <td class="param-type">[[item.type]]</td>
-                  <td class="param-desc">[[item.description]]</td>
+                  <td class="param-desc">
+                    <div hidden$="[[!_hasValue(item.description)]]" data-property-doc-markdown$="[[index]]">[[_hightlightElement(item.description, index)]]</div>
+                    <div hidden$="[[!_hasValue(item.pattern)]]" class="pattern">Validation pattern: <span>[[item.pattern]]</span></div>
+                    <div hidden$="[[!_hasValue(item.example)]]" class="example">Example value: <span>[[item.example]]</span></div>
+                    <div hidden$="[[!_hasValue(item.min)]]" class="example">Minimum value: <span>[[item.min]]</span></div>
+                    <div hidden$="[[!_hasValue(item.max)]]" class="example">Maximum value: <span>[[item.max]]</span></div>
+                  </td>
                 </tr>
               </template>
             </template>
@@ -192,7 +226,6 @@
       <h2>Responses</h2>
       <raml-responses-panel-view responses="[[responses]]"></raml-responses-panel-view>
     </template>
-
     <section class="action-row">
       <div class="fill-space"></div>
       <div>

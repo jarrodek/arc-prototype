@@ -99,7 +99,9 @@ Polymer({
       // }
     },
 
-    schema: Object
+    schema: Object,
+    // The description of the value of the field.
+    description: String
   },
 
   observers: [
@@ -262,6 +264,11 @@ Polymer({
     if (type) {
       this.set('value.value.type', type);
     }
-    console.log('_onSuggestion', p, p[key]);
+    if (prop.description) {
+      this.description = prop.description;
+    } else {
+      this.description = undefined;
+    }
+    console.log('_onSuggestion', p[key]);
   }
 });

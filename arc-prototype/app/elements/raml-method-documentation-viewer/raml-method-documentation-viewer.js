@@ -127,5 +127,33 @@ Polymer({
       'section': 'raml',
       'action': 'run'
     });
+  },
+
+  _hasValue: function(obj) {
+    if (typeof obj === 'number' && obj === 0) {
+      return true;
+    }
+    if (typeof obj === 'boolean') {
+      return true;
+    }
+    return !!obj;
+  },
+
+  _hightlightElement: function(data, index, indexPrefix) {
+    var code = this.fire('syntax-highlight', {code: data, lang: 'markdown'}).detail.code;
+
+    this.async(() => {
+      var attr = '';
+      if (indexPrefix) {
+        attr = indexPrefix;
+      }
+      attr += '' + index;
+      var placement = Polymer.dom(this.root)
+        .querySelector('.query-param .param-desc *[data-property-doc-markdown="' + attr + '"]');
+      if (placement) {
+        placement.innerHTML = code;
+      }
+    });
   }
+
 });
