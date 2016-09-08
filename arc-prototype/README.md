@@ -33,9 +33,9 @@ Launch the app and try the prototype.
 ### Browser's version
 Since the prototype don't uses any Chrome specific API it can run in regular browser.
 
-For simplicity install Polymer CLI:
+For simplicity install Polymer CLI (globally, require root privileges):
 ```
-npm install polymer
+sudo npm install polymer -g
 ```
 Go to the `app/`` directory and run the server:
 ```
