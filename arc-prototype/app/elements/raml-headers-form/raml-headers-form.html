@@ -1,0 +1,64 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<dom-module id="raml-headers-form">
+  <template>
+    <style>
+     :host {
+      display: block;
+      --paper-input-container-label: {
+        color: rgba(0, 0, 0, 0.38);
+      }
+    }
+
+    .predefined-row {
+      @apply(--layout-horizontal);
+    }
+
+    .predefined-row label {
+      width: 120px;
+      display: block;
+      min-width: 120px;
+      @apply(--layout-horizontal);
+      @apply(--layout-center-center);
+      @apply(--paper-font-body1);
+      font-size: 15px;
+      color: rgba(0, 0, 0, 0.87);
+    }
+
+    .header-value {
+      @apply(--layout-vertical);
+      @apply(--layout-flex);
+    }
+
+    .header-value .input {
+      @apply(--layout-horizontal);
+      /*@apply(--layout-flex);*/
+    }
+    paper-input {
+      width: 100%;
+    }
+    .docs {
+      @apply(--paper-font-common-base);
+
+      font-size: 13px;
+      font-weight: 200;
+      line-height: 24px;
+      color: rgba(0, 0, 0, 0.87);
+    }
+    </style>
+    <template is="dom-repeat" items="[[renderedRamlHeaders]]">
+      <div class="predefined-row">
+        <label class="label" for="prf-[[index]]">[[item.name]]</label>
+        <div class="header-value">
+          <div class="input">
+            <paper-input label="[[_computeInputLabel(item.example)]]"></paper-input>
+            <paper-icon-button icon="close"></paper-icon-button>
+          </div>
+          <div class="docs">[[item.description]]</div>
+        </div>
+      </div>
+    </template>
+  </template>
+  <script src="raml-headers-form.js"></script>
+</dom-module>

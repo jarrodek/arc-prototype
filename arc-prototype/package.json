@@ -3,13 +3,14 @@
   "description": "The prototype for Advanced REST Client",
   "version": "1.0.0",
   "scripts": {
-    "arc": "node bin/install.js"
+    "serve": "polymer serve -o app"
   },
   "main": "app/index.html",
   "devDependencies": {
     "bower": "*",
     "crisper": "^2.0.1",
     "gulp-crisper": "^1.0.0",
+    "polymer": "^0.5.0",
     "run-sequence": "^1.0.2"
   },
   "engines": {

@@ -1,0 +1,80 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/code-mirror/code-mirror.html">
+<link rel="import" href="../raml-headers-form/raml-headers-form.html">
+<link rel="import" href="../headers-parser-behavior/headers-parser-behavior.html">
+<link rel="import" href="../vertical-paper-tabs/vertical-paper-tabs.html">
+
+<!-- Put the code mirror additional libraries into separate repository -->
+<script src="../../scripts/code-mirror/mode/headers/headers.js"></script>
+<script src="../../scripts/code-mirror/addon/hint/http-headers.js"></script>
+<script src="../../scripts/code-mirror/addon/hint/show-hint.js"></script>
+
+<dom-module id="raml-request-headers-editor">
+  <template>
+    <style>
+     :host {
+      display: block;
+      --code-mirror-wrapper: {
+        display: block;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+      }
+
+      --code-mirror-editor: {
+        z-index: 0;
+        display: block;
+        padding: 0;
+        margin: 0;
+      }
+    }
+
+    .content {
+      @apply(--layout-horizontal);
+      position: relative;
+
+      @apply(--headers-editor);
+    }
+
+    iron-pages {
+      @apply(--layout-flex);
+    }
+
+    iron-pages>* {
+      /*padding: 12px;*/
+    }
+
+    .CodeMirror-hints {
+      position: absolute;
+      z-index: 10;
+      background: white;
+      overflow: hidden;
+      overflow-y: auto;
+      max-height: 20em;
+      margin-top: 60px;
+      margin-left: 20px;
+    }
+
+    .CodeMirror-hint.iron-selected {
+      /*background: #08f;
+      color: white;*/
+    }
+
+    code-mirror {
+      overflow: hidden;
+      position: relative;
+    }
+    </style>
+    <div class="content">
+      <iron-pages selected="{{tabSelected}}">
+        <raml-headers-form headers-list="{{headersList}}" raml-headers="[[ramlHeaders]]"></raml-headers-form>
+        <code-mirror mode="http-headers" theme="cm-arc" on-change="valueChanged" value="{{headers}}" id="cm"></code-mirror>
+      </iron-pages>
+      <vertical-paper-tabs class="page-selector" selected="{{tabSelected}}">
+        <paper-tab>Headers editor</paper-tab>
+        <paper-tab>Free form</paper-tab>
+      </vertical-paper-tabs>
+    </div>
+  </template>
+  <script src="raml-request-headers-editor.js"></script>
+</dom-module>
