@@ -37,8 +37,8 @@
   "_release": "2.1.1",
   "_resolution": {
     "type": "version",
-    "tag": "2.1.1",
-    "commit": "d27e4124105b08249108ce9f4f968ca52e70f96a"
+    "tag": "v2.1.1",
+    "commit": "331d7f03c61ec645ec09db5b416ac92d8a9a2db2"
   },
   "_source": "git://github.com/PolymerElements/platinum-bluetooth.git",
   "_target": "^2.0.0",

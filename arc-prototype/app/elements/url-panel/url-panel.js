@@ -12,7 +12,6 @@ Polymer({
     // If true the URL contains a query / path parameters.
     hasParameters: {
       type: Boolean,
-      value: false,
       notify: true,
       readOnly: true
     },
@@ -31,7 +30,9 @@ Polymer({
       value: false
     },
 
-    currentSuggestion: String
+    currentSuggestion: String,
+    paramsEditorOpened: Boolean,
+    uriParameters: Array
   },
 
   observers: [
@@ -58,6 +59,8 @@ Polymer({
       if (!this.stopSuggestions) {
         this.debounce('query', () => this.generateSuggestions(), 500);
       }
+      // Check if the url contains parameters
+      this.checkParams();
     } else {
       // close suggestions and search result panel
       console.log('close all');
@@ -112,7 +115,10 @@ Polymer({
       // open history
       this.$.listings.open();
     } else {
-      console.log('URL panel not empty - TODO.');
+      if (this.hasParameters) {
+        // open params panel.
+        this.paramsEditorOpened = true;
+      }
     }
   },
 
@@ -177,5 +183,55 @@ Polymer({
       this.$.suggestions.reset();
     }
     this.search();
+  },
+
+  checkParams: function() {
+    if (this._internalChange) {
+      return;
+    }
+    var url = this.url;
+    if (!url) {
+      this._setHasParameters(false);
+      return;
+    }
+    if (this.uriParameters && this.uriParameters.length) {
+      // if (this.hasParameters) {
+      //   this._updateParams();
+      //   return;
+      // }
+      this._origUrl = url;
+      // this._params = {};
+      this._setHasParameters(true);
+      this._updateParams();
+      return;
+    }
+    this._setHasParameters(false);
+  },
+
+  _paramChanged: function(e) {
+    if (!this._params) {
+      this._params = {};
+    }
+    this._params['{' + e.detail.param + '}'] = e.detail.value;
+    this._updateParams();
+  },
+
+  _updateParams: function() {
+    var url = this._origUrl;
+    var matches = url.match(/({[a-zA-Z0-9]*})/gim);
+    if (!matches) {
+      return;
+    }
+
+    matches.forEach((match) => {
+      var v = this._params[match];
+      if (!v) {
+        return;
+      }
+      url = url.replace(match, v);
+    });
+    this._internalChange = true;
+    this.url = url;
+    this._internalChange = false;
   }
 });

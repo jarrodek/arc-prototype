@@ -262,6 +262,65 @@ function isHidden(element) {
           done();
         }, 200);
       });
+      
+      test('tooltip ignores events in manual-mode', function() {
+        var f = fixture('manual-mode');
+        
+        var tooltip = f.querySelector('paper-tooltip');
+        assert.isTrue(tooltip.manualMode);
+        
+        tooltip.show();
+        assert.isTrue(tooltip._showing);
+        
+        sinon.spy(tooltip, 'hide');
+        
+        tooltip.fire('mouseenter');
+        
+        var target = f.querySelector('#target');
+        target.dispatchEvent(new CustomEvent('mouseenter'));
+        target.dispatchEvent(new CustomEvent('focus'));
+        target.dispatchEvent(new CustomEvent('mouseleave'));
+        target.dispatchEvent(new CustomEvent('blur'));
+        target.dispatchEvent(new CustomEvent('tap'));
+        
+        expect(tooltip.hide.callCount).to.be.equal(0);
+      });
+
+      test('changing manual-mode toggles event listeners', function() {
+        var f = fixture('manual-mode');
+
+        var tooltip = f.querySelector('paper-tooltip');
+        assert.isTrue(tooltip.manualMode);
+
+        sinon.spy(tooltip, '_addListeners');
+        sinon.spy(tooltip, '_removeListeners');
+        expect(tooltip._addListeners.callCount).to.be.equal(0);
+        expect(tooltip._removeListeners.callCount).to.be.equal(0);
+
+        tooltip.manualMode = false;
+        expect(tooltip._addListeners.callCount).to.be.equal(1);
+        expect(tooltip._removeListeners.callCount).to.be.equal(0);
+
+        tooltip.manualMode = true;
+        expect(tooltip._addListeners.callCount).to.be.equal(1);
+        expect(tooltip._removeListeners.callCount).to.be.equal(1);
+      });
+
+      test('changing for= re-targets event listeners', function() {
+        var f = fixture('dynamic');
+        var tooltip = f.querySelector('paper-tooltip');
+
+        sinon.spy(tooltip, '_addListeners');
+        sinon.spy(tooltip, '_removeListeners');
+
+        expect(tooltip._removeListeners.callCount).to.be.equal(0);
+        expect(tooltip._addListeners.callCount).to.be.equal(0);
+
+        tooltip.for = 'target';
+
+        expect(tooltip._removeListeners.callCount).to.be.equal(1);
+        expect(tooltip._addListeners.callCount).to.be.equal(1);
+      });
     });
 
     suite('tooltip is inside a custom element', function() {

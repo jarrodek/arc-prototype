@@ -222,6 +222,11 @@ RamlBehaviors.RamlDataModelBehavior = {
       }
     }
 
+    var data = this.data;
+    if (data.uriParameters && data.uriParameters.length) {
+      uriParameters = uriParameters.concat(data.uriParameters);
+    }
+
     this.traits = traits;
     this.securitySchemas = securitySchemas;
     this.uriParameters = uriParameters;

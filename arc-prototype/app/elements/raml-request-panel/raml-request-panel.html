@@ -29,6 +29,28 @@
       min-width: 280px;
       margin-right: 20px;
     }
+
+    .actions {
+      @apply(--layout-horizontal);
+    }
+    .primary-actions {
+
+    }
+    .action-status {
+      @apply(--layout-flex);
+    }
+    .run-action {
+      background-color: var(--primary-color);
+      color: rgba(255, 255, 255, 0.87);
+    }
+    .request-status {
+      @apply(--paper-font-caption);
+      color: rgba(0, 0, 0, 0.54);
+    }
+
+    .request > * {
+      margin: 12px;
+    }
     </style>
     <div id="content">
       <nav>
@@ -49,7 +71,26 @@
           bodies="[[bodies]]"
           responses="[[responses]]"
           content-type="{{contentType}}"></raml-request-config-panel>
+
+          <div class="actions">
+            <div class="action-status">
+            </div>
+            <div class="primary-actions">
+              <paper-button raised on-tap="run" class="run-action">RUN</paper-button>
+            </div>
+          </div>
+
+          <section class="loader" hidden$="[[!loading]]">
+            <p class="request-status">[[statusMessage]]</p>
+            <paper-progress indeterminate></paper-progress>
+          </section>
+
+          <section class="response" hidden$="[[!hasResponse]]">
+            <response-panel response="[[response]]"></response-panel>
+          </section>
       </div>
+
+
     </div>
     <raml-datamodel-translator data="[[data]]" path="[[selectedApiPath]]" url="{{request.url}}" parent-endpoint="{{parentEndpoint}}" traits="{{traits}}" security-schemas="{{securitySchemas}}" uri-parameters="{{uriParameters}}" query-parameters="{{queryParams}}" headers="{{headers}}" bodies="{{bodies}}" responses="{{responses}}"></raml-datamodel-translator>
   </template>

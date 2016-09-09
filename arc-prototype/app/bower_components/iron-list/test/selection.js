@@ -385,13 +385,7 @@ suite('selection', function() {
         Polymer.dom.flush();
 
         var item = list._physicalItems[0];
-
-        if (item.setActive) {
-          item.setActive();
-        } else {
-          item.focus();
-        }
-
+        item.focus();
         MockInteractions.tap(item);
         assert.isNotNull(list.selectedItem);
       });

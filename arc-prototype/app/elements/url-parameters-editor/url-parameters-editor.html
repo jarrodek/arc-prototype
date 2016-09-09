@@ -1,0 +1,85 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+
+<dom-module id="url-parameters-editor">
+  <template>
+    <style>
+    :host {
+      @apply(--shadow-elevation-4dp);
+      display: none;
+      position: fixed;
+      top: 64px;
+      left: 0px;
+      right: 0px;
+      color: #000;
+      transition: all 500ms cubic-bezier(0.4, 0, 1, 1);
+      overflow: auto;
+      background-color: #fafafa;
+      overflow: auto;
+      /*max-height: calc(100% - 64px);*/
+      padding: 16px;
+
+      --paper-input-container-label: {
+        color: rgba(0, 0, 0, 0.38);
+      }
+    }
+    :host([opened]) {
+      display: block;
+    }
+
+    .content {
+      @apply(--paper-font-body1);
+    }
+
+   .predefined-row {
+     @apply(--layout-horizontal);
+   }
+
+   .predefined-row label {
+     width: 120px;
+     display: block;
+     min-width: 120px;
+     @apply(--layout-horizontal);
+     @apply(--layout-center-center);
+     @apply(--paper-font-body1);
+     font-size: 15px;
+     color: rgba(0, 0, 0, 0.87);
+   }
+
+   .header-value {
+     @apply(--layout-vertical);
+     @apply(--layout-flex);
+   }
+
+   .header-value .input {
+     @apply(--layout-horizontal);
+     /*@apply(--layout-flex);*/
+   }
+   paper-input {
+     width: 100%;
+   }
+   .docs {
+     @apply(--paper-font-common-base);
+
+     font-size: 13px;
+     font-weight: 200;
+     line-height: 24px;
+     color: rgba(0, 0, 0, 0.87);
+   }
+    </style>
+    <template id="repeater" is="dom-repeat" items="[[params]]">
+      <div class="predefined-row">
+        <label class="label" for="prf-[[index]]">[[item.param]]<span hidden$="[[!item.required]]">*</span></label>
+        <div class="header-value">
+          <div class="input">
+            <paper-input valuel="{{item.value}}" on-input="_inputChange" type="[[_computeInputType(item.type)]]" label="[[_computeInputLabel(item.type, item.example)]]"></paper-input>
+            <paper-icon-button icon="close"></paper-icon-button>
+          </div>
+          <div class="docs">[[item.description]]</div>
+        </div>
+      </div>
+    </template>
+  </template>
+  <script src="url-parameters-editor.js"></script>
+</dom-module>

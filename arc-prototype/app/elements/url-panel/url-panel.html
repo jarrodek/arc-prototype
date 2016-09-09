@@ -6,7 +6,7 @@
 <link rel="import" href="../api-listing-panel/api-listing-panel.html">
 <link rel="import" href="../url-suggestions-panel/url-suggestions-panel.html">
 <link rel="import" href="../api-search-panel/api-search-panel.html">
-
+<link rel="import" href="../url-parameters-editor/url-parameters-editor.html">
 
 <dom-module id="url-panel">
   <template>
@@ -20,6 +20,7 @@
     <api-listing-panel hidden$="[[suggestionsOpened]]" id="listings" opened="{{opened}}"></api-listing-panel>
     <url-suggestions-panel id="suggestions" url="[[url]]" opened="{{suggestionsOpened}}" suggestions="[[urlSuggestions]]"></url-suggestions-panel>
     <api-search-panel opened="{{searchOpened}}" query="[[url]]"></api-search-panel>
+    <url-parameters-editor on-param="_paramChanged" url="[[url]]" opened="{{paramsEditorOpened}}" params="[[uriParameters]]"></url-parameters-editor>
   </template>
   <script src="url-panel.js"></script>
 </dom-module>

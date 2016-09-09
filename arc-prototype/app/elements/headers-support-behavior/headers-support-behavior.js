@@ -90,8 +90,6 @@ window.HeadersBehaviors.FillSupportBehaviorImpl = {
       this.value = value;
     }
     this.close();
-    arc.app.analytics.sendEvent('Headers editor', 'Fill support', 'Value provided from ' +
-      this.headerSupport);
   }
 };
 window.HeadersBehaviors.FillSupportBehavior = [
