@@ -2,6 +2,10 @@
 
 This is a prototype of the Advanced REST Client (redesign 2016).
 
+
+## Testing
+Open https://jarrodek.github.io/arc-prototype/arc-prototype/app/index.html and test the prototype.
+
 ## How to use?
 
 First checkout and enter the project:
