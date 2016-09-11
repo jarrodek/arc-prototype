@@ -19,6 +19,8 @@
   <link rel="import" href="bower_components/paper-menu/paper-menu.html">
   <link rel="import" href="bower_components/paper-item/paper-item.html">
   <link rel="import" href="bower_components/prism-element/prism-highlighter.html">
+  <link rel="import" href="bower_components/paper-menu-button/paper-menu-button.html">
+
 
   <link rel="import" href="styles/theme.html">
   <link rel="import" href="styles/shared-styles.html">
@@ -64,8 +66,19 @@
       <paper-scroll-header-panel class="flex" main>
         <paper-toolbar>
           <paper-icon-button icon="[[_computeToolbarIcon(urlPanelOpened, currentScreen)]]" on-tap="mainToolbarTriggerClick"></paper-icon-button>
-          <div class="title">
+          <div class="menu">
             <url-panel opened="{{urlPanelOpened}}" url="{{request.url}}" uri-parameters="[[uriParameters]]"></url-panel>
+            <paper-menu-button horizontal-align="right">
+              <paper-icon-button id="mainMenu" icon="more-vert" class="dropdown-trigger"></paper-icon-button>
+              <paper-menu class="dropdown-content">
+                <paper-item>Export request</paper-item>
+                <paper-item>Import request</paper-item>
+                <paper-item>Clear form</paper-item>
+                <paper-item>Save</paper-item>
+                <paper-item>Save as ...</paper-item>
+                <paper-item>Open</paper-item>
+              </paper-menu>
+            </paper-menu-button>
           </div>
           <div id="progressBar" class="bottom fit"></div>
         </paper-toolbar>
