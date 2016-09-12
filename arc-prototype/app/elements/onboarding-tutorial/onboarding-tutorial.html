@@ -1,0 +1,78 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-overlay-behavior/iron-overlay-behavior.html">
+<link rel="import" href="../../bower_components/iron-resizable-behavior/iron-resizable-behavior.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/neon-animation/neon-animated-pages.html">
+<link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+
+<dom-module id="onboarding-tutorial">
+  <template strip-whitespace>
+    <style>
+      :host {
+        display: block;
+        margin: 24px 40px;
+        -webkit-overflow-scrolling: touch;
+
+        background: var(--paper-dialog-background-color, --primary-background-color);
+        color: var(--paper-dialog-color, --primary-text-color);
+
+        @apply(--paper-font-body1);
+        @apply(--shadow-elevation-16dp);
+        @apply(--paper-dialog);
+        width: 800px;
+        height: 600px;
+        overflow: hidden;
+      }
+      .actions {
+        position: relative;
+        padding: 8px 8px 8px 24px;
+        margin: 0;
+
+        color: var(--paper-dialog-button-color, --primary-color);
+
+        @apply(--layout-horizontal);
+        /*@apply(--layout-end-justified);*/
+      }
+      neon-animated-pages {
+        /*width: 800px;*/
+        height: calc(100% - 60px);
+      }
+      .pages {
+        /*@apply(--layout-flex);*/
+      }
+
+      @media (max-width: 600px) {
+        :host .actions {
+          @apply(--layout-vertical);
+          @apply(--layout-center);
+        }
+        :host neon-animated-pages {
+          height: calc(100% - 108px);
+        }
+      }
+    </style>
+    <neon-animated-pages id="pages" selected="{{selectedPage}}" entry-animation="slide-from-right-animation" exit-animation="slide-left-animation">
+      <content id="content"></content>
+    </neon-animated-pages>
+    <div class="actions">
+      <div class="pages" hidden$="[[noPagination]]">
+        <paper-radio-group selected="{{selectedPage}}">
+        <template is="dom-repeat" items="[[pages]]">
+          <paper-radio-button name$="[[index]]"></paper-radio-button>
+        </template>
+        </paper-radio-group>
+      </div>
+      <div class="flex" hidden$="[[!noPagination]]">
+      </div>
+      <div class="buttons">
+        <paper-button hidden$="[[!showSkip]]" on-tap="skip">skip</paper-button>
+        <paper-button hidden$="[[hidePrev]]" on-tap="prev" raised disabled$="[[!previousEnabled]]">previous</paper-button>
+        <paper-button on-tap="next" raised>[[nextLabel]]</paper-button>
+      </div>
+    </div>
+  </template>
+  <script src="onboarding-tutorial.js"></script>
+</dom-module>

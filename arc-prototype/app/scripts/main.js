@@ -5,6 +5,11 @@
   scope.raml = {};
   scope.urlPanelOpened = false;
   scope.request = {};
+
+  scope.addEventListener('dom-change', function() {
+    scope.runTutorials();
+  });
+
   /**
    * Navigation support.
    * The detail of the event must contain a 'screen' property with the screen name to display.
@@ -77,5 +82,16 @@
     } else {
       scope.$.drawer.togglePanel();
     }
+  };
+
+  scope.runTutorials = () => {
+    if (!localStorage.urlTutorial) {
+      scope.$.urlElementTutorial.target = scope.$.drowerButton;
+    }
+  };
+
+  scope._closeUrlElementTutorial = () => {
+    localStorage.urlTutorial = true;
+    scope.$.urlElementTutorial.hide();
   };
 })(document.querySelector('#app'));

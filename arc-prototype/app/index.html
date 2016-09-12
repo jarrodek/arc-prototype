@@ -30,6 +30,10 @@
   <link rel="import" href="elements/raml-view-panel/raml-view-panel.html">
   <link rel="import" href="elements/url-panel/url-panel.html">
   <link rel="import" href="elements/raml-request-panel/raml-request-panel.html">
+  <link rel="import" href="elements/onboarding-tutorial/onboarding-tutorial.html">
+  <link rel="import" href="elements/onboarding-tutorial/onboarding-page.html">
+  <link rel="import" href="elements/element-tutorial/element-tutorial.html">
+
 
   <style is="custom-style" include="shared-styles"></style>
   <!-- Hotjar Tracking Code for https://jarrodek.github.io/arc-prototype/arc-prototype/app/index.html -->
@@ -65,7 +69,7 @@
 
       <paper-scroll-header-panel class="flex" main>
         <paper-toolbar>
-          <paper-icon-button icon="[[_computeToolbarIcon(urlPanelOpened, currentScreen)]]" on-tap="mainToolbarTriggerClick"></paper-icon-button>
+          <paper-icon-button id="drowerButton" icon="[[_computeToolbarIcon(urlPanelOpened, currentScreen)]]" on-tap="mainToolbarTriggerClick"></paper-icon-button>
           <div class="menu">
             <url-panel opened="{{urlPanelOpened}}" url="{{request.url}}" uri-parameters="[[uriParameters]]"></url-panel>
             <paper-menu-button horizontal-align="right">
@@ -93,6 +97,44 @@
       </paper-scroll-header-panel>
 
     </paper-drawer-panel>
+    <onboarding-tutorial id="onboarding" auto>
+      <onboarding-page>
+        <h2>The Advanced REST Client prototype</h2>
+        <div class="description">
+          <p>Thank you for testing new version of the Advanced REST Client app.</p>
+          <p>This version is a prototype for new ARC app. You may notice that it's not a Chrome app. It's because this prototype don't use any Chrome related API and for your convinience it's running as a web app. Final app will be able to work both as a web app and Chrome app.</p>
+          <p>Goal of the prototype testing is to discover behaviour patterns in the app and therefore it's usability. Your visit is probably* recorded using HotJar software. It will not included any text you enter in a text fields.</p>
+          <p>Probably* because it's automated software set to record visits longer than 30 seconds until free quota is reached.</p>
+        </div>
+      </onboarding-page>
+      <onboarding-page>
+        <h2>Using the prototype</h2>
+        <p>This is fully functional prototype. It means that you can perform all the tasks the app is designed to to except tasks that require data store (saving, opening, making actuall request etc).</p>
+        <p>Although there may be some issues with app logic. You can report them (as well with your feedback) on our <a href="https://insights.hotjar.com/s?siteId=284832&surveyId=13542" target="_blank">testing survey</a> or on the <a href="https://github.com/jarrodek/ChromeRestClient/issues/796" target="_blank">issue tracker</a>.</p>
+      </onboarding-page>
+
+      <onboarding-page>
+        <h2>Example tasks to perform</h2>
+        <p>We don't wan't to interfere with your natural way of using the app. However, considere following tasks to perform:</p>
+        <ul>
+          <li>Moving throught requests history</li>
+          <li>Searching for a request</li>
+          <li>Check project info page and it's documentation</li>
+          <li>Create new project based on RAML definition</li>
+          <li>Play with regular request panel and check options like headers editor, authorization settings, variables settings</li>
+          <li>Play with request panel for restored project endpoint (from RAML definition)</li>
+        </ul>
+        <p>After you finish please fill in the <a href="https://insights.hotjar.com/s?siteId=284832&surveyId=13542" target="_blank">testing survey</a>.</p>
+      </onboarding-page>
+
+    </onboarding-tutorial>
+    <element-tutorial id="urlElementTutorial">
+      <div tutorial>
+        <p>Your history and projects now can be accessed in the URL panel.</p>
+        <p>Tou can use it as a exploration and search tool. While you're typing the app will search for history and projects matched your query.</p>
+        <paper-button raised class="tutorial-button" on-tap="_closeUrlElementTutorial">Got it</paper-button>
+      </div>
+    </element-tutorial>
   </template>
   <script src="scripts/main.js"></script>
   <script src="bower_components/prism/components/prism-markdown.js"></script>
