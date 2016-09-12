@@ -94,4 +94,42 @@
     localStorage.urlTutorial = true;
     scope.$.urlElementTutorial.hide();
   };
+
+  scope._onMainMenuSelected = (e) => {
+    switch (e.detail.item.dataset.action) {
+      case 'export':
+        scope.$.exportMenu.open();
+      break;
+      case 'import':
+        scope.$.importMenu.open();
+      break;
+      default:
+        scope.$.notYet.open();
+      break;
+    }
+    scope.$.mainMenu.selected = -1;
+  };
+
+  scope._runCommand = (e) => {
+    var target = e.target;
+    if (target.nodeName === 'IRON-ICON') {
+      target = target.parentNode;
+    }
+    switch (target.dataset.action) {
+      case 'savedrive':
+        scope.$.driveSaved.open();
+        scope.$.exportMenu.close();
+      break;
+      case 'savefile':
+        scope.$.fileSaved.open();
+        scope.$.exportMenu.close();
+      break;
+      case 'savecode':
+        scope.$.codeSnipopets.open();
+      break;
+      default:
+        scope.$.notYet.open();
+      break;
+    }
+  };
 })(document.querySelector('#app'));

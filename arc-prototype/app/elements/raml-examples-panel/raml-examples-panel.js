@@ -17,6 +17,10 @@ Polymer({
   ],
 
   _computeUrl: function(baseUrl) {
+    if (typeof this.parentEndpoint === 'string') {
+      this.parentEndpoint = JSON.parse(this.parentEndpoint);
+      return;
+    }
     var url = baseUrl;
     if (url[url.lenght - 1] === '/') {
       url = url.substr(0, url.lenght - 1);

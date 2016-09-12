@@ -10,6 +10,7 @@
 
   <link rel="import" href="bower_components/font-roboto-local/roboto.html">
   <link rel="import" href="bower_components/iron-icons/iron-icons.html">
+  <link rel="import" href="bower_components/iron-icon/iron-icon.html">
   <link rel="import" href="bower_components/iron-pages/iron-pages.html">
   <link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
   <link rel="import" href="bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html">
@@ -18,9 +19,12 @@
   <link rel="import" href="bower_components/paper-header-panel/paper-header-panel.html">
   <link rel="import" href="bower_components/paper-menu/paper-menu.html">
   <link rel="import" href="bower_components/paper-item/paper-item.html">
+  <link rel="import" href="bower_components/paper-item/paper-icon-item.html">
   <link rel="import" href="bower_components/prism-element/prism-highlighter.html">
   <link rel="import" href="bower_components/paper-menu-button/paper-menu-button.html">
-
+  <link rel="import" href="bower_components/bottom-sheet/bottom-sheet.html">
+  <link rel="import" href="bower_components/paper-toast/paper-toast.html">
+  <link rel="import" href="bower_components/paper-styles/paper-styles.html">
 
   <link rel="import" href="styles/theme.html">
   <link rel="import" href="styles/shared-styles.html">
@@ -33,6 +37,7 @@
   <link rel="import" href="elements/onboarding-tutorial/onboarding-tutorial.html">
   <link rel="import" href="elements/onboarding-tutorial/onboarding-page.html">
   <link rel="import" href="elements/element-tutorial/element-tutorial.html">
+  <link rel="import" href="elements/raml-examples-panel/raml-examples-panel.html">
 
 
   <style is="custom-style" include="shared-styles"></style>
@@ -73,14 +78,14 @@
           <div class="menu">
             <url-panel opened="{{urlPanelOpened}}" url="{{request.url}}" uri-parameters="[[uriParameters]]"></url-panel>
             <paper-menu-button horizontal-align="right">
-              <paper-icon-button id="mainMenu" icon="more-vert" class="dropdown-trigger"></paper-icon-button>
-              <paper-menu class="dropdown-content">
-                <paper-item>Export request</paper-item>
-                <paper-item>Import request</paper-item>
-                <paper-item>Clear form</paper-item>
-                <paper-item>Save</paper-item>
-                <paper-item>Save as ...</paper-item>
-                <paper-item>Open</paper-item>
+              <paper-icon-button icon="more-vert" class="dropdown-trigger"></paper-icon-button>
+              <paper-menu class="dropdown-content" id="mainMenu" on-iron-select="_onMainMenuSelected">
+                <paper-item data-action="export">Export request</paper-item>
+                <paper-item data-action="import">Import request</paper-item>
+                <paper-item data-action="clear">Clear form</paper-item>
+                <paper-item data-action="save">Save</paper-item>
+                <paper-item data-action="saveas">Save as ...</paper-item>
+                <paper-item data-action="open">Open</paper-item>
               </paper-menu>
             </paper-menu-button>
           </div>
@@ -135,6 +140,47 @@
         <paper-button raised class="tutorial-button" on-tap="_closeUrlElementTutorial">Got it</paper-button>
       </div>
     </element-tutorial>
+
+    <!-- Export menu -->
+    <bottom-sheet id="exportMenu" label="Export request">
+      <paper-icon-item on-tap="_runCommand" data-action="savecode">
+        <iron-icon icon="code" item-icon></iron-icon>
+        Generate command / code
+      </paper-icon-item>
+      <paper-icon-item on-tap="_runCommand" data-action="savedrive">
+        <iron-icon icon="cloud-upload" item-icon></iron-icon>
+        Save on Google Drive
+      </paper-icon-item>
+      <paper-icon-item on-tap="_runCommand" data-action="savefile">
+        <iron-icon icon="save" item-icon></iron-icon>
+        Save as file
+      </paper-icon-item>
+    </bottom-sheet>
+    <!-- Import menu -->
+    <bottom-sheet id="importMenu" label="Import">
+      <paper-icon-item on-tap="_runCommand" data-action="opencurl">
+        <iron-icon icon="code" item-icon></iron-icon>
+        From cURL command
+      </paper-icon-item>
+      <paper-icon-item on-tap="_runCommand" data-action="opendrive">
+        <iron-icon icon="cloud-download" item-icon></iron-icon>
+        Open from Google Drive
+      </paper-icon-item>
+      <paper-icon-item on-tap="_runCommand" data-action="openfile">
+        <iron-icon icon="save" item-icon></iron-icon>
+        Open from file
+      </paper-icon-item>
+    </bottom-sheet>
+    <bottom-sheet id="codeSnipopets" label="Generated code" class="fit-bottom">
+      <raml-examples-panel
+        base-url="https://api.domain.com/v1/"
+        method-url"http://api.domain.com/{version}/{stage}/people/{personId}"
+        parent-endpoint='{"url":"/{personId}","fullUrl":"/people/{personId}","path":["People","A person"],"displayName":"A person","description":"The endpoint to access information about the person","queryParams":[],"is":[],"uriParameters":[{"param":"personId","type":"integer","required":true,"example":1234,"description":"The ID of the person in the system. It is generated by the database numeric value for the person."}],"methods":[{"method":"GET","queryParams":[],"is":[],"headers":[{"name":"x-client-id","example":"123456-acme.client.com","description":"The application id used to make a request. It can be obtained in the developer console.","type":"string","required":true}],"displayName":"Get a person","description":"Returns a person","responses":[{"statusCode":200,"contentType":"application/json","body":{"baseType":"person","typeId":"person","displayName":"Person resource","description":"An object representing a person in the system.","typeProperties":[{"type":"string","name":"id","pattern":"[A-Za-Z0-9]*","description":"A unique identifier for a person. It is a 32 signs string containing alphanumeric characters."},{"type":"string","name":"name","required":true,"example":"John Smith","description":"Person full name. The input will be rejected if this property is not set while creating new object."},{"name":"birthday","type":"string","description":"The person&#39;s date of birth, represented as YYYY-MM-DD."},{"name":"gender","type":"string","description":"The person&#39;s gender. Possible values include, but are not limited to, the following values:\n* \"male\" - Male gender.\n* \"female\" - Female gender.\n* \"other\" - Other."},{"name":"url","type":"string","description":"The URL of this person&#39;s profile."},{"name":"image","type":"object","description":"The representation of the person&#39;s profile photo.","typeProperties":[{"name":"url","type":"string","description":"The URL of the person&#39;s profile photo. To resize the image and crop it to a square, append the query string **?sz=x**, where x is the dimension in pixels of each side."}]},{"name":"tagline","type":"string","description":"The brief description (tagline) of this person."},{"name":"etag","type":"string","description":"ETag of this response for caching purposes. __ This property will be ignored when creating an object. __"},{"name":"language","type":"string","description":"The user&#39;s preferred language for rendering."}]}},{"statusCode":"404","contentType":"application/json","body":{"baseType":"object","typeProperties":[{"type":"number","name":"code","required":true,"example":404},{"type":"string","name":"error","required":true,"example":"User not found."}]}}]},{"method":"DELETE","displayName":"Remove a person","description":"Removes the person from the datastore. This method do not returns any data in 200 response.","responses":[{"statusCode":200}]},{"method":"PUT","displayName":"Update a person","description":"Updates the person in the datastore. ","body":[{"contentType":"application/json","baseType":"object","typeProperties":[{"type":"string","name":"id","required":true,"pattern":"[A-Za-Z0-9]*"},{"type":"array","name":"type","items":["string"],"uniqueItems":true}]}],"responses":[{"statusCode":200}]}],"opened":true}'
+        method='{"method":"GET","queryParams":[],"is":[],"headers":[{"name":"x-client-id","example":"123456-acme.client.com","description":"The application id used to make a request. It can be obtained in the developer console.","type":"string","required":true}],"displayName":"Get a person","description":"Returns a person","responses":[{"statusCode":200,"contentType":"application/json","body":{"baseType":"person","typeId":"person","displayName":"Person resource","description":"An object representing a person in the system.","typeProperties":[{"type":"string","name":"id","pattern":"[A-Za-Z0-9]*","description":"A unique identifier for a person. It is a 32 signs string containing alphanumeric characters."},{"type":"string","name":"name","required":true,"example":"John Smith","description":"Person full name. The input will be rejected if this property is not set while creating new object."},{"name":"birthday","type":"string","description":"The person&#39;s date of birth, represented as YYYY-MM-DD."},{"name":"gender","type":"string","description":"The person&#39;s gender. Possible values include, but are not limited to, the following values:\n* \"male\" - Male gender.\n* \"female\" - Female gender.\n* \"other\" - Other."},{"name":"url","type":"string","description":"The URL of this person&#39;s profile."},{"name":"image","type":"object","description":"The representation of the person&#39;s profile photo.","typeProperties":[{"name":"url","type":"string","description":"The URL of the person&#39;s profile photo. To resize the image and crop it to a square, append the query string **?sz=x**, where x is the dimension in pixels of each side."}]},{"name":"tagline","type":"string","description":"The brief description (tagline) of this person."},{"name":"etag","type":"string","description":"ETag of this response for caching purposes. __ This property will be ignored when creating an object. __"},{"name":"language","type":"string","description":"The user&#39;s preferred language for rendering."}]}},{"statusCode":"404","contentType":"application/json","body":{"baseType":"object","typeProperties":[{"type":"number","name":"code","required":true,"example":404},{"type":"string","name":"error","required":true,"example":"User not found."}]}}]}'></raml-examples-panel>
+    </bottom-sheet>
+    <paper-toast text="Not yet supported" id="notYet"></paper-toast>
+    <paper-toast text="The file has been saved" id="fileSaved"></paper-toast>
+    <paper-toast text="The file has been saved on Google Drive" id="driveSaved"></paper-toast>
   </template>
   <script src="scripts/main.js"></script>
   <script src="bower_components/prism/components/prism-markdown.js"></script>
