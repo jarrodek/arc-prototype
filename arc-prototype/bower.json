@@ -24,7 +24,8 @@
     "uri.js": "medialize/URI.js#^1.17.0",
     "chance": "^1.0.3",
     "chrome-image": "jarrodek/chrome-image#1.0.0",
-    "bottom-sheet": "advanced-rest-client/bottom-sheet#^1.0.1"
+    "bottom-sheet": "advanced-rest-client/bottom-sheet#^1.0.1",
+    "curl-parser": "jarrodek/curl-parser#^1.0.0"
   },
   "devDependencies": {
     "web-component-tester": "*"

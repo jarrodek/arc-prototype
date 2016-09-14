@@ -43,6 +43,8 @@
   <link rel="import" href="elements/element-tutorial/element-tutorial.html">
   <link rel="import" href="elements/raml-examples-panel/raml-examples-panel.html">
   <link rel="import" href="elements/hotjar-fix/hotjar-fix.html">
+  <link rel="import" href="elements/curl-importer/curl-importer.html">
+
 
   <style is="custom-style" include="shared-styles"></style>
   <!-- Hotjar Tracking Code for https://jarrodek.github.io/arc-prototype/arc-prototype/app/index.html -->
@@ -186,6 +188,7 @@
     <paper-toast text="Not yet supported" id="notYet"></paper-toast>
     <paper-toast text="The file has been saved" id="fileSaved"></paper-toast>
     <paper-toast text="The file has been saved on Google Drive" id="driveSaved"></paper-toast>
+    <curl-importer id="curlImporter"></curl-importer>
   </template>
   <script src="scripts/main.js"></script>
   <script src="bower_components/prism/components/prism-markdown.js"></script>

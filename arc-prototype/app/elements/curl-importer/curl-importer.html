@@ -1,0 +1,84 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-dialog-behavior/paper-dialog-behavior.html">
+<link rel="import" href="../../bower_components/curl-parser/curl-parser.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<dom-module id="curl-importer">
+  <template>
+    <style>
+    :host {
+      display: block;
+      margin: 24px 40px;
+      background: var(--paper-dialog-background-color, --primary-background-color);
+      color: var(--paper-dialog-color, --primary-text-color);
+      min-width: 460px;
+
+      @apply(--paper-font-body1);
+      @apply(--shadow-elevation-16dp);
+      @apply(--paper-dialog);
+    }
+    :host>#content {
+
+    }
+    :host>#content>* {
+      margin-top: 20px;
+      padding: 0 24px;
+    }
+
+    :host>#content>.no-padding {
+      padding: 0;
+    }
+
+    :host>#content>*:first-child {
+      margin-top: 24px;
+    }
+
+    :host>#content>*:last-child {
+      margin-bottom: 24px;
+    }
+
+    :host>#content h2 {
+      position: relative;
+      margin: 0;
+      @apply(--paper-font-title);
+      @apply(--paper-dialog-title);
+    }
+
+    :host>#content .buttons {
+      position: relative;
+      padding: 8px 8px 8px 24px;
+      margin: 0;
+      color: var(--paper-dialog-button-color, --primary-color);
+      @apply(--layout-horizontal);
+      @apply(--layout-end-justified);
+    }
+
+    .preview-value {
+      white-space: pre-wrap;
+    }
+
+    .preview-label {
+      @apply(--paper-font-caption);
+      color: rgba(0, 0, 0, 0.54);
+    }
+    </style>
+    <div id="content">
+      <h2>Import cURL command</h2>
+      <div>
+        <paper-input label="cURL command" value="{{command}}"></paper-input>
+        <section hidden$="[[!hasParams]]">
+          <p class="preview-value">[[method]] [[url]]</p>
+          <label class="preview-label" hidden$="[[!headers]]">Headers</label>
+          <p class="preview-value" hidden$="[[!headers]]">[[headers]]</p>
+          <label class="preview-label" hidden$="[[!payload]]">Payload</label>
+          <p class="preview-value" hidden$="[[!payload]]">[[payload]]</p>
+        </section>
+        <curl-parser command="[[command]]" on-parsed="_commandParsed"></curl-parser>
+      </div>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm>Accept</paper-button>
+      </div>
+    </div>
+  </template>
+  <script src="curl-importer.js"></script>
+</dom-module>

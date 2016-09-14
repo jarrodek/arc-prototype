@@ -1,0 +1,30 @@
+{
+  "name": "curl-parser",
+  "description": "cURL command parser as a Web Component.",
+  "author": "The Advanced REST Client authors",
+  "keywords": [
+    "web-components",
+    "polymer"
+  ],
+  "private": true,
+  "main": [
+    "bottom-sheet.html"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:jarrodek/curl-parser.git"
+  },
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0.0"
+  },
+  "devDependencies": {
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tasks"
+  ],
+  "version": "1.0.1"
+}

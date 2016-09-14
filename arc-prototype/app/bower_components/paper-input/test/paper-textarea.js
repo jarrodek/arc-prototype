@@ -64,6 +64,14 @@ suite('basic', function() {
         var label = Polymer.dom(input.root).querySelector('label');
         assert.equal(getComputedStyle(label).pointerEvents, 'none');
       });
+
+      test('no extra space between input and underline', function() {
+        var input = fixture('label');
+        var container = Polymer.dom(input.root).querySelector('paper-input-container');
+        var inputContent = Polymer.dom(container.root).querySelector('.input-content');
+        var ironTextarea = Polymer.dom(input.root).querySelector('iron-autogrow-textarea');
+        assert.equal(inputContent.clientHeight,ironTextarea.clientHeight, 'container and textarea are same height');
+      });
     });
 
     suite('focus/blur events', function() {

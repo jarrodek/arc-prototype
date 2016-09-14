@@ -62,6 +62,14 @@
     scope.urlPanelOpened = false;
   });
 
+  document.body.addEventListener('change-request', (e) => {
+    var data = e.detail;
+    scope.set('request.url', data.url);
+    scope.set('request.headers', data.headers);
+    scope.set('request.method', data.method);
+    scope.set('request.payload', data.payload);
+  });
+
   scope._computeToolbarIcon = (urlPanelOpened, screen) => {
     if (urlPanelOpened) {
       return 'arrow-back';
@@ -104,6 +112,12 @@
       case 'import':
         scope.$.importMenu.open();
       break;
+      case 'clear':
+        scope.set('request.url', '');
+        scope.set('request.headers', '');
+        scope.set('request.method', 'GET');
+        scope.set('request.payload', '');
+      break;
       default:
         scope.$.notYet.open();
       break;
@@ -127,6 +141,11 @@
       break;
       case 'savecode':
         scope.$.codeSnipopets.open();
+        scope.$.exportMenu.close();
+      break;
+      case 'opencurl':
+        scope.$.curlImporter.open();
+        scope.$.importMenu.close();
       break;
       default:
         scope.$.notYet.open();
