@@ -10,6 +10,12 @@ Polymer({
     if (!elms || !elms.length) {
       return;
     }
-    console.log('hotjar-fix::parse', elms);
+    elms.forEach(function(item) {
+      var src = item.getAttribute('src');
+      var s = document.createElement('script');
+      s.src = src;
+      item.parentNode.insertBefore(s, item);
+      item.parentNode.removeChild(item);
+    });
   }
 });
