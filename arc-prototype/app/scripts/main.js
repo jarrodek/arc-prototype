@@ -7,6 +7,7 @@
   scope.request = {};
 
   scope.addEventListener('dom-change', function() {
+    console.log('main.js executed:: dom-change');
     scope.runTutorials();
   });
 
@@ -133,3 +134,4 @@
     }
   };
 })(document.querySelector('#app'));
+console.log('main.js executed');
